@@ -3,7 +3,7 @@ export interface Props {
   title: string;
   description?: string;
 }
-const { title, description = "Blog de videojuegos" } = Astro.props;
+const { title, description = "Revista de videojuegos" } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ const currentPath = Astro.url.pathname;
     </main>
 
     <footer class="site-footer">
-      <span>PIXEL — Blog de videojuegos</span>
+      <span>PIXEL — Revista de videojuegos</span>
       <span>
         <a href="/rss.xml">RSS</a>
         &nbsp;·&nbsp;
