@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #faf8f3;
+  --text: #111111;
+  --text-muted: #555555;
+  --red: #cc0000;
+  --border: #d0ccc4;
+  --max-width: 680px;
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 18px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  line-height: 1.75;
+  padding: 0 1rem;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3rem 0 6rem;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 0.5rem; }
+
+p { margin-bottom: 1.25rem; text-align: justify; hyphens: auto; }
+
+/* ── Links — subrayado rojo ── */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.15s;
+}
+a:hover { color: var(--red); }
+
+/* ── Images — B&N ── */
+img {
+  filter: grayscale(100%);
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+}
+
+figcaption {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: -1.5rem;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+/* ── Blockquote ── */
+blockquote {
+  border-left: 3px solid var(--red);
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Code ── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: #eeebe3;
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+}
+
+pre {
+  background: #1a1a1a;
+  color: #f0ebe0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.82rem;
+}
+
+pre code { background: none; padding: 0; color: inherit; }
+
+/* ── Header ── */
+.site-header {
+  border-bottom: 2px solid var(--text);
+  padding: 1.5rem 0 1rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+}
+.site-title:hover { color: var(--red); text-decoration: none; }
+.site-title .dot { color: var(--red); }
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.site-nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+}
+.site-nav a:hover { color: var(--red); }
+.site-nav a.active { color: var(--text); font-weight: 600; }
+
+/* ── Post header ── */
+.post-meta {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+}
+
+.post-tag {
+  color: var(--red);
+  text-decoration: none;
+  font-size: 0.75rem;
+}
+.post-tag::before { content: '#'; }
+.post-tag:hover { text-decoration: underline; text-decoration-color: var(--red); }
+
+.issue-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--text);
+  padding: 1px 6px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* ── Post list ── */
+.post-list { list-style: none; }
+.post-list li {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.post-list li:first-child { border-top: 1px solid var(--border); }
+
+.post-list-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-underline-offset: 3px;
+}
+.post-list-title:hover { color: var(--red); }
+
+.post-list-meta {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.post-excerpt {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+/* ── Issue / Descarga ── */
+.issue-card {
+  border: 2px solid var(--text);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.issue-number {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.issue-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+.issue-count { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+.btn-download {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--text);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-download:hover { background: var(--red); color: #fff; }
+
+/* ── Newsletter ── */
+.newsletter-block {
+  border-top: 2px solid var(--text);
+  margin-top: 4rem;
+  padding-top: 2rem;
+}
+.newsletter-block h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+.newsletter-block p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.newsletter-form input[type="email"] {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  border: 1.5px solid var(--text);
+  background: var(--bg);
+  padding: 0.5rem 0.75rem;
+  flex: 1;
+  min-width: 200px;
+  outline: none;
+}
+.newsletter-form input[type="email"]:focus { border-color: var(--red); }
+.newsletter-form button {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.newsletter-form button:hover { background: var(--red); }
+
+/* ── Footer ── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ── Lang selector ── */
+.lang-selector {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  display: flex;
+  gap: 0.5rem;
+}
+.lang-selector a {
+  text-decoration: none;
+  color: var(--text-muted);
+  padding: 1px 4px;
+}
+.lang-selector a.active {
+  color: var(--text);
+  border-bottom: 1.5px solid var(--red);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  h1 { font-size: 1.7rem; }
+  .site-header { flex-direction: column; gap: 0.75rem; }
+  .issue-card { flex-direction: column; }
+}

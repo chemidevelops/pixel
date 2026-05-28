@@ -1,0 +1,41 @@
+---
+import Base from './Base.astro';
+const { frontmatter } = Astro.props;
+const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric'
+});
+---
+<Base title={title} description={excerpt}>
+  <article>
+    <h1>{title}</h1>
+
+    <div class="post-meta">
+      <span>{dateFormatted}</span>
+      {issue && (
+        <a href={`/descargas#numero-${issue}`} class="issue-badge">Nº{issue}</a>
+      )}
+      {tags.map((tag: string) => (
+        <a href={`/tags/${tag}`} class="post-tag">{tag}</a>
+      ))}
+    </div>
+
+    <div class="post-body">
+      <slot />
+    </div>
+
+    <!-- Newsletter al final de cada artículo -->
+    <div class="newsletter-block">
+      <h3>¿Te ha gustado?</h3>
+      <p>Suscríbete para recibir nuevos artículos y los números del fanzine cuando salgan.</p>
+      <form class="newsletter-form" action="/api/subscribe" method="POST">
+        <input type="email" name="email" placeholder="tu@email.com" required />
+        <button type="submit">Suscribirse</button>
+      </form>
+    </div>
+  </article>
+</Base>
+
+<style>
+.post-body { margin-top: 2rem; }
+</style>

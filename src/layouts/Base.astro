@@ -1,0 +1,44 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Blog de videojuegos" } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — PIXEL</title>
+  <meta name="description" content={description} />
+  <link rel="stylesheet" href="/styles/global.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="/" class="site-title">PIXEL<span class="dot">.</span></a>
+      <nav class="site-nav">
+        <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>
+        <a href="/posts" class={currentPath.startsWith("/posts") ? "active" : ""}>Artículos</a>
+        <a href="/descargas" class={currentPath.startsWith("/descargas") ? "active" : ""}>Descargas</a>
+        <a href="/sobre" class={currentPath === "/sobre" ? "active" : ""}>Sobre</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <span>PIXEL — Blog de videojuegos</span>
+      <span>
+        <a href="/rss.xml">RSS</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:hola@pixel.blog">Contacto</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
