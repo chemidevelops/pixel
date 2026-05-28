@@ -25,7 +25,7 @@ La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso si
 
 Es una decisión radical en un medio donde la agencia del jugador es el valor supremo. Que la cámara se detenga, que el viento mueva la hierba, que no pase nada durante treinta segundos — eso requiere confianza en que el jugador no necesita estímulo constante.
 
-> El mejor diseño de videojuegos es el que sabe cuándo no pedir nada al jugador.
+> «El mejor diseño de videojuegos es el que sabe cuándo no pedir nada al jugador.»
 
 ## Lo que queda
 
