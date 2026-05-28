@@ -7,7 +7,7 @@ issue: 1
 lang: es
 ---
 
-Hay algo extraño en cómo los videojuegos manejan el tiempo. En *Disco Elysium* el mundo lleva décadas congelado en el trauma de una revolución fallida. En *Dead Cells* morís y volvéis a empezar, eternamente. En *Animal Crossing* el tiempo del juego es el tiempo real, casi obscenamente literal.
+Hay algo extraño en cómo los videojuegos manejan el tiempo. En [*Disco Elysium*](https://store.steampowered.com/app/632470/Disco_Elysium/) el mundo lleva décadas congelado en el trauma de una revolución fallida. En *Dead Cells* morís y volvéis a empezar, eternamente. En *Animal Crossing* el tiempo del juego es el tiempo real, casi obscenamente literal.
 
 Cada decisión de diseño temporal es también una afirmación filosófica sobre qué clase de experiencia se busca crear.
 
@@ -19,7 +19,9 @@ Esta presión no es neutra. Crea un tipo específico de atención: urgente, reac
 
 ## El tiempo como mundo
 
-La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso sino un ambiente. *Shadow of the Colossus* tiene una hora dorada perpetua que convierte cada viaje entre colosos en algo cercano a la elegía. No hay prisa. El caballo va a su ritmo. El paisaje existe para ser mirado.
+![Shadow of the Colossus — portada](/images/shadow-of-the-colossus.jpg)
+
+La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso sino un ambiente. [*Shadow of the Colossus*](https://www.bluepointgames.com/shadow-of-the-colossus) tiene una hora dorada perpetua que convierte cada viaje entre colosos en algo cercano a la elegía. No hay prisa. El caballo va a su ritmo. El paisaje existe para ser mirado.
 
 Es una decisión radical en un medio donde la agencia del jugador es el valor supremo. Que la cámara se detenga, que el viento mueva la hierba, que no pase nada durante treinta segundos — eso requiere confianza en que el jugador no necesita estímulo constante.
 
