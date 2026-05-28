@@ -48,8 +48,8 @@ a {
   color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--red);
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 2.5px;
   transition: color 0.15s;
 }
 a:hover { color: var(--red); }
@@ -324,13 +324,13 @@ pre code { background: none; padding: 0; color: inherit; }
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.8rem;
+  height: 2.8rem;
   border-radius: 50%;
   border: 1.5px solid var(--border);
   background: var(--bg);
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
