@@ -39,13 +39,14 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   </article>
 </Base>
 
-<style>
+<style is:global>
 .post-layout {
   position: relative;
 }
 
 .post-body { margin-top: 2rem; }
 
+/* Drop cap — is:global porque el contenido viene del slot (Markdown) */
 .post-body > p:first-of-type::first-letter {
   font-size: 4.2em;
   font-weight: 700;
@@ -60,9 +61,9 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   top: 2rem;
   float: right;
   clear: right;
-  width: 180px;
+  width: 160px;
   margin-left: 2rem;
-  margin-right: -210px;
+  margin-right: -190px;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   line-height: 1.6;
@@ -80,6 +81,10 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   text-decoration: none;
   color: var(--text-muted);
   transition: color 0.15s;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #toc a:hover,
 #toc a.active { color: var(--red); }
@@ -93,7 +98,7 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   display: block;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 980px) {
   #toc { display: none !important; }
 }
 </style>

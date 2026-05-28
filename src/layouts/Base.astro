@@ -73,6 +73,8 @@ const currentPath = Astro.url.pathname;
       const open = !panel.hidden;
       panel.hidden = open;
       toggle.classList.toggle('active', !open);
+      toggle.classList.add('spinning');
+      toggle.addEventListener('animationend', () => toggle.classList.remove('spinning'), { once: true });
     });
 
     darkBtn.addEventListener('click', () => {

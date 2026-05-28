@@ -245,7 +245,7 @@ pre code { background: none; padding: 0; color: inherit; }
 /* ── Newsletter ── */
 .newsletter-block {
   border-top: 2px solid var(--text);
-  margin-top: 4rem;
+  margin-top: 5rem;
   padding-top: 2rem;
 }
 .newsletter-block h3 { font-size: 1rem; margin-bottom: 0.5rem; }
@@ -285,6 +285,7 @@ pre code { background: none; padding: 0; color: inherit; }
 /* ── Footer ── */
 .site-footer {
   border-top: 2px dashed var(--border);
+  margin-top: 2rem;
   padding: 2rem 0;
   font-size: 0.75rem;
   font-family: var(--font-mono);
@@ -314,6 +315,11 @@ pre code { background: none; padding: 0; color: inherit; }
 }
 
 /* ── Settings panel ── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 #settings-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -334,6 +340,7 @@ pre code { background: none; padding: 0; color: inherit; }
 }
 #settings-toggle:hover,
 #settings-toggle.active { border-color: var(--red); color: var(--red); }
+#settings-toggle.spinning { animation: spin 0.4s ease-out; }
 
 #settings-panel {
   position: fixed;
