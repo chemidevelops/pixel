@@ -103,7 +103,7 @@ pre code { background: none; padding: 0; color: inherit; }
 
 /* ── Header ── */
 .site-header {
-  border-bottom: 2px solid var(--text);
+  border-bottom: 2px dashed var(--border);
   padding: 1.5rem 0 1rem;
   margin-bottom: 3rem;
   display: flex;
@@ -284,7 +284,7 @@ pre code { background: none; padding: 0; color: inherit; }
 
 /* ── Footer ── */
 .site-footer {
-  border-top: 1px solid var(--border);
+  border-top: 2px dashed var(--border);
   padding: 2rem 0;
   font-size: 0.75rem;
   font-family: var(--font-mono);
