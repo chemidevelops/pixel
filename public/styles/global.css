@@ -327,8 +327,8 @@ pre code { background: none; padding: 0; color: inherit; }
   width: 3.2rem;
   height: 3.2rem;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
-  background: var(--bg);
+  border: none;
+  background: transparent;
   color: var(--text-muted);
   font-size: 1.6rem;
   cursor: pointer;
@@ -339,7 +339,7 @@ pre code { background: none; padding: 0; color: inherit; }
   z-index: 100;
 }
 #settings-toggle:hover,
-#settings-toggle.active { border-color: var(--red); color: var(--red); }
+#settings-toggle.active { color: var(--red); }
 #settings-toggle.spinning { animation: spin 0.4s ease-out; }
 
 #settings-panel {
