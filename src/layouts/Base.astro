@@ -40,5 +40,67 @@ const currentPath = Astro.url.pathname;
       </span>
     </footer>
   </div>
+
+  <!-- Settings panel -->
+  <button id="settings-toggle" aria-label="Ajustes" title="Ajustes">⚙</button>
+  <div id="settings-panel" hidden>
+    <p class="settings-label">Apariencia</p>
+    <div class="settings-row">
+      <span>Modo oscuro</span>
+      <button id="toggle-dark" role="switch" aria-checked="false">Off</button>
+    </div>
+    <p class="settings-label" style="margin-top:1rem">Tamaño de texto</p>
+    <div class="settings-row">
+      <button class="font-size-btn" data-size="small">A−</button>
+      <button class="font-size-btn" data-size="normal">A</button>
+      <button class="font-size-btn" data-size="large">A+</button>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const panel = document.getElementById('settings-panel');
+    const toggle = document.getElementById('settings-toggle');
+    const darkBtn = document.getElementById('toggle-dark');
+
+    // Restore saved prefs
+    const savedDark = localStorage.getItem('pixel-dark') === 'true';
+    const savedSize = localStorage.getItem('pixel-size') || 'normal';
+    if (savedDark) applyDark(true);
+    applySize(savedSize);
+
+    toggle.addEventListener('click', () => {
+      const open = !panel.hidden;
+      panel.hidden = open;
+      toggle.classList.toggle('active', !open);
+    });
+
+    darkBtn.addEventListener('click', () => {
+      const isDark = root.classList.contains('dark');
+      applyDark(!isDark);
+      localStorage.setItem('pixel-dark', String(!isDark));
+    });
+
+    document.querySelectorAll('.font-size-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const size = btn.dataset.size;
+        applySize(size);
+        localStorage.setItem('pixel-size', size);
+      });
+    });
+
+    function applyDark(on) {
+      root.classList.toggle('dark', on);
+      darkBtn.textContent = on ? 'On' : 'Off';
+      darkBtn.setAttribute('aria-checked', String(on));
+    }
+
+    function applySize(size) {
+      root.dataset.size = size;
+      document.querySelectorAll('.font-size-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.size === size);
+      });
+    }
+  </script>
 </body>
 </html>
