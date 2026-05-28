@@ -38,4 +38,13 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
 
 <style>
 .post-body { margin-top: 2rem; }
+
+.post-body > p:first-of-type::first-letter {
+  font-size: 4.2em;
+  font-weight: 700;
+  float: left;
+  line-height: 0.82;
+  margin: 0.06em 0.1em 0 0;
+  color: var(--text);
+}
 </style>
