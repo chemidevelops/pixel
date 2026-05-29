@@ -13,6 +13,8 @@ Existe una diferencia fundamental entre los juegos que se hacen difíciles acumu
 
 La pantalla del arcade original tiene una claridad casi geométrica. Los enemigos aparecen desde posiciones predecibles, en oleadas con lógica interna. Aprender Shinobi no es memorizar una secuencia: es aprender a leer un espacio. Los rehenes distribuidos por cada fase añaden una capa de presión silenciosa que obliga a moverse con intención. No se puede correr. No se puede improvisar indefinidamente. Hay que pensar en movimiento.
 
+![Shinobi — gameplay](images/shinobi-gameplay.jpg)
+
 ## El ninja como metáfora del control
 
 Joe Musashi se mueve en dos planos, puede lanzar shurikens con munición limitada y ejecutar un salto que no admite corrección en el aire. Esa última característica, que hoy sonaría a defecto de diseño, es en realidad el núcleo de todo el sistema. Comprometerse con un salto en Shinobi es un acto de lectura anticipatoria: se decide en el aire lo que ya se ha entendido en el suelo.

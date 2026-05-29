@@ -65,6 +65,9 @@ with open(sys.argv[1]) as f:
 parts = raw.split('---', 2)
 frontmatter = parts[1] if len(parts) >= 3 else ''
 body = parts[2] if len(parts) >= 3 else raw
+# Fix image paths: /images/foo.jpg → images/foo.jpg
+import re as re_img
+body = re_img.sub(r'!\[([^\]]*)\]\(/images/', r'![\1](images/', body)
 title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', frontmatter, re.MULTILINE)
 if title_match:
     print(f"# {title_match.group(1)}\n")
@@ -74,13 +77,15 @@ PYEOF
 
 done
 
-COVER_FRONT="$ROOT/fanzine/numero-${ISSUE}-front.png"
-COVER_BACK="$ROOT/fanzine/numero-${ISSUE}-back.png"
+COVER_FRONT="$ROOT/public/covers/numero-${ISSUE}-front.png"
+COVER_BACK="$ROOT/public/covers/numero-${ISSUE}-back.png"
 
 echo "Running pandoc..."
 pandoc "$COMBINED" \
   --pdf-engine=lualatex \
   --template="$TEMPLATE" \
+  --lua-filter="$ROOT/fanzine/dropcap.lua" \
+  --resource-path="$ROOT/public" \
   --variable="issue:$ISSUE" \
   --variable="date:$ISSUE_DATE" \
   --variable="cover_front:$COVER_FRONT" \

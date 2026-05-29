@@ -1,15 +1,14 @@
-%% PIXEL — Plantilla fanzine A5
+%% PIXEL — Plantilla fanzine A5 — Estilo brutalist/independiente
 %% Compilar con LuaLaTeX vía Pandoc
 
 \documentclass[10pt,a5paper,twoside]{article}
 
-%% ── Paquetes ──────────────────────────────────────────────────────────────
 \usepackage{geometry}
 \geometry{
   a5paper,
-  top=18mm, bottom=20mm,
-  inner=18mm, outer=14mm,
-  headsep=8mm, footskip=10mm
+  top=16mm, bottom=18mm,
+  inner=16mm, outer=12mm,
+  headsep=6mm, footskip=10mm
 }
 
 \usepackage{fontspec}
@@ -33,118 +32,144 @@
 
 \usepackage{xcolor}
 \definecolor{pixelred}{HTML}{CC0000}
-\definecolor{muted}{HTML}{555555}
-\definecolor{border}{HTML}{D0CCC4}
+\definecolor{muted}{HTML}{666666}
+\definecolor{border}{HTML}{BBBBBB}
 
 \usepackage{microtype}
 \usepackage{parskip}
 \usepackage{setspace}
 \usepackage{titlesec}
+\usepackage{needspace}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[hidelinks, pdfpagelayout=SinglePage]{hyperref}
 \usepackage{enumitem}
 \usepackage{mdframed}
 \usepackage{tocloft}
+\usepackage{lettrine}
 
-%% Solo secciones en el índice (sin subsecciones)
+%% Solo secciones en el índice
 \setcounter{tocdepth}{1}
 
 %% ── Tipografía ────────────────────────────────────────────────────────────
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
-\linespread{1.2}
+\setlength{\parskip}{7pt}
+\linespread{1.22}
 
-%% Títulos de artículo más prominentes
-\titleformat{\section}
-  {\fontsize{15}{18}\selectfont\bfseries}
+%% Títulos de artículo — estilo brutalist
+\titleformat{\section}[block]
+  {}
   {}
   {0pt}
-  {}
-  [\vspace{3pt}{\color{border}\hrule height 0.4pt}\vspace{6pt}]
+  {%
+    \needspace{6\baselineskip}%
+    \fontsize{8}{10}\selectfont\texttt{\textbf{— \thesection\ —}}\\[3pt]%
+    \fontsize{20}{22}\selectfont\bfseries%
+  }
+  [\vspace{5pt}{\hrule height 1.5pt}\vspace{10pt}]
 
-\titleformat{\subsection}
-  {\normalsize\bfseries\itshape}
+\titleformat{\subsection}[block]
+  {}
   {}
   {0pt}
-  {}
+  {%
+    \needspace{4\baselineskip}%
+    \normalsize\bfseries\itshape%
+  }
 
-\titlespacing{\section}{0pt}{28pt}{10pt}
-\titlespacing{\subsection}{0pt}{16pt}{4pt}
+\titlespacing{\section}{0pt}{28pt}{0pt}
+\titlespacing{\subsection}{0pt}{18pt}{4pt}
+
+%% Drop cap
+\setlength{\DefaultFindent}{3pt}
+\setlength{\DefaultNindent}{0pt}
+\renewcommand{\LettrineFontHook}{\bfseries}
+
+%% ── Imágenes ──────────────────────────────────────────────────────────────
+\setkeys{Gin}{width=\linewidth, keepaspectratio}
+\setlength{\intextsep}{10pt}
 
 %% ── Cabecera y pie ────────────────────────────────────────────────────────
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\fancyhead[LE]{\small\texttt{\textcolor{muted}{PIXEL — Nº$issue$}}}
-\fancyhead[RO]{\small\texttt{\textcolor{muted}{\leftmark}}}
-\fancyfoot[C]{\small\texttt{\textcolor{muted}{\thepage}}}
+\fancyhead[LE]{\fontsize{7}{9}\selectfont\texttt{PIXEL — Nº$issue$}}
+\fancyhead[RO]{\fontsize{7}{9}\selectfont\texttt{\leftmark}}
+\fancyfoot[LE,RO]{\fontsize{7}{9}\selectfont\texttt{\thepage}}
 
 \fancypagestyle{plain}{
   \fancyhf{}
-  \fancyfoot[C]{\small\texttt{\textcolor{muted}{\thepage}}}
+  \fancyfoot[LE,RO]{\fontsize{7}{9}\selectfont\texttt{\thepage}}
 }
 
-%% ── Blockquote ────────────────────────────────────────────────────────────
+%% ── Blockquote / pull quote ───────────────────────────────────────────────
 \renewenvironment{quote}{
+  \vspace{6pt}
   \begin{mdframed}[
     leftline=true, rightline=false, topline=false, bottomline=false,
-    linewidth=2pt, linecolor=black,
+    linewidth=3pt, linecolor=black,
     innerleftmargin=10pt, innerrightmargin=0pt,
-    innertopmargin=4pt, innerbottommargin=4pt,
+    innertopmargin=2pt, innerbottommargin=2pt,
     backgroundcolor=white
   ]
-  \itshape\color{muted}
+  \fontsize{12}{15}\selectfont\bfseries\itshape
 }{
   \end{mdframed}
+  \vspace{6pt}
 }
 
 %% ── Pandoc compatibility ──────────────────────────────────────────────────
 \providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{2pt}}
+\providecommand{\pandocbounded}[1]{#1}
 
 %% ── Documento ─────────────────────────────────────────────────────────────
 \begin{document}
 
-%% ── Portada delantera (mitad derecha de la imagen horizontal) ─────────────
+%% ── Portada delantera ─────────────────────────────────────────────────────
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
-\noindent\includegraphics[width=\paperwidth,height=\paperheight]{$cover_front$}
+\noindent\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{$cover_front$}
 \restoregeometry
 \newpage
 
 %% ── Tras la portada: todo en B/N ──────────────────────────────────────────
 \definecolor{pixelred}{HTML}{000000}
-\definecolor{muted}{HTML}{555555}
+\definecolor{muted}{HTML}{666666}
 \definecolor{border}{HTML}{AAAAAA}
 \hypersetup{linkcolor=black, urlcolor=black}
 
-%% ── Índice ────────────────────────────────────────────────────────────────
+%% ── Índice + Editorial ────────────────────────────────────────────────────
 \thispagestyle{plain}
 
-{\large\textbf{\texttt{ÍNDICE}}}
-\vspace{4mm}
-{\color{black}\hrule height 1pt}
-\vspace{6mm}
+{\fontsize{9}{11}\selectfont\texttt{\textbf{ÍNDICE}}}
+\vspace{3mm}
+{\hrule height 1.5pt}
+\vspace{5mm}
 
 \renewcommand{\cftsecfont}{\normalsize}
 \renewcommand{\cftsecpagefont}{\small\ttfamily\color{muted}}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\setlength{\cftbeforesecskip}{4pt}
-
+\setlength{\cftbeforesecskip}{5pt}
 \renewcommand{\contentsname}{}
 \tableofcontents
+
+\vfill
+
+{\hrule height 0.4pt}
+\vspace{4mm}
+{\fontsize{8}{11}\selectfont\textit{Este es el primer número de PIXEL, una revista independiente sobre videojuegos. Aquí no hay anunciantes, algoritmos ni listas de los más vendidos. Solo escritura sobre juegos que merecen ser pensados en voz alta. Bienvenido.}}
 
 \newpage
 
 %% ── Contenido ─────────────────────────────────────────────────────────────
 $body$
 
-%% ── Contraportada (mitad izquierda de la imagen horizontal) ──────────────
+%% ── Contraportada ─────────────────────────────────────────────────────────
 \newpage
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
-\noindent\includegraphics[width=\paperwidth,height=\paperheight]{$cover_back$}
+\noindent\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{$cover_back$}
 \restoregeometry
 
 \end{document}

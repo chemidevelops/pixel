@@ -13,6 +13,8 @@ Hay juegos que nacen con una deuda visible. Mina the Hollower llega con el apell
 
 Mina es una ingeniera ratón que desciende a un mundo subterráneo de monstruos y maquinaria. El planteamiento es sencillo, pero la ejecución revela que el estudio ha comprendido algo que muchos clones de la era de los 16 bits olvidan: los juegos clásicos no eran perfectos, eran intensos. La dificultad no era un defecto de diseño, era el medio a través del cual se construía la relación entre el jugador y el mundo.
 
+![Mina the Hollower — gameplay](images/mina-gameplay.jpg)
+
 ## Movimiento como argumento
 
 El sistema de movimiento de Mina merece un análisis propio. La protagonista no salta: se desplaza bajo tierra con una barrena, emerge, golpea y vuelve a hundirse. Es un verbo nuevo en un género que lleva décadas usando los mismos. Esa elección no es cosmética. Cambia la manera en que se lee el espacio, cómo se anticipan los enemigos, cómo se interpreta cada sala.

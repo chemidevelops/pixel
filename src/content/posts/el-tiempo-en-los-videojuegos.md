@@ -19,7 +19,7 @@ Esta presión no es neutra. Crea un tipo específico de atención: urgente, reac
 
 ## El tiempo como mundo
 
-![Disco Elysium — gameplay](/images/disco-elysium-gameplay.jpg)
+![Disco Elysium — gameplay](images/disco-elysium-gameplay.jpg)
 
 La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso sino un ambiente. [*Shadow of the Colossus*](https://www.bluepointgames.com/shadow-of-the-colossus) tiene una hora dorada perpetua que convierte cada viaje entre colosos en algo cercano a la elegía. No hay prisa. El caballo va a su ritmo. El paisaje existe para ser mirado.
 

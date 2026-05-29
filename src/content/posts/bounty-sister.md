@@ -13,6 +13,8 @@ Hay una tendencia en la crítica de videojuegos a valorar los juegos indie por s
 
 El juego sigue a una cazarrecompensas y a su hermana en un contexto que mezcla ciencia ficción de bajo presupuesto con dinámicas familiares reconocibles. El tono oscila con habilidad entre la acción despreocupada y momentos de quietud que sorprenden por su honestidad emocional. No hay grandes revelaciones ni giros narrativos calculados para el tráiler. Hay conversaciones. Hay silencios. Hay la sensación de que los personajes existían antes de que la partida empezara.
 
+![Bounty Sister — gameplay](images/bounty-sister-gameplay.jpg)
+
 ## El ritmo como narración
 
 Lo que distingue a Bounty Sister de otros juegos del mismo presupuesto aproximado es su sentido del ritmo. Los tramos de combate no interrumpen la narrativa: la avanzan. Cada encuentro dice algo sobre la dinámica entre las protagonistas, sobre quién toma decisiones y quién las cuestiona. El diseño de niveles no es ambicioso en términos técnicos, pero es inteligente en términos dramáticos.

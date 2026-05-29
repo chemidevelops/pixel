@@ -13,6 +13,8 @@ Hay una corriente en el diseño de videojuegos independiente que no busca contar
 
 Una pelota. Un espacio. Obstáculos que aparecen con lógica propia. Las reglas se aprenden en segundos porque están diseñadas para aprenderse en segundos. Lo que el juego hace después de esa comprensión inicial es donde reside su interés real: la física del objeto central tiene una cualidad casi orgánica, una manera de rebotar y acelerarse que nunca se siente del todo predecible sin ser tampoco arbitraria. Ese equilibrio, que parece trivial desde fuera, es extraordinariamente difícil de calibrar.
 
+![Ball X Pit — gameplay](images/ball-x-pit-gameplay.jpg)
+
 ## Cuando el sistema habla
 
 Los mejores juegos de este tipo funcionan porque generan lo que podría llamarse conversación sistémica: el jugador aprende el idioma del juego y, una vez que lo habla con fluidez, descubre que hay dialectos. Ball X Pit tiene ese comportamiento. Las primeras partidas son de comprensión. Las siguientes, de exploración. En algún punto intermedio, sin que haya habido ningún tutorial ni ningún desbloqueo, el juego se vuelve distinto porque el jugador se ha vuelto distinto.
