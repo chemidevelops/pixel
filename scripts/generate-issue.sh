@@ -74,7 +74,8 @@ PYEOF
 
 done
 
-COVER_IMG="$ROOT/fanzine/numero-${ISSUE}.png"
+COVER_FRONT="$ROOT/fanzine/numero-${ISSUE}-front.png"
+COVER_BACK="$ROOT/fanzine/numero-${ISSUE}-back.png"
 
 echo "Running pandoc..."
 pandoc "$COMBINED" \
@@ -82,7 +83,8 @@ pandoc "$COMBINED" \
   --template="$TEMPLATE" \
   --variable="issue:$ISSUE" \
   --variable="date:$ISSUE_DATE" \
-  --variable="cover:$COVER_IMG" \
+  --variable="cover_front:$COVER_FRONT" \
+  --variable="cover_back:$COVER_BACK" \
   --toc \
   --toc-depth=1 \
   -o "$OUT_FILE"

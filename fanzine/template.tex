@@ -106,16 +106,10 @@
 %% ── Documento ─────────────────────────────────────────────────────────────
 \begin{document}
 
-%% ── Portada (imagen a sangre, aspect ratio preservado) ────────────────────
+%% ── Portada delantera (mitad derecha de la imagen horizontal) ─────────────
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
-\vbox to \paperheight{
-  \vfil
-  \hbox to \paperwidth{\hfil
-    \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=true]{$cover$}
-  \hfil}
-  \vfil
-}
+\noindent\includegraphics[width=\paperwidth,height=\paperheight]{$cover_front$}
 \restoregeometry
 \newpage
 
@@ -146,18 +140,11 @@
 %% ── Contenido ─────────────────────────────────────────────────────────────
 $body$
 
-%% ── Contraportada ─────────────────────────────────────────────────────────
+%% ── Contraportada (mitad izquierda de la imagen horizontal) ──────────────
 \newpage
 \thispagestyle{empty}
-\vspace*{\fill}
-
-\begin{center}
-{\large\textbf{PIXEL}}\\[4mm]
-{\small\texttt{\textcolor{muted}{Revista independiente de videojuegos}}}\\[2mm]
-{\small\texttt{\textcolor{muted}{hola@pixel.blog}}}\\[6mm]
-{\footnotesize\textcolor{muted}{Imprime en A4 doble cara · Dobla por la mitad · Grapa en el lomo}}
-\end{center}
-
-\vspace*{\fill}
+\newgeometry{margin=0pt}
+\noindent\includegraphics[width=\paperwidth,height=\paperheight]{$cover_back$}
+\restoregeometry
 
 \end{document}
