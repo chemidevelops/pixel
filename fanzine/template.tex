@@ -16,8 +16,6 @@
 \usepackage{polyglossia}
 \setdefaultlanguage{spanish}
 
-%% Fuentes — Lora para cuerpo, JetBrains Mono para UI
-%% Si no están, caemos a Latin Modern + Courier
 \IfFontExistsTF{Lora}{
   \setmainfont{Lora}
 }{
@@ -44,30 +42,26 @@
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{mdframed}
 \usepackage{tocloft}
 
-\hypersetup{
-  colorlinks=true,
-  linkcolor=pixelred,
-  urlcolor=pixelred,
-  pdftitle={PIXEL — Número $issue$},
-}
+%% Solo secciones en el índice (sin subsecciones)
+\setcounter{tocdepth}{1}
 
 %% ── Tipografía ────────────────────────────────────────────────────────────
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 \linespread{1.2}
 
-%% Títulos de sección
+%% Títulos de artículo más prominentes
 \titleformat{\section}
-  {\large\bfseries}
+  {\fontsize{15}{18}\selectfont\bfseries}
   {}
   {0pt}
   {}
-  [\vspace{2pt}{\color{border}\hrule height 0.4pt}\vspace{4pt}]
+  [\vspace{3pt}{\color{border}\hrule height 0.4pt}\vspace{6pt}]
 
 \titleformat{\subsection}
   {\normalsize\bfseries\itshape}
@@ -75,7 +69,7 @@
   {0pt}
   {}
 
-\titlespacing{\section}{0pt}{24pt}{8pt}
+\titlespacing{\section}{0pt}{28pt}{10pt}
 \titlespacing{\subsection}{0pt}{16pt}{4pt}
 
 %% ── Cabecera y pie ────────────────────────────────────────────────────────
@@ -83,7 +77,7 @@
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\fancyhead[LE]{\small\texttt{\textcolor{muted}{PIXEL\textcolor{pixelred}{.} — Nº$issue$}}}
+\fancyhead[LE]{\small\texttt{\textcolor{muted}{PIXEL — Nº$issue$}}}
 \fancyhead[RO]{\small\texttt{\textcolor{muted}{\leftmark}}}
 \fancyfoot[C]{\small\texttt{\textcolor{muted}{\thepage}}}
 
@@ -96,7 +90,7 @@
 \renewenvironment{quote}{
   \begin{mdframed}[
     leftline=true, rightline=false, topline=false, bottomline=false,
-    linewidth=2pt, linecolor=pixelred,
+    linewidth=2pt, linecolor=black,
     innerleftmargin=10pt, innerrightmargin=0pt,
     innertopmargin=4pt, innerbottommargin=4pt,
     backgroundcolor=white
@@ -112,21 +106,31 @@
 %% ── Documento ─────────────────────────────────────────────────────────────
 \begin{document}
 
-%% ── Portada ───────────────────────────────────────────────────────────────
+%% ── Portada (imagen a sangre, aspect ratio preservado) ────────────────────
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
-\begin{center}
-  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{$cover$}
-\end{center}
+\vbox to \paperheight{
+  \vfil
+  \hbox to \paperwidth{\hfil
+    \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=true]{$cover$}
+  \hfil}
+  \vfil
+}
 \restoregeometry
 \newpage
+
+%% ── Tras la portada: todo en B/N ──────────────────────────────────────────
+\definecolor{pixelred}{HTML}{000000}
+\definecolor{muted}{HTML}{555555}
+\definecolor{border}{HTML}{AAAAAA}
+\hypersetup{linkcolor=black, urlcolor=black}
 
 %% ── Índice ────────────────────────────────────────────────────────────────
 \thispagestyle{plain}
 
 {\large\textbf{\texttt{ÍNDICE}}}
 \vspace{4mm}
-{\color{pixelred}\hrule height 1pt}
+{\color{black}\hrule height 1pt}
 \vspace{6mm}
 
 \renewcommand{\cftsecfont}{\normalsize}
@@ -134,6 +138,7 @@
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \setlength{\cftbeforesecskip}{4pt}
 
+\renewcommand{\contentsname}{}
 \tableofcontents
 
 \newpage
@@ -147,7 +152,7 @@ $body$
 \vspace*{\fill}
 
 \begin{center}
-{\large\textbf{PIXEL\textcolor{pixelred}{.}}}\\[4mm]
+{\large\textbf{PIXEL}}\\[4mm]
 {\small\texttt{\textcolor{muted}{Revista independiente de videojuegos}}}\\[2mm]
 {\small\texttt{\textcolor{muted}{hola@pixel.blog}}}\\[6mm]
 {\footnotesize\textcolor{muted}{Imprime en A4 doble cara · Dobla por la mitad · Grapa en el lomo}}
