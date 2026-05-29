@@ -114,29 +114,11 @@
 
 %% ── Portada ───────────────────────────────────────────────────────────────
 \thispagestyle{empty}
-\vspace*{20mm}
-
-{\fontsize{48}{52}\selectfont\textbf{PIXEL\textcolor{pixelred}{.}}}
-
-\vspace{6mm}
-{\large\texttt{\textcolor{muted}{Revista de videojuegos}}}
-
-\vspace{16mm}
-{\LARGE\textbf{Número $issue$}}
-
-\vspace{4mm}
-{\normalsize\texttt{\textcolor{muted}{$date$}}}
-
-\vspace{20mm}
-{\color{border}\hrule height 0.6pt}
-\vspace{6mm}
-
-{\small\textit{Escritura · Crítica · Cultura}}
-
-\vfill
-
-{\footnotesize\texttt{\textcolor{muted}{Fanzine imprimible en A4 doble cara · Doblar y grapar}}}
-
+\newgeometry{margin=0pt}
+\begin{center}
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{$cover$}
+\end{center}
+\restoregeometry
 \newpage
 
 %% ── Índice ────────────────────────────────────────────────────────────────

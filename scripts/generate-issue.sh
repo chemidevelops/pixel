@@ -74,12 +74,15 @@ PYEOF
 
 done
 
+COVER_IMG="$ROOT/fanzine/numero-${ISSUE}.png"
+
 echo "Running pandoc..."
 pandoc "$COMBINED" \
   --pdf-engine=lualatex \
   --template="$TEMPLATE" \
   --variable="issue:$ISSUE" \
   --variable="date:$ISSUE_DATE" \
+  --variable="cover:$COVER_IMG" \
   --toc \
   --toc-depth=1 \
   -o "$OUT_FILE"
