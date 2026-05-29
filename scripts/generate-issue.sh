@@ -76,7 +76,7 @@ done
 
 echo "Running pandoc..."
 pandoc "$COMBINED" \
-  --pdf-engine=xelatex \
+  --pdf-engine=lualatex \
   --template="$TEMPLATE" \
   --variable="issue:$ISSUE" \
   --variable="date:$ISSUE_DATE" \

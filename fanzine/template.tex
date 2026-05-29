@@ -1,5 +1,5 @@
 %% PIXEL — Plantilla fanzine A5
-%% Compilar con XeLaTeX vía Pandoc
+%% Compilar con LuaLaTeX vía Pandoc
 
 \documentclass[10pt,a5paper,twoside]{article}
 
@@ -19,18 +19,18 @@
 %% Fuentes — Lora para cuerpo, JetBrains Mono para UI
 %% Si no están, caemos a Latin Modern + Courier
 \IfFontExistsTF{Lora}{
-  \setmainfont{Lora}[
-    ItalicFont = Lora-Italic,
-    BoldFont   = Lora-Bold,
-    BoldItalicFont = Lora-BoldItalic
-  ]
+  \setmainfont{Lora}
 }{
   \setmainfont{TeX Gyre Pagella}
 }
 \IfFontExistsTF{JetBrains Mono}{
   \setmonofont{JetBrains Mono}[Scale=0.82]
 }{
-  \setmonofont{Courier New}[Scale=0.82]
+  \IfFontExistsTF{Courier New}{
+    \setmonofont{Courier New}[Scale=0.82]
+  }{
+    \setmonofont{TeX Gyre Cursor}[Scale=0.82]
+  }
 }
 
 \usepackage{xcolor}
@@ -48,8 +48,6 @@
 \usepackage{enumitem}
 \usepackage{mdframed}
 \usepackage{tocloft}
-\usepackage{lettrine}
-\usepackage{GoudyIn}  % drop caps decorativos
 
 \hypersetup{
   colorlinks=true,
@@ -150,7 +148,7 @@
 \vspace{6mm}
 
 \renewcommand{\cftsecfont}{\normalsize}
-\renewcommand{\cftsecpagefont}{\small\texttt\textcolor{muted}}
+\renewcommand{\cftsecpagefont}{\small\ttfamily\color{muted}}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \setlength{\cftbeforesecskip}{4pt}
 
