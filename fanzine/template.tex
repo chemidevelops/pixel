@@ -42,7 +42,7 @@
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks, pdfpagelayout=SinglePage]{hyperref}
 \usepackage{enumitem}
 \usepackage{mdframed}
 \usepackage{tocloft}
@@ -141,7 +141,7 @@
 $body$
 
 %% ── Contraportada (mitad izquierda de la imagen horizontal) ──────────────
-\newpage
+\cleardoublepage
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
 \noindent\includegraphics[width=\paperwidth,height=\paperheight]{$cover_back$}

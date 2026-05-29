@@ -90,3 +90,8 @@ pandoc "$COMBINED" \
   -o "$OUT_FILE"
 
 echo "PDF generated: $OUT_FILE"
+
+# Generar versión de impresión (imposición en cuadernillo)
+PRINT_FILE="${OUT_DIR}/numero-${ISSUE}-print.pdf"
+python3 "$SCRIPT_DIR/impose.py" "$OUT_FILE" "$PRINT_FILE"
+echo "Print PDF:    $PRINT_FILE"

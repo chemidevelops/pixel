@@ -32,14 +32,21 @@ const sortedIssues = issues.sort((a, b) => b.data.number - a.data.number);
             ))}
           </ul>
         </div>
-        {issue.data.pdf && (
-          <a href={issue.data.pdf} class="btn-download" download>
-            ↓ Descargar PDF
-          </a>
-        )}
-        {!issue.data.pdf && (
-          <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted); align-self:center;">Próximamente</span>
-        )}
+        <div style="display:flex; flex-direction:column; gap:0.5rem; align-self:center;">
+          {issue.data.pdf && (
+            <a href={issue.data.pdf} class="btn-download" download>
+              ↓ Leer en pantalla
+            </a>
+          )}
+          {issue.data.pdf_print && (
+            <a href={issue.data.pdf_print} class="btn-download" style="background:transparent; color:var(--text); border:1.5px solid var(--text);" download>
+              ↓ Versión para imprimir
+            </a>
+          )}
+          {!issue.data.pdf && (
+            <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted);">Próximamente</span>
+          )}
+        </div>
       </div>
     );
   })}

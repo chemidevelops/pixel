@@ -125,7 +125,14 @@ pre code { background: none; padding: 0; color: inherit; }
   color: var(--text);
 }
 .site-title:hover { color: var(--red); text-decoration: none; }
-.site-title .dot { color: var(--red); }
+.site-title .dot {
+  display: inline-block;
+  width: 0.18em;
+  height: 0.18em;
+  background: var(--red);
+  vertical-align: -0.02em;
+  margin-left: 0.06em;
+}
 
 .site-nav {
   display: flex;

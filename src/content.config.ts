@@ -20,6 +20,7 @@ const issues = defineCollection({
     title: z.string(),
     date: z.string(),
     pdf: z.string().optional(),
+    pdf_print: z.string().optional(),
   }),
 });
 
