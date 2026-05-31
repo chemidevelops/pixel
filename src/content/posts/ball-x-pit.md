@@ -5,6 +5,7 @@ excerpt: "Cuando las reglas son tan simples que desaparecen, lo que queda es pur
 tags: ["indie", "arcade", "diseño"]
 issue: 1
 lang: es
+quote: "El placer más puro del medio es el momento en que un sistema y un jugador se comprenden mutuamente."
 ---
 
 ## La regla mínima

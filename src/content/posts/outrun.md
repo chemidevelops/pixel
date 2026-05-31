@@ -5,6 +5,7 @@ excerpt: "OutRun no es un juego de carreras. Es una fantasía de libertad constr
 tags: ["arcade", "conducción", "clásicos"]
 issue: 1
 lang: es
+quote: "El temporizador siempre gana. La carretera termina. La escapada tiene fecha de caducidad."
 ---
 
 ## El destino es el paisaje

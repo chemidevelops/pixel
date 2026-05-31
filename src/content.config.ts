@@ -11,6 +11,7 @@ const posts = defineCollection({
     issue: z.number().optional(),
     lang: z.enum(['es', 'en']).default('es'),
     gallery: z.array(z.string()).optional(),
+    quote: z.string().optional(),
   }),
 });
 

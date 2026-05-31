@@ -1,7 +1,7 @@
 ---
 import Base from './Base.astro';
 const { frontmatter } = Astro.props;
-const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const { title, date, tags = [], issue, excerpt, lang = 'es', quote } = frontmatter;
 const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric'
 });
@@ -23,6 +23,7 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
 
     <div class="post-layout">
       <nav id="toc" aria-label="Índice" hidden></nav>
+      {quote && <blockquote class="pull-quote"><p>«{quote}»</p></blockquote>}
       <div class="post-body">
         <slot />
       </div>

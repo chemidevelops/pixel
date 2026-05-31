@@ -5,6 +5,7 @@ excerpt: "En 1987, Sega definió qué significa moverse con propósito dentro de
 tags: ["arcade", "acción", "clásicos"]
 issue: 1
 lang: es
+quote: "Cada muerte en Shinobi es diagnóstico, no castigo."
 ---
 
 ## Geometría del combate

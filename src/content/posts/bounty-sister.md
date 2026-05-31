@@ -5,6 +5,7 @@ excerpt: "Un juego indie que encuentra su identidad en la textura de sus persona
 tags: ["indie", "acción", "narrativa"]
 issue: 1
 lang: es
+quote: "Alguien quería contar exactamente esta historia, de esta manera, y lo hizo."
 ---
 
 ## Lo pequeño como elección
