@@ -56,9 +56,8 @@ a {
 }
 a:hover { color: var(--red); }
 
-/* ── Images — B&N ── */
+/* ── Images ── */
 img {
-  filter: grayscale(100%);
   max-width: 100%;
   height: auto;
   display: block;

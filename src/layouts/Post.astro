@@ -134,6 +134,16 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
         });
       }, { rootMargin: '0px 0px -70% 0px' });
       headings.forEach(h => observer.observe(h));
+
+      // Hide TOC when gallery is visible
+      const gallery = body.querySelector('.gallery-wrap');
+      if (gallery) {
+        const galleryObserver = new IntersectionObserver(entries => {
+          toc.style.opacity = entries[0].isIntersecting ? '0' : '';
+          toc.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
+        }, { rootMargin: '200px 0px 200px 0px' });
+        galleryObserver.observe(gallery);
+      }
     }
   }
 </script>

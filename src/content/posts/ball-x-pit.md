@@ -13,7 +13,7 @@ Hay una corriente en el diseño de videojuegos independiente que no busca contar
 
 Una pelota. Un espacio. Obstáculos que aparecen con lógica propia. Las reglas se aprenden en segundos porque están diseñadas para aprenderse en segundos. Lo que el juego hace después de esa comprensión inicial es donde reside su interés real: la física del objeto central tiene una cualidad casi orgánica, una manera de rebotar y acelerarse que nunca se siente del todo predecible sin ser tampoco arbitraria. Ese equilibrio, que parece trivial desde fuera, es extraordinariamente difícil de calibrar.
 
-![Ball X Pit — gameplay](images/ball-x-pit-gameplay.jpg)
+![Ball X Pit — gameplay](/images/ball-x-pit-gameplay.jpg)
 
 ## Cuando el sistema habla
 

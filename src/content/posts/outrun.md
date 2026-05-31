@@ -13,7 +13,7 @@ La mayoría de los juegos de conducción tienen como objetivo llegar antes que l
 
 Esa estructura, aparentemente simple, contiene una idea radical para 1986: el viaje como fin en sí mismo. OutRun no simula una carrera. Simula una escapada. La elección entre rutas no es táctica sino estética: ¿prefiero la costa o el bosque? ¿El atardecer o la ciudad iluminada? Cada bifurcación es una pregunta sobre el tipo de experiencia que se quiere tener, no sobre el camino más corto al final.
 
-![OutRun — gameplay](images/outrun-gameplay.jpg)
+![OutRun — gameplay](/images/outrun-gameplay.jpg)
 
 ## Velocidad y melancolía
 

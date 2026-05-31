@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+
+/* ── Fuentes ── */
+@font-face {
+  font-family: 'Lora';
+  src: url('/usr/local/share/fonts/lora/Lora-VariableFont_wght.ttf');
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/usr/local/share/fonts/lora/Lora-Italic-VariableFont_wght.ttf');
+  font-weight: 100 900;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/usr/local/share/fonts/jetbrains/JetBrainsMono-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/usr/local/share/fonts/jetbrains/JetBrainsMono-Bold.ttf');
+  font-weight: 700;
+}
+
+/* ── Página base ── */
+@page {
+  size: A5;
+  margin: 16mm 12mm 18mm 16mm;
+}
+@page :left {
+  margin: 26mm 16mm 18mm 12mm;
+  @top-left {
+    content: "PIXEL — Nº$issue$";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+    color: #999;
+    vertical-align: bottom;
+    padding-bottom: 4mm;
+  }
+  @bottom-left {
+    content: counter(page);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+  }
+}
+@page :right {
+  margin: 26mm 12mm 18mm 16mm;
+  @top-right {
+    content: string(article-running);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+    color: #999;
+    vertical-align: bottom;
+    padding-bottom: 4mm;
+    text-transform: uppercase;
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+  }
+}
+
+/* Portadas sin márgenes */
+@page cover-page {
+  margin: 0;
+  @top-left   { content: none; }
+  @top-right  { content: none; }
+  @bottom-left  { content: none; }
+  @bottom-right { content: none; }
+}
+
+/* Páginas internas sin cabecera */
+@page plain-page {
+  @top-left  { content: none; }
+  @top-right { content: none; }
+  @bottom-left  { content: counter(page); font-family: 'JetBrains Mono', monospace; font-size: 7pt; }
+  @bottom-right { content: counter(page); font-family: 'JetBrains Mono', monospace; font-size: 7pt; }
+}
+
+/* ── Base ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #000;
+}
+
+/* Reset global de links — sin azul, sin subrayado, sin URLs */
+a {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+a::after {
+  content: none !important;
+}
+/* El TOC necesita su propio ::after para target-counter — anula el reset */
+.toc-item a::after {
+  content: target-counter(attr(href), page) !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  color: #666;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Portadas ── */
+.cover {
+  page: cover-page;
+  break-after: page;
+  width: 148mm;
+  height: 210mm;
+  position: relative;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Índice ── */
+.toc-page {
+  page: plain-page;
+  break-after: page;
+}
+.page-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  font-weight: 700;
+  margin-bottom: 3mm;
+}
+.label-rule {
+  border-top: 1.5pt solid black;
+  margin-bottom: 5mm;
+}
+
+/* TOC generado por Pandoc (post-procesado: li → div.toc-item) */
+nav#TOC {
+  margin-top: 0;
+}
+.toc-list {
+  list-style: none !important;
+}
+.toc-item {
+  list-style: none !important;
+  border-bottom: 0.5pt dotted #aaa;
+  padding: 10pt 0;
+  font-size: 11.5pt;
+}
+.toc-item::before,
+.toc-item::marker {
+  content: none !important;
+  display: none !important;
+}
+.toc-item a {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8pt;
+  line-height: 1.4;
+}
+
+/* ── Editorial ── */
+.editorial-page {
+  page: plain-page;
+  break-after: page;
+}
+.editorial-text {
+  font-size: 10.5pt;
+  line-height: 1.6;
+}
+.editorial-text p {
+  margin-top: 9pt;
+}
+.editorial-text p:first-child {
+  margin-top: 0;
+}
+
+/* ── Contenido: dos columnas ── */
+.content {
+  column-count: 2;
+  column-gap: 5mm;
+  column-rule: 0.4pt solid #bbb;
+  counter-reset: article;
+}
+
+/* Títulos de artículo: ancho completo */
+.content h1 {
+  column-span: all;
+  font-size: 18pt;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-top: 24pt;
+  margin-bottom: 10pt;
+  padding-bottom: 6pt;
+  border-bottom: 1.5pt solid black;
+  string-set: article-running content(text);
+  counter-increment: article;
+  break-before: auto;
+}
+.content h1::before {
+  display: block;
+  content: "— " counter(article) " —";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-bottom: 3pt;
+}
+/* Primer artículo sin margen superior */
+.content h1:first-child {
+  margin-top: 0;
+}
+
+/* Subsecciones dentro de columna */
+.content h2 {
+  font-size: 10pt;
+  font-weight: 700;
+  font-style: italic;
+  margin-top: 14pt;
+  margin-bottom: 3pt;
+}
+
+/* Párrafos */
+.content p {
+  margin-top: 7pt;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Drop cap */
+.dropcap-letter {
+  font-size: 3.1em;
+  font-weight: 700;
+  float: left;
+  line-height: 0.78;
+  margin-right: 3pt;
+  margin-top: 2pt;
+}
+
+/* Imágenes: ancho completo */
+.content figure {
+  column-span: all;
+  text-align: center;
+  margin: 10pt 0 18pt;
+  break-inside: avoid;
+  break-before: avoid;
+}
+.content figure img {
+  max-width: 100%;
+  max-height: 45mm;
+  display: block;
+  margin: 0 auto;
+}
+.content figcaption {
+  font-size: 8pt;
+  color: #444;
+  text-align: center;
+  margin-top: 4pt;
+}
+
+/* Colofón */
+.colophon {
+  column-span: all;
+  margin-top: 24pt;
+  padding-top: 8pt;
+  border-top: 1.5pt solid black;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5pt;
+  color: #666;
+  line-height: 1.6;
+}
+.colophon p {
+  margin-top: 4pt;
+  text-align: left;
+}
+.colophon strong {
+  color: #000;
+}
+
+/* Pull quotes */
+.content blockquote {
+  border-left: 3pt solid black;
+  padding-left: 10pt;
+  margin: 8pt 0;
+}
+.content blockquote p {
+  font-size: 11pt;
+  font-weight: 700;
+  font-style: italic;
+  text-align: left;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Portada delantera -->
+<div class="cover cover-front">
+  <img src="$cover_front$">
+</div>
+
+<!-- Índice -->
+<div class="toc-page">
+  <p class="page-label">ÍNDICE</p>
+  <div class="label-rule"></div>
+  $toc$
+</div>
+
+<!-- Editorial -->
+<div class="editorial-page">
+  <p class="page-label">EDITORIAL</p>
+  <div class="label-rule"></div>
+  <div class="editorial-text">
+    %%EDITORIAL%%
+  </div>
+</div>
+
+<!-- Artículos -->
+<div class="content">
+$body$
+
+<div class="colophon">
+  <div class="colophon-rule"></div>
+  <p><strong>PIXEL</strong> — Nº$issue$ — $date$</p>
+  <p>Revista independiente de videojuegos.<br>
+  Hecha con tiempo libre y opiniones propias.</p>
+</div>
+
+</div>
+
+<!-- Contraportada -->
+<div class="cover cover-back">
+  <img src="$cover_back$">
+</div>
+
+</body>
+</html>

@@ -5,7 +5,7 @@ ISSUE=${1:-1}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$SCRIPT_DIR/.."
 POSTS_DIR="$ROOT/src/content/posts"
-TEMPLATE="$ROOT/fanzine/template.tex"
+TEMPLATE="$ROOT/fanzine/template.html"
 OUT_DIR="$ROOT/public/pdfs"
 OUT_FILE="$OUT_DIR/numero-${ISSUE}.pdf"
 
@@ -13,7 +13,7 @@ mkdir -p "$OUT_DIR"
 
 # Collect posts for this issue, sorted by date
 TMPDIR_WORK=$(mktemp -d)
-trap 'rm -rf "$TMPDIR_WORK"' EXIT
+trap 'cp "$TMPDIR_WORK/output.html" /tmp/pixel-debug.html 2>/dev/null; rm -rf "$TMPDIR_WORK"' EXIT
 
 COMBINED="$TMPDIR_WORK/combined.md"
 > "$COMBINED"
@@ -22,8 +22,10 @@ COMBINED="$TMPDIR_WORK/combined.md"
 ISSUE_JSON="$ROOT/src/content/issues/${ISSUE}.json"
 if [[ -f "$ISSUE_JSON" ]]; then
   ISSUE_DATE=$(python3 -c "import json,sys; d=json.load(open('$ISSUE_JSON')); print(d.get('date',''))")
+  ISSUE_EDITORIAL=$(python3 -c "import json,sys; d=json.load(open('$ISSUE_JSON')); print(d.get('editorial',''))")
 else
   ISSUE_DATE=$(date +"%Y-%m")
+  ISSUE_EDITORIAL=""
 fi
 
 # Find all posts for this issue
@@ -80,9 +82,11 @@ done
 COVER_FRONT="$ROOT/public/covers/numero-${ISSUE}-front.png"
 COVER_BACK="$ROOT/public/covers/numero-${ISSUE}-back.png"
 
-echo "Running pandoc..."
+HTML_FILE="$TMPDIR_WORK/output.html"
+
+echo "Running pandoc → HTML..."
 pandoc "$COMBINED" \
-  --pdf-engine=lualatex \
+  --to=html5 \
   --template="$TEMPLATE" \
   --lua-filter="$ROOT/fanzine/dropcap.lua" \
   --resource-path="$ROOT/public" \
@@ -92,7 +96,44 @@ pandoc "$COMBINED" \
   --variable="cover_back:$COVER_BACK" \
   --toc \
   --toc-depth=1 \
-  -o "$OUT_FILE"
+  -o "$HTML_FILE"
+
+# Inyectar editorial y limpiar TOC
+python3 - <<PYEOF
+import json, re
+
+with open('$ISSUE_JSON') as f:
+    d = json.load(f)
+
+# Editorial
+text = d.get('editorial', '')
+paras = [p.strip() for p in text.split('\n\n') if p.strip()]
+html_editorial = '\n'.join(f'<p>{p}</p>' for p in paras)
+
+with open('$HTML_FILE') as f:
+    html = f.read()
+
+html = html.replace('%%EDITORIAL%%', html_editorial)
+
+# Convertir <ul>/<li> del TOC en <div> para evitar bullets en WeasyPrint
+def fix_toc_block(m):
+    inner = m.group(0)
+    inner = re.sub(r'<ul[^>]*>', '<div class="toc-list">', inner)
+    inner = re.sub(r'</ul>', '</div>', inner)
+    inner = re.sub(r'<li[^>]*>', '<div class="toc-item">', inner)
+    inner = re.sub(r'</li>', '</div>', inner)
+    return inner
+
+html = re.sub(r'<ul>.*?</ul>', fix_toc_block, html, flags=re.DOTALL)
+
+with open('$HTML_FILE', 'w') as f:
+    f.write(html)
+PYEOF
+
+echo "Running WeasyPrint → PDF..."
+weasyprint "$HTML_FILE" "$OUT_FILE" \
+  --base-url="$ROOT/public" \
+  2>&1 | grep -v "^WARNING:" | grep -v "^$" || true
 
 echo "PDF generated: $OUT_FILE"
 

@@ -1,0 +1,155 @@
+---
+interface Props {
+  images: string[];
+}
+const { images } = Astro.props;
+if (!images || images.length < 2) return;
+---
+
+<div class="gallery-wrap">
+  <div class="gallery-track">
+    {images.map((src, i) => (
+      <div class="gallery-slide" data-index={i}>
+        <img src={src} alt={`Imagen ${i + 1}`} />
+      </div>
+    ))}
+  </div>
+  <button class="gallery-btn gallery-prev" aria-label="Anterior">←</button>
+  <button class="gallery-btn gallery-next" aria-label="Siguiente">→</button>
+</div>
+
+<style>
+.gallery-wrap {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 2.5rem 0;
+  height: 560px;
+  overflow: hidden;
+}
+
+.gallery-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity   0.45s ease,
+              filter    0.45s ease;
+  cursor: pointer;
+}
+
+.gallery-slide img {
+  display: block;
+  width: 900px;
+  height: 520px;
+  object-fit: cover;
+  margin: 0;
+}
+
+/* Centro */
+.gallery-slide[data-pos="0"] {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  filter: none;
+  z-index: 3;
+  cursor: default;
+}
+/* Derecha */
+.gallery-slide[data-pos="1"] {
+  transform: translate(calc(-50% + 820px), -50%) scale(0.82);
+  opacity: 0.45;
+  filter: blur(4px);
+  z-index: 2;
+}
+/* Izquierda */
+.gallery-slide[data-pos="-1"] {
+  transform: translate(calc(-50% - 820px), -50%) scale(0.82);
+  opacity: 0.45;
+  filter: blur(4px);
+  z-index: 2;
+}
+/* Ocultos */
+.gallery-slide[data-pos="2"] {
+  transform: translate(calc(-50% + 1200px), -50%) scale(0.65);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.gallery-slide[data-pos="-2"] {
+  transform: translate(calc(-50% - 1200px), -50%) scale(0.65);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.35);
+  border: none;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.gallery-btn:hover { background: var(--red); }
+.gallery-prev { left: 0; }
+.gallery-next { right: 0; }
+</style>
+
+<script>
+(function() {
+  const wrap = document.querySelector('.gallery-wrap');
+  if (!wrap) return;
+  const slides = [...wrap.querySelectorAll('.gallery-slide')] as HTMLElement[];
+  const n = slides.length;
+  let current = 0;
+
+  function mod(x: number, m: number) { return ((x % m) + m) % m; }
+
+  function render() {
+    slides.forEach((slide, i) => {
+      let p = mod(i - current, n);
+      if (p > n / 2) p = p - n;
+      if (p > 2) p = 2;
+      if (p < -2) p = -2;
+      slide.setAttribute('data-pos', String(p));
+    });
+  }
+
+  function go(dir: number) { current = mod(current + dir, n); render(); }
+
+  wrap.querySelector('.gallery-prev')?.addEventListener('click', () => go(-1));
+  wrap.querySelector('.gallery-next')?.addEventListener('click', () => go(1));
+
+  slides.forEach(slide => {
+    slide.addEventListener('click', () => {
+      const pos = parseInt(slide.getAttribute('data-pos') || '0');
+      if (pos !== 0) go(pos > 0 ? 1 : -1);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  go(-1);
+    if (e.key === 'ArrowRight') go(1);
+  });
+
+  render();
+})();
+</script>

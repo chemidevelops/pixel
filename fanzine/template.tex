@@ -1,7 +1,7 @@
 %% PIXEL — Plantilla fanzine A5 — Estilo brutalist/independiente
 %% Compilar con LuaLaTeX vía Pandoc
 
-\documentclass[10pt,a5paper,twoside]{article}
+\documentclass[10pt,a5paper,twoside,twocolumn]{article}
 
 \usepackage{geometry}
 \geometry{
@@ -42,21 +42,27 @@
 \usepackage{needspace}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
+\usepackage{stfloats}
 \usepackage[hidelinks, pdfpagelayout=SinglePage]{hyperref}
 \usepackage{enumitem}
 \usepackage{mdframed}
 \usepackage{tocloft}
 \usepackage{lettrine}
+\usepackage{caption}
+
+%% Columnas
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{0.4pt}
 
 %% Solo secciones en el índice
 \setcounter{tocdepth}{1}
 
 %% ── Tipografía ────────────────────────────────────────────────────────────
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{7pt}
+\setlength{\parskip}{6pt}
 \linespread{1.22}
 
-%% Títulos de artículo — estilo brutalist
+%% Títulos de artículo — ancho completo, estilo brutalist
 \titleformat{\section}[block]
   {}
   {}
@@ -64,21 +70,21 @@
   {%
     \needspace{6\baselineskip}%
     \fontsize{8}{10}\selectfont\texttt{\textbf{— \thesection\ —}}\\[3pt]%
-    \fontsize{20}{22}\selectfont\bfseries%
+    \fontsize{18}{21}\selectfont\bfseries%
   }
-  [\vspace{5pt}{\hrule height 1.5pt}\vspace{10pt}]
+  [\vspace{4pt}{\hrule height 1.5pt}\vspace{8pt}]
 
 \titleformat{\subsection}[block]
   {}
   {}
   {0pt}
   {%
-    \needspace{4\baselineskip}%
+    \needspace{5\baselineskip}%
     \normalsize\bfseries\itshape%
   }
 
-\titlespacing{\section}{0pt}{28pt}{0pt}
-\titlespacing{\subsection}{0pt}{18pt}{4pt}
+\titlespacing{\section}{0pt}{24pt}{0pt}
+\titlespacing{\subsection}{0pt}{14pt}{3pt}
 
 %% Drop cap
 \setlength{\DefaultFindent}{3pt}
@@ -86,8 +92,8 @@
 \renewcommand{\LettrineFontHook}{\bfseries}
 
 %% ── Imágenes ──────────────────────────────────────────────────────────────
-\setkeys{Gin}{width=\linewidth, keepaspectratio}
-\setlength{\intextsep}{10pt}
+\setkeys{Gin}{width=\textwidth, height=0.4\textheight, keepaspectratio}
+\captionsetup{font=small, labelfont=bf, justification=centering}
 
 %% ── Cabecera y pie ────────────────────────────────────────────────────────
 \pagestyle{fancy}
@@ -113,7 +119,7 @@
     innertopmargin=2pt, innerbottommargin=2pt,
     backgroundcolor=white
   ]
-  \fontsize{12}{15}\selectfont\bfseries\itshape
+  \fontsize{11}{14}\selectfont\bfseries\itshape
 }{
   \end{mdframed}
   \vspace{6pt}
@@ -127,11 +133,11 @@
 \begin{document}
 
 %% ── Portada delantera ─────────────────────────────────────────────────────
+\onecolumn
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
 \noindent\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{$cover_front$}
 \restoregeometry
-\newpage
 
 %% ── Tras la portada: todo en B/N ──────────────────────────────────────────
 \definecolor{pixelred}{HTML}{000000}
@@ -139,7 +145,8 @@
 \definecolor{border}{HTML}{AAAAAA}
 \hypersetup{linkcolor=black, urlcolor=black}
 
-%% ── Índice + Editorial ────────────────────────────────────────────────────
+%% ── Índice ────────────────────────────────────────────────────────────────
+\newpage
 \thispagestyle{plain}
 
 {\fontsize{9}{11}\selectfont\texttt{\textbf{ÍNDICE}}}
@@ -154,18 +161,23 @@
 \renewcommand{\contentsname}{}
 \tableofcontents
 
-\vfill
-
-{\hrule height 0.4pt}
-\vspace{4mm}
-{\fontsize{8}{11}\selectfont\textit{Este es el primer número de PIXEL, una revista independiente sobre videojuegos. Aquí no hay anunciantes, algoritmos ni listas de los más vendidos. Solo escritura sobre juegos que merecen ser pensados en voz alta. Bienvenido.}}
-
+%% ── Editorial ─────────────────────────────────────────────────────────────
 \newpage
+\thispagestyle{plain}
 
-%% ── Contenido ─────────────────────────────────────────────────────────────
+{\fontsize{9}{11}\selectfont\texttt{\textbf{EDITORIAL}}}
+\vspace{3mm}
+{\hrule height 1.5pt}
+\vspace{8mm}
+
+{\setlength{\parskip}{9pt}\fontsize{10.5}{14}\selectfont $editorial$}
+
+%% ── Contenido (dos columnas) ──────────────────────────────────────────────
+\twocolumn
 $body$
 
 %% ── Contraportada ─────────────────────────────────────────────────────────
+\onecolumn
 \newpage
 \thispagestyle{empty}
 \newgeometry{margin=0pt}
