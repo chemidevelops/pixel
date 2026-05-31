@@ -14,15 +14,15 @@ const items = images.map(img =>
 <div class="gallery-wrap">
   <div class="gallery-track">
     {items.map(({ src, caption }, i) => (
-      <div class="gallery-slide" data-index={i}>
+      <div class="gallery-slide" data-index={i} data-caption={caption ?? ''}>
         <img src={src} alt={caption ?? `Imagen ${i + 1}`} />
-        {caption && <p class="gallery-caption">{caption}</p>}
       </div>
     ))}
   </div>
   <button class="gallery-btn gallery-prev" aria-label="Anterior">←</button>
   <button class="gallery-btn gallery-next" aria-label="Siguiente">→</button>
 </div>
+{items.some(i => i.caption) && <p class="gallery-caption-bar">&nbsp;</p>}
 
 <style>
 .gallery-wrap {
@@ -31,7 +31,7 @@ const items = images.map(img =>
   left: 50%;
   transform: translateX(-50%);
   margin: 2.5rem 0;
-  height: 600px;
+  height: 560px;
   overflow: hidden;
   background-color: var(--bg);
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
@@ -48,6 +48,7 @@ const items = images.map(img =>
   position: absolute;
   top: 50%;
   left: 50%;
+  overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               opacity   0.45s ease,
               filter    0.45s ease;
@@ -57,22 +58,21 @@ const items = images.map(img =>
 .gallery-slide img {
   display: block;
   width: 900px;
-  height: 520px;
+  height: 490px;
   object-fit: cover;
   margin: 0;
 }
 
-.gallery-caption {
-  margin: 0;
-  padding: 0.45rem 0.6rem;
+.gallery-caption-bar {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  text-align: center;
-  background: var(--bg);
-  width: 900px;
-  box-sizing: border-box;
   letter-spacing: 0.03em;
+  min-height: 1.2em;
+  text-align: left;
+  margin-top: -2.7rem;
+  margin-bottom: 2rem;
+  margin-left: -38px;
 }
 
 @media (max-width: 700px) {
@@ -178,7 +178,14 @@ const items = images.map(img =>
     });
   }
 
-  function go(dir: number) { current = mod(current + dir, n); render(); }
+  const captionBar = wrap.nextElementSibling as HTMLElement;
+
+  function updateCaption() {
+    if (!captionBar?.classList.contains('gallery-caption-bar')) return;
+    captionBar.textContent = slides[current].dataset.caption || '';
+  }
+
+  function go(dir: number) { current = mod(current + dir, n); render(); updateCaption(); }
 
   wrap.querySelector('.gallery-prev')?.addEventListener('click', () => go(-1));
   wrap.querySelector('.gallery-next')?.addEventListener('click', () => go(1));
@@ -196,5 +203,6 @@ const items = images.map(img =>
   });
 
   render();
+  updateCaption();
 })();
 </script>
