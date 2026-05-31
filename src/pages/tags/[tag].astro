@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const tags = [...new Set(posts.flatMap(p => p.data.tags ?? []))];
+  return tags.map(tag => ({
+    params: { tag },
+    props: {
+      posts: posts
+        .filter(p => p.data.tags?.includes(tag))
+        .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+<Base title={`#${tag}`} description={`Artículos sobre ${tag} en PIXEL`}>
+  <div style="font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">
+    Etiqueta
+  </div>
+  <h1 style="margin-bottom:2.5rem;">#{tag}</h1>
+
+  <ul class="post-list">
+    {posts.map(post => (
+      <li>
+        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
+        <div class="post-list-meta">
+          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+          {post.data.issue && <span> · <a href={`/descargas#numero-${post.data.issue}`} class="issue-badge">Nº{post.data.issue}</a></span>}
+          {post.data.tags?.map((t: string) => (
+            <span> · <a href={`/tags/${t}`} class="post-tag">{t}</a></span>
+          ))}
+        </div>
+        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+      </li>
+    ))}
+  </ul>
+
+  <p style="margin-top:2rem; font-size:0.82rem; font-family:var(--font-mono);">
+    <a href="/posts">← Todos los artículos</a>
+  </p>
+</Base>

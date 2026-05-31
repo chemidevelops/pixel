@@ -9,13 +9,15 @@ lang: es
 
 Hay algo extraño en cómo los videojuegos manejan el tiempo. En [*Disco Elysium*](https://store.steampowered.com/app/632470/Disco_Elysium/) el mundo lleva décadas congelado en el trauma de una revolución fallida. En *Dead Cells* morís y volvéis a empezar, eternamente. En *Animal Crossing* el tiempo del juego es el tiempo real, casi obscenamente literal.
 
-Cada decisión de diseño temporal es también una afirmación filosófica sobre qué clase de experiencia se busca crear.
+Cada decisión de diseño temporal es también una afirmación filosófica sobre qué clase de experiencia se busca crear. Y esa afirmación, aunque raramente se haga explícita, es una de las más reveladoras que puede hacer un equipo de desarrollo.
 
 ## El tiempo como presión
 
 Los primeros arcade funcionaban con una lógica simple: el tiempo es un recurso que se agota. Cada segundo de juego era un segundo de moneda consumida. Esta ansiedad se trasladó a los diseños domésticos aunque ya no hubiera monedas de por medio — el tiempo sigue siendo el enemigo en la mayoría de los platformers clásicos.
 
-Esta presión no es neutra. Crea un tipo específico de atención: urgente, reactiva, que no puede detenerse a contemplar.
+Esta presión no es neutra. Crea un tipo específico de atención: urgente, reactiva, que no puede detenerse a contemplar. El jugador que mira el escenario por placer pierde tiempo. El jugador que lee el entorno por curiosidad pierde tiempo. El contador en la esquina superior de la pantalla es una instrucción implícita: muévete, no pienses, actúa.
+
+Hay géneros enteros construidos sobre esa instrucción. Los shooters rítmicos, los runners, los juegos de gestión bajo presión. Son experiencias completamente válidas, pero definen al jugador como un ejecutor de reflejos, no como un habitante de un mundo. El tiempo como presión convierte el videojuego en un test.
 
 ## El tiempo como mundo
 
@@ -25,10 +27,22 @@ La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso si
 
 Es una decisión radical en un medio donde la agencia del jugador es el valor supremo. Que la cámara se detenga, que el viento mueva la hierba, que no pase nada durante treinta segundos — eso requiere confianza en que el jugador no necesita estímulo constante.
 
+*Disco Elysium* lleva esa idea más lejos aún. El tiempo en ese juego es una sustancia densa y fosilizada. La revolución que definió el mundo del juego ocurrió hace décadas, pero sigue siendo el presente. Los personajes viven en su resaca. Las calles la exhalan. No hay urgencia porque la urgencia ya pasó y no sirvió de nada. El tiempo como mundo en ese juego es, específicamente, el tiempo de la derrota histórica.
+
 > «El mejor diseño de videojuegos es el que sabe cuándo no pedir nada al jugador.»
 
-## Lo que queda
+## El tiempo que se recuerda
 
-Cuando acabas un juego largo — uno de esos que te llevan cincuenta horas — queda algo parecido al jet lag. Has vivido en otro tiempo durante semanas. Volver al tiempo ordinario cuesta.
+Cuando acabas un juego largo — uno de esos que te llevan cincuenta horas — queda algo parecido al jet lag. Has vivido en otro tiempo durante semanas. Volver al tiempo ordinario cuesta. La luz es diferente. Las conversaciones se sienten incompletas, como si faltara música de fondo.
 
-No sé si eso es un defecto o el mayor mérito del medio.
+Esa experiencia de desorientación temporal es exclusiva del videojuego. La literatura puede sumergirte en otro tiempo, el cine también. Pero ninguno de los dos exige que tú seas quien habita ese tiempo, quien toma las decisiones dentro de él, quien lo recuerda desde el interior. El videojuego no solo representa el tiempo: te lo hace vivir. Y cuando termina, ese tiempo vivido no desaparece del todo. Se queda en algún lugar entre la memoria y el cuerpo.
+
+No sé si eso es un defecto o el mayor mérito del medio. Probablemente sea las dos cosas al mismo tiempo.
+
+## El tiempo que no avanza
+
+Hay una tercera categoría que merece atención: los juegos donde el tiempo es una ilusión controlada. Los roguelikes y los bucles de juego repiten el mismo intervalo temporal hasta que el jugador lo domina. *Hades* transcurre en el mismo momento una y otra vez — literalmente, según su lore — y sin embargo cada iteración se siente diferente porque quien cambia es el jugador, no el tiempo del juego.
+
+Esta estructura tiene algo de terapéutico que los diseñadores rara vez reconocen explícitamente. El tiempo que se puede repetir es el tiempo que se puede corregir. Es una fantasía de segunda oportunidad presentada como mecánica. En un mundo donde el tiempo real no retrocede nunca, la posibilidad de volver a intentarlo — no como carga sino como oportunidad — tiene un poder emocional que va mucho más allá del entretenimiento.
+
+Los videojuegos han inventado formas del tiempo que no existen en ningún otro lugar. El tiempo detenido del bullet time. El tiempo revertido de *Prince of Persia*. El tiempo subjetivo de los puzzles donde una solución puede llevar semanas de pensamiento y ejecutarse en segundos. Ningún otro medio tiene esa flexibilidad. Y esa flexibilidad, usada con criterio, convierte al videojuego en el arte del tiempo por excelencia.

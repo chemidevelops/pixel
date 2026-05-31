@@ -13,12 +13,28 @@ Existe una diferencia fundamental entre los juegos que se hacen difíciles acumu
 
 La pantalla del arcade original tiene una claridad casi geométrica. Los enemigos aparecen desde posiciones predecibles, en oleadas con lógica interna. Aprender Shinobi no es memorizar una secuencia: es aprender a leer un espacio. Los rehenes distribuidos por cada fase añaden una capa de presión silenciosa que obliga a moverse con intención. No se puede correr. No se puede improvisar indefinidamente. Hay que pensar en movimiento.
 
+Esa exigencia de pensamiento simultáneo a la acción es lo que separa a Shinobi de la mayoría de los beat 'em up de su época. No es un juego de reacciones: es un juego de anticipación. El jugador que llega al arcade sin haber jugado antes morirá rápido. El jugador que vuelve al día siguiente, habiendo procesado inconscientemente los patrones, descubrirá que el juego recuerda exactamente lo que él ha olvidado.
+
 ![Shinobi — gameplay](/images/shinobi-gameplay.jpg)
 
 ## El ninja como metáfora del control
 
 Joe Musashi se mueve en dos planos, puede lanzar shurikens con munición limitada y ejecutar un salto que no admite corrección en el aire. Esa última característica, que hoy sonaría a defecto de diseño, es en realidad el núcleo de todo el sistema. Comprometerse con un salto en Shinobi es un acto de lectura anticipatoria: se decide en el aire lo que ya se ha entendido en el suelo.
 
-Hay algo filosófico en ese diseño, aunque probablemente nadie en el equipo de Sega lo pensó en esos términos. La limitación como maestro. El error como información. Cada muerte en Shinobi es diagnóstico, no castigo.
+Hay algo filosófico en ese diseño, aunque probablemente nadie en el equipo de Sega lo pensó en esos términos. La limitación como maestro. El error como información. Cada muerte en Shinobi es diagnóstico, no castigo. El juego no dice «has fallado»: dice «aquí está lo que no habías entendido todavía».
 
-Décadas después, el juego sostiene su reputación no por sentimentalismo sino por coherencia. Sus mecánicas no han envejecido porque nunca dependieron de la tecnología: dependían del criterio. Shinobi es un recordatorio de que los mejores juegos de acción no son los que dan más herramientas al jugador, sino los que hacen que las pocas herramientas disponibles sean infinitamente expresivas. En la austeridad bien aplicada vive una forma de perfección que los juegos contemporáneos rara vez se permiten alcanzar.
+Esa distinción importa más de lo que parece. Los juegos que usan la dificultad como castigo generan frustración. Los que la usan como información generan aprendizaje. Shinobi pertenece a la segunda categoría con una coherencia que muy pocos títulos de su época — o de cualquier época — consiguen sostener de principio a fin.
+
+## La austeridad como perfección
+
+Décadas después, el juego sostiene su reputación no por sentimentalismo sino por coherencia. Sus mecánicas no han envejecido porque nunca dependieron de la tecnología: dependían del criterio. El criterio de un equipo que entendía que cada elemento que añades a un sistema de juego es también un elemento que puede fallar, y que la elegancia consiste en saber cuándo parar de añadir.
+
+Shinobi es un recordatorio de que los mejores juegos de acción no son los que dan más herramientas al jugador, sino los que hacen que las pocas herramientas disponibles sean infinitamente expresivas. En la austeridad bien aplicada vive una forma de perfección que los juegos contemporáneos rara vez se permiten alcanzar — no porque no puedan, sino porque el mercado rara vez se lo permite a ellos.
+
+## La escuela del arcade
+
+Hay una pedagogía específica en los juegos de arcade que los juegos domésticos de la misma época no tenían. El arcade enseñaba en público. Cada muerte era visible. Cada progreso, también. El jugador experto que llegaba a una pantalla avanzada de Shinobi atraía una audiencia. El jugador torpe aprendía observando.
+
+Esa dimensión social del aprendizaje no tenía equivalente en el salón de casa. Y sin ella, algunos juegos de la época parecen más difíciles de lo que son — porque sin nadie que demostrara que eran superables, la dificultad parecía un muro y no una puerta.
+
+Shinobi fue diseñado con esa audiencia en mente. Sus momentos de mayor elegancia — el jugador que limpia una oleada sin recibir un golpe, que rescata a todos los rehenes con la última bala de shuriken — están pensados para ser vistos. Para ser admirados. Para que alguien detrás del jugador entienda que ese nivel de dominio es posible y decida que vale la pena perseguirlo. El arcade era un aula. Y Shinobi, uno de sus mejores maestros.

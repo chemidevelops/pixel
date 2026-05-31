@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
+---
+<Base title="Artículos" description="Todos los artículos de PIXEL — crítica y cultura de videojuegos">
+  <div class="posts-header">
+    <h1>Artículos</h1>
+    <div class="tag-filter">
+      {allTags.map(tag => (
+        <a href={`/tags/${tag}`} class="post-tag">{tag}</a>
+      ))}
+    </div>
+  </div>
+
+  <ul class="post-list">
+    {posts.map(post => (
+      <li>
+        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
+        <div class="post-list-meta">
+          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+          {post.data.issue && <span> · <a href={`/descargas#numero-${post.data.issue}`} class="issue-badge">Nº{post.data.issue}</a></span>}
+          {post.data.tags?.map((tag: string) => (
+            <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
+          ))}
+        </div>
+        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+.posts-header {
+  margin-bottom: 2.5rem;
+}
+.posts-header h1 {
+  margin-bottom: 1rem;
+}
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+</style>

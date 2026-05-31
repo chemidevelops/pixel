@@ -35,7 +35,7 @@ while IFS= read -r -d '' file; do
   if grep -q "^issue: ${ISSUE}$" "$file"; then
     POST_FILES+=("$file")
   fi
-done < <(find "$POSTS_DIR" -name "*.md" -print0)
+done < <(find "$POSTS_DIR" \( -name "*.md" -o -name "*.mdx" \) -print0)
 
 if [[ ${#POST_FILES[@]} -eq 0 ]]; then
   echo "No posts found for issue $ISSUE" >&2
@@ -67,9 +67,23 @@ with open(sys.argv[1]) as f:
 parts = raw.split('---', 2)
 frontmatter = parts[1] if len(parts) >= 3 else ''
 body = parts[2] if len(parts) >= 3 else raw
+
+# Strip MDX import lines and JSX component tags
+body = re.sub(r'^import .+$', '', body, flags=re.MULTILINE)
+body = re.sub(r'<[A-Z][^>]*/>', '', body)
+
 # Fix image paths: /images/foo.jpg → images/foo.jpg
-import re as re_img
-body = re_img.sub(r'!\[([^\]]*)\]\(/images/', r'![\1](images/', body)
+body = re.sub(r'!\[([^\]]*)\]\(/images/', r'![\1](images/', body)
+
+# If no inline image, inject first gallery image from frontmatter
+if not re.search(r'!\[', body):
+    gallery_match = re.search(r'^gallery:\s*\n((?:\s+-\s+.+\n)+)', frontmatter, re.MULTILINE)
+    if gallery_match:
+        first_img = re.search(r'-\s+(/images/\S+)', gallery_match.group(1))
+        if first_img:
+            img_path = first_img.group(1).replace('/images/', 'images/')
+            body = body.strip() + f'\n\n![gameplay]({img_path})\n'
+
 title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', frontmatter, re.MULTILINE)
 if title_match:
     print(f"# {title_match.group(1)}\n")
@@ -114,6 +128,39 @@ with open('$HTML_FILE') as f:
     html = f.read()
 
 html = html.replace('%%EDITORIAL%%', html_editorial)
+
+# Salto de página antes de cada h1 (excepto el primero)
+first = True
+def add_page_break(m):
+    global first
+    if first:
+        first = False
+        return m.group(0)
+    return '<div style="break-before:page;page-break-before:always;column-span:all"></div>' + m.group(0)
+html = re.sub(r'<h1[^>]*>', add_page_break, html)
+
+# Convertir imagen de Mina a escala de grises
+import os
+from PIL import Image
+import base64, io
+def grayscale_img(m):
+    src = m.group(1)
+    # Resolver ruta relativa al directorio public
+    if src.startswith('file://'):
+        path = src[7:]
+    else:
+        path = os.path.join('$ROOT/public', src.lstrip('/'))
+    if not os.path.exists(path):
+        return m.group(0)
+    try:
+        img = Image.open(path).convert('L').convert('RGB')
+        buf = io.BytesIO()
+        img.save(buf, format='JPEG', quality=85)
+        b64 = base64.b64encode(buf.getvalue()).decode()
+        return f'src="data:image/jpeg;base64,{b64}"'
+    except Exception:
+        return m.group(0)
+html = re.sub(r'src="([^"]+\.(jpg|jpeg|png|webp))"', grayscale_img, html)
 
 # Convertir <ul>/<li> del TOC en <div> para evitar bullets en WeasyPrint
 def fix_toc_block(m):

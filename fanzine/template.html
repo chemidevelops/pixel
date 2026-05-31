@@ -206,7 +206,7 @@ nav#TOC {
   border-bottom: 1.5pt solid black;
   string-set: article-running content(text);
   counter-increment: article;
-  break-before: auto;
+  break-before: page;
 }
 .content h1::before {
   display: block;
@@ -228,6 +228,8 @@ nav#TOC {
   font-style: italic;
   margin-top: 14pt;
   margin-bottom: 3pt;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 
 /* Párrafos */
@@ -260,6 +262,7 @@ nav#TOC {
   max-height: 45mm;
   display: block;
   margin: 0 auto;
+  filter: grayscale(100%);
 }
 .content figcaption {
   font-size: 8pt;

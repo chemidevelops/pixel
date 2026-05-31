@@ -53,6 +53,27 @@ if (!images || images.length < 2) return;
   margin: 0;
 }
 
+@media (max-width: 700px) {
+  .gallery-wrap { height: auto; }
+  .gallery-track { position: relative; height: auto; }
+
+  .gallery-slide {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none !important;
+    display: none;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+  .gallery-slide[data-pos="0"] { display: block; }
+
+  .gallery-slide img {
+    width: 100%;
+    height: auto;
+  }
+}
+
 /* Centro */
 .gallery-slide[data-pos="0"] {
   transform: translate(-50%, -50%);

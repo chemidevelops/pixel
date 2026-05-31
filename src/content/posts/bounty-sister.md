@@ -13,6 +13,8 @@ Hay una tendencia en la crítica de videojuegos a valorar los juegos indie por s
 
 El juego sigue a una cazarrecompensas y a su hermana en un contexto que mezcla ciencia ficción de bajo presupuesto con dinámicas familiares reconocibles. El tono oscila con habilidad entre la acción despreocupada y momentos de quietud que sorprenden por su honestidad emocional. No hay grandes revelaciones ni giros narrativos calculados para el tráiler. Hay conversaciones. Hay silencios. Hay la sensación de que los personajes existían antes de que la partida empezara.
 
+Lo que hace que esa sensación funcione es la consistencia. Bounty Sister no es un juego que construya a sus protagonistas en las cinemáticas y las abandone durante el gameplay. El sistema de combate, la forma en que se mueven por el espacio, las reacciones ante los enemigos — todo es una extensión de carácter. Las mecánicas no ilustran la historia: son la historia.
+
 ![Bounty Sister — gameplay](/images/bounty-sister-gameplay.jpg)
 
 ## El ritmo como narración
@@ -21,4 +23,18 @@ Lo que distingue a Bounty Sister de otros juegos del mismo presupuesto aproximad
 
 Existe en el juego una comprensión de que la intimidad no se construye con cinemáticas largas sino con detalles acumulados: un comentario de una hermana sobre el estilo de combate de la otra, una discusión corta antes de una puerta importante, la manera en que el juego registra las elecciones del jugador sin convertirlas en un sistema de moralidad explícito.
 
-Bounty Sister no llegará a las listas de los juegos del año. No tiene la producción ni la visibilidad para eso. Pero tiene algo que muchos títulos con diez veces su presupuesto no consiguen fabricar: la sensación de que alguien quería contar exactamente esta historia, de esta manera, y lo hizo. En un medio que celebra la escala, esa certeza es más rara y más valiosa de lo que parece.
+Esa ligereza en el manejo de las consecuencias narrativas es uno de los logros más sutiles del diseño. Bounty Sister confía en que el jugador tiene suficiente inteligencia emocional como para leer lo que no se dice. No subraya. No explica. Deja que los momentos respiren y que sean el jugador quien los complete.
+
+## Una voz que se sostiene
+
+El mayor riesgo de los juegos de autor es la inconsistencia: las ideas brillantes que no se sostienen durante toda la experiencia, los momentos donde la voz del creador desaparece y el juego se convierte en un producto genérico. Bounty Sister evita esa trampa con una disciplina notable. Desde la primera pantalla hasta los créditos finales, hay alguien detrás del juego que sabe lo que está haciendo y por qué.
+
+Bounty Sister no llegará a las listas de los juegos del año. No tiene la producción ni la visibilidad para eso. Pero tiene algo que muchos títulos con diez veces su presupuesto no consiguen fabricar: la sensación de que alguien quería contar exactamente esta historia, de esta manera, y lo hizo. En un medio que celebra la escala, esa certeza es más rara y más valiosa de lo que parece. Y cuando se encuentra, merece ser reconocida.
+
+## El género como recipiente
+
+Bounty Sister usa las convenciones del juego de acción como un recipiente, no como un fin. Los combates existen porque la relación entre las protagonistas necesita un espacio de tensión física donde expresarse. Las misiones existen porque la dinámica de la caza de recompensas permite explorar quién decide, quién ejecuta, quién paga el precio. El género es la excusa; el vínculo entre las hermanas es el tema.
+
+Esta inversión de prioridades — personaje sobre mecánica, relación sobre sistema — es inusual y arriesgada. Puede alienar a jugadores que buscan precisamente la pureza del género. Pero para quien entra en el juego dispuesto a escuchar además de jugar, la recompensa es una experiencia que pocos títulos de cualquier presupuesto consiguen ofrecer: la sensación de haber conocido a alguien.
+
+Al terminar Bounty Sister, uno no piensa en los niveles que completó ni en los jefes que derrotó. Piensa en una conversación específica, en un momento de silencio entre dos personajes antes de una misión difícil, en la manera en que el juego eligió no resolver algunas tensiones porque la vida tampoco las resuelve. Esa persistencia en la memoria es, quizás, la mejor medida del éxito de un juego de esta naturaleza.
