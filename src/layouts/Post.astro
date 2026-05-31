@@ -8,16 +8,17 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
 ---
 <Base title={title} description={excerpt}>
   <article>
-    <h1>{title}</h1>
-
-    <div class="post-meta">
-      <span>{dateFormatted}</span>
-      {issue && (
-        <a href={`/descargas#numero-${issue}`} class="issue-badge">Nº{issue}</a>
-      )}
-      {tags.map((tag: string) => (
-        <a href={`/tags/${tag}`} class="post-tag">{tag}</a>
-      ))}
+    <div class="post-header">
+      <div class="post-header-meta">
+        <span class="post-date">{dateFormatted}</span>
+        <div class="post-tags">
+          {tags.map((tag: string) => (
+            <a href={`/tags/${tag}`} class="post-tag">{tag}</a>
+          ))}
+        </div>
+      </div>
+      <h1>{title}</h1>
+      {excerpt && <p class="post-excerpt-header">{excerpt}</p>}
     </div>
 
     <div class="post-layout">
@@ -40,20 +41,62 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
 </Base>
 
 <style is:global>
+/* ── Post header ── */
+.post-header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 3px solid var(--text);
+}
+
+.post-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.post-date { color: var(--text-muted); }
+
+.post-tags { display: flex; gap: 0.4rem; }
+
+.post-header h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.post-excerpt-header {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* ── Layout ── */
 .post-layout {
   position: relative;
 }
 
 .post-body { margin-top: 2rem; }
 
-/* Drop cap — is:global porque el contenido viene del slot (Markdown) */
+/* Drop cap más dramático */
 .post-body > p:first-of-type::first-letter {
-  font-size: 4.2em;
+  font-size: 6.5em;
   font-weight: 700;
   float: left;
-  line-height: 0.82;
-  margin: 0.06em 0.1em 0 0;
-  color: var(--text);
+  line-height: 0.75;
+  margin: 0.04em 0.12em 0 0;
+  color: var(--red);
+  font-family: var(--font-serif);
 }
 
 #toc {
