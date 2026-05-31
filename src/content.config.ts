@@ -10,8 +10,10 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     issue: z.number().optional(),
     lang: z.enum(['es', 'en']).default('es'),
-    gallery: z.array(z.string()).optional(),
-    quote: z.string().optional(),
+    gallery: z.array(z.union([
+      z.string(),
+      z.object({ src: z.string(), caption: z.string().optional() })
+    ])).optional(),
   }),
 });
 

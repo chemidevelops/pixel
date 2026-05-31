@@ -148,6 +148,23 @@ pre code { background: none; padding: 0; color: inherit; }
   text-transform: uppercase;
   text-decoration: none;
   color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  gap: 0.25em;
+}
+.site-title-main {
+  display: flex;
+  align-items: center;
+}
+.site-title-jp {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: none;
+  font-weight: 400;
 }
 .site-title:hover { color: var(--red); text-decoration: none; }
 .site-title .dot {
@@ -155,7 +172,9 @@ pre code { background: none; padding: 0; color: inherit; }
   width: 0.18em;
   height: 0.18em;
   background: var(--red);
-  vertical-align: -0.02em;
+  vertical-align: baseline;
+  position: relative;
+  top: 5px;
   margin-left: 0.06em;
 }
 
@@ -193,6 +212,7 @@ pre code { background: none; padding: 0; color: inherit; }
 }
 .post-tag::before { content: '#'; }
 .post-tag:hover { text-decoration: underline; text-decoration-color: var(--red); }
+.post-tag-issue::before { content: '' !important; }
 
 .issue-badge {
   font-family: var(--font-mono);
@@ -406,7 +426,7 @@ pre code { background: none; padding: 0; color: inherit; }
   gap: 0.5rem;
 }
 
-#toggle-dark {
+#toggle-dark, #toggle-gameboy {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
@@ -418,7 +438,7 @@ pre code { background: none; padding: 0; color: inherit; }
   cursor: pointer;
   transition: border-color 0.15s;
 }
-#toggle-dark:hover { border-color: var(--red); }
+#toggle-dark:hover, #toggle-gameboy:hover { border-color: var(--red); }
 
 .font-size-btn {
   font-family: var(--font-serif);
@@ -454,4 +474,10 @@ pre code { background: none; padding: 0; color: inherit; }
   h1 { font-size: 1.7rem; }
   .site-header { flex-direction: column; gap: 0.75rem; }
   .issue-card { flex-direction: column; }
+}
+
+/* ── Game Boy Camera filter ── */
+.gameboy img {
+  filter: grayscale(100%) contrast(200%) brightness(110%);
+  image-rendering: pixelated;
 }

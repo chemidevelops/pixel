@@ -5,7 +5,6 @@ excerpt: "En 1987, Sega definió qué significa moverse con propósito dentro de
 tags: ["arcade", "acción", "clásicos"]
 issue: 1
 lang: es
-quote: "Cada muerte en Shinobi es diagnóstico, no castigo."
 ---
 
 ## Geometría del combate
@@ -21,6 +20,8 @@ Esa exigencia de pensamiento simultáneo a la acción es lo que separa a Shinobi
 ## El ninja como metáfora del control
 
 Joe Musashi se mueve en dos planos, puede lanzar shurikens con munición limitada y ejecutar un salto que no admite corrección en el aire. Esa última característica, que hoy sonaría a defecto de diseño, es en realidad el núcleo de todo el sistema. Comprometerse con un salto en Shinobi es un acto de lectura anticipatoria: se decide en el aire lo que ya se ha entendido en el suelo.
+
+> «Cada muerte en Shinobi es diagnóstico, no castigo.»
 
 Hay algo filosófico en ese diseño, aunque probablemente nadie en el equipo de Sega lo pensó en esos términos. La limitación como maestro. El error como información. Cada muerte en Shinobi es diagnóstico, no castigo. El juego no dice «has fallado»: dice «aquí está lo que no habías entendido todavía».
 

@@ -5,7 +5,9 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
   const tags = [...new Set(posts.flatMap(p => p.data.tags ?? []))];
-  return tags.map(tag => ({
+  const issues = [...new Set(posts.map(p => p.data.issue).filter(Boolean))];
+
+  const tagPaths = tags.map(tag => ({
     params: { tag },
     props: {
       posts: posts
@@ -13,6 +15,17 @@ export async function getStaticPaths() {
         .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
     },
   }));
+
+  const issuePaths = issues.map(issue => ({
+    params: { tag: `nº${issue}` },
+    props: {
+      posts: posts
+        .filter(p => p.data.issue === issue)
+        .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()),
+    },
+  }));
+
+  return [...tagPaths, ...issuePaths];
 }
 
 const { tag } = Astro.params;
@@ -30,7 +43,8 @@ const { posts } = Astro.props;
         <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
         <div class="post-list-meta">
           {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
-          {post.data.issue && <span> · <a href={`/descargas#numero-${post.data.issue}`} class="issue-badge">Nº{post.data.issue}</a></span>}
+
+          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
           {post.data.tags?.map((t: string) => (
             <span> · <a href={`/tags/${t}`} class="post-tag">{t}</a></span>
           ))}

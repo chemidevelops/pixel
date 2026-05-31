@@ -1,16 +1,22 @@
 ---
+type ImageItem = string | { src: string; caption?: string };
 interface Props {
-  images: string[];
+  images: ImageItem[];
 }
 const { images } = Astro.props;
 if (!images || images.length < 2) return;
+
+const items = images.map(img =>
+  typeof img === 'string' ? { src: img, caption: undefined } : img
+);
 ---
 
 <div class="gallery-wrap">
   <div class="gallery-track">
-    {images.map((src, i) => (
+    {items.map(({ src, caption }, i) => (
       <div class="gallery-slide" data-index={i}>
-        <img src={src} alt={`Imagen ${i + 1}`} />
+        <img src={src} alt={caption ?? `Imagen ${i + 1}`} />
+        {caption && <p class="gallery-caption">{caption}</p>}
       </div>
     ))}
   </div>
@@ -25,7 +31,7 @@ if (!images || images.length < 2) return;
   left: 50%;
   transform: translateX(-50%);
   margin: 2.5rem 0;
-  height: 560px;
+  height: 600px;
   overflow: hidden;
   background-color: var(--bg);
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
@@ -56,6 +62,19 @@ if (!images || images.length < 2) return;
   margin: 0;
 }
 
+.gallery-caption {
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: center;
+  background: var(--bg);
+  width: 900px;
+  box-sizing: border-box;
+  letter-spacing: 0.03em;
+}
+
 @media (max-width: 700px) {
   .gallery-wrap { height: auto; }
   .gallery-track { position: relative; height: auto; }
@@ -75,6 +94,8 @@ if (!images || images.length < 2) return;
     width: 100%;
     height: auto;
   }
+
+  .gallery-caption { width: 100%; }
 }
 
 /* Centro */

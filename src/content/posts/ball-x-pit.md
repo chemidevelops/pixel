@@ -5,7 +5,6 @@ excerpt: "Cuando las reglas son tan simples que desaparecen, lo que queda es pur
 tags: ["indie", "arcade", "diseño"]
 issue: 1
 lang: es
-quote: "El placer más puro del medio es el momento en que un sistema y un jugador se comprenden mutuamente."
 ---
 
 ## La regla mínima
@@ -31,6 +30,8 @@ Esta dimensión reflexiva es lo que separa a Ball X Pit de la mayoría de sus co
 Cada sesión de Ball X Pit dura poco. Esa brevedad no es una limitación técnica ni económica: es una declaración estética. El juego sabe que su poder reside en la repetición concentrada, no en la extensión. Alargar la experiencia diluiría exactamente lo que la hace interesante.
 
 Hay algo budista en ese diseño, aunque probablemente no fuera intencional. La impermanencia como característica central. Cada partida existe completamente en sí misma y desaparece. Lo que permanece es el aprendizaje, la mejora invisible que se acumula sesión a sesión sin que ninguna pantalla de progreso lo certifique.
+
+> «El placer más puro del medio es el momento en que un sistema y un jugador se comprenden mutuamente.»
 
 Ball X Pit no aspira a ser recordado como un hito. Aspira, con mucha más ambición de lo que parece, a ser jugado bien. A que alguien entienda su sistema lo suficiente como para habitarlo con gracia. En esa aspiración discreta vive una idea sobre los videojuegos que vale la pena defender: que el placer más puro del medio no es la narrativa ni el espectáculo, sino el momento exacto en que un sistema y un jugador se comprenden mutuamente. Ball X Pit fabrica ese momento con una economía de medios que debería avergonzar a producciones diez veces más costosas.
 

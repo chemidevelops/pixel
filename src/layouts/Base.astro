@@ -18,7 +18,10 @@ const currentPath = Astro.url.pathname;
 <body>
   <div class="container">
     <header class="site-header">
-      <a href="/" class="site-title">PIXEL<span class="dot"></span></a>
+      <a href="/" class="site-title">
+        <span class="site-title-main">PIXEL<span class="dot"></span></span>
+        <span class="site-title-jp">ピクセル</span>
+      </a>
       <nav class="site-nav">
         <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>
         <a href="/posts" class={currentPath.startsWith("/posts") ? "active" : ""}>Artículos</a>
@@ -48,6 +51,10 @@ const currentPath = Astro.url.pathname;
     <div class="settings-row">
       <span>Modo oscuro</span>
       <button id="toggle-dark" role="switch" aria-checked="false">Off</button>
+    </div>
+    <div class="settings-row" style="margin-top:1rem">
+      <span>Fotos B/N</span>
+      <button id="toggle-gameboy" role="switch" aria-checked="false">Off</button>
     </div>
     <p class="settings-label" style="margin-top:1rem">Tamaño de texto</p>
     <div class="settings-row">
@@ -95,6 +102,22 @@ const currentPath = Astro.url.pathname;
       root.classList.toggle('dark', on);
       darkBtn.textContent = on ? 'On' : 'Off';
       darkBtn.setAttribute('aria-checked', String(on));
+    }
+
+    const gameboyBtn = document.getElementById('toggle-gameboy');
+    const savedGameboy = localStorage.getItem('pixel-gameboy') === 'true';
+    if (savedGameboy) applyGameboy(true);
+
+    gameboyBtn.addEventListener('click', () => {
+      const on = !root.classList.contains('gameboy');
+      applyGameboy(on);
+      localStorage.setItem('pixel-gameboy', String(on));
+    });
+
+    function applyGameboy(on) {
+      root.classList.toggle('gameboy', on);
+      gameboyBtn.textContent = on ? 'On' : 'Off';
+      gameboyBtn.setAttribute('aria-checked', String(on));
     }
 
     function applySize(size) {

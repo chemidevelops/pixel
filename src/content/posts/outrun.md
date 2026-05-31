@@ -5,7 +5,6 @@ excerpt: "OutRun no es un juego de carreras. Es una fantasía de libertad constr
 tags: ["arcade", "conducción", "clásicos"]
 issue: 1
 lang: es
-quote: "El temporizador siempre gana. La carretera termina. La escapada tiene fecha de caducidad."
 ---
 
 ## El destino es el paisaje
@@ -21,6 +20,8 @@ La tecnología que Sega desplegó para hacer posible esa sensación era, en 1986
 ## Velocidad y melancolía
 
 La banda sonora merece detenerse. Hiroshi Kawaguchi compuso tres temas para el juego y permitió al jugador elegir cuál sonaría durante la partida. Esa elección, tan pequeña en términos técnicos, transforma la experiencia: no es la música del juego, es tu música mientras conduces. Magical Sound Shower, Passing Breeze y Splash Wave son tres estados de ánimo distintos para la misma carretera, tres maneras de entender la velocidad.
+
+> «El temporizador siempre gana. La carretera termina. La escapada tiene fecha de caducidad.»
 
 Hay algo profundamente melancólico en OutRun que no suele mencionarse. El temporizador siempre gana. Siempre. No importa cuán bien se conduzca: la carretera termina. La acompañante se despide de manera diferente según la distancia recorrida, pero siempre se despide. El juego es una fantasía de libertad con fecha de caducidad incorporada, lo que lo hace, en retrospectiva, mucho más honesto que la mayoría de sus contemporáneos.
 

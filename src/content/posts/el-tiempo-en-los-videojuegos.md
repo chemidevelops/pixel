@@ -5,7 +5,6 @@ excerpt: Cómo los videojuegos construyen su propia relación con el tiempo, y q
 tags: [crítica, diseño]
 issue: 1
 lang: es
-quote: "El videojuego no solo representa el tiempo: te lo hace vivir."
 ---
 
 Hay algo extraño en cómo los videojuegos manejan el tiempo. En [*Disco Elysium*](https://store.steampowered.com/app/632470/Disco_Elysium/) el mundo lleva décadas congelado en el trauma de una revolución fallida. En *Dead Cells* morís y volvéis a empezar, eternamente. En *Animal Crossing* el tiempo del juego es el tiempo real, casi obscenamente literal.

@@ -5,7 +5,6 @@ excerpt: "Un juego indie que encuentra su identidad en la textura de sus persona
 tags: ["indie", "acción", "narrativa"]
 issue: 1
 lang: es
-quote: "Alguien quería contar exactamente esta historia, de esta manera, y lo hizo."
 ---
 
 ## Lo pequeño como elección
@@ -29,6 +28,8 @@ Esa ligereza en el manejo de las consecuencias narrativas es uno de los logros m
 ## Una voz que se sostiene
 
 El mayor riesgo de los juegos de autor es la inconsistencia: las ideas brillantes que no se sostienen durante toda la experiencia, los momentos donde la voz del creador desaparece y el juego se convierte en un producto genérico. Bounty Sister evita esa trampa con una disciplina notable. Desde la primera pantalla hasta los créditos finales, hay alguien detrás del juego que sabe lo que está haciendo y por qué.
+
+> «Alguien quería contar exactamente esta historia, de esta manera, y lo hizo.»
 
 Bounty Sister no llegará a las listas de los juegos del año. No tiene la producción ni la visibilidad para eso. Pero tiene algo que muchos títulos con diez veces su presupuesto no consiguen fabricar: la sensación de que alguien quería contar exactamente esta historia, de esta manera, y lo hizo. En un medio que celebra la escala, esa certeza es más rara y más valiosa de lo que parece. Y cuando se encuentra, merece ser reconocida.
 

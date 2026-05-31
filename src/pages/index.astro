@@ -17,7 +17,8 @@ const posts = (await getCollection('posts'))
         <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
         <div class="post-list-meta">
           {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
-          {post.data.issue && <span> · <a href={`/descargas#numero-${post.data.issue}`} class="issue-badge">Nº{post.data.issue}</a></span>}
+
+          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
           {post.data.tags?.map((tag: string) => (
             <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
           ))}
