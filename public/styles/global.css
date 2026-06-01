@@ -296,6 +296,79 @@ pre code { background: none; padding: 0; color: inherit; }
 }
 .btn-download:hover { background: var(--red); color: #fff; }
 
+/* ── Cómo imprimir ── */
+.how-to-print {
+  margin-top: 3.5rem;
+  border-top: 3px solid var(--text);
+  padding-top: 1.5rem;
+}
+
+.how-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.how-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.how-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 100px;
+}
+
+.how-diagram {
+  width: 100%;
+  max-width: 110px;
+  color: var(--text);
+}
+
+.how-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.how-desc {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+}
+
+.how-desc strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.how-arrow {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  align-self: center;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .how-steps { gap: 1rem; }
+  .how-arrow { display: none; }
+  .how-step { flex-direction: row; gap: 1rem; align-items: center; min-width: 100%; }
+  .how-diagram { max-width: 70px; flex-shrink: 0; }
+  .how-desc { text-align: left; margin-top: 0; }
+}
+
 /* ── Newsletter ── */
 .newsletter-block {
   border-top: 2px solid var(--text);
