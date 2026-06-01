@@ -191,7 +191,7 @@ nav#TOC {
   column-count: 2;
   column-gap: 5mm;
   column-rule: 0.4pt solid #bbb;
-  column-fill: balance;
+  column-fill: auto;
   counter-reset: article;
 }
 .content + .content {
@@ -204,7 +204,7 @@ nav#TOC {
   font-size: 20pt;
   line-height: 1.15;
   font-weight: 700;
-  margin-bottom: 12pt;
+  margin-bottom: 0;
   padding: 8pt 10pt 8pt 10pt;
   background: #000;
   color: #fff;
@@ -231,6 +231,8 @@ nav#TOC {
   margin-top: 7pt;
   text-align: justify;
   hyphens: auto;
+  orphans: 3;
+  widows: 3;
 }
 
 /* Drop cap */
@@ -291,6 +293,7 @@ nav#TOC {
   border-left: 2pt solid #888;
   padding: 4pt 8pt;
   margin: 10pt 0;
+  break-inside: avoid;
 }
 .content blockquote p {
   font-size: 10.5pt;
