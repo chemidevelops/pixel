@@ -75,7 +75,7 @@ body = re.sub(r'<[A-Z][^>]*/>', '', body)
 # Fix image paths: /images/foo.jpg → images/foo.jpg
 body = re.sub(r'!\[([^\]]*)\]\(/images/', r'![\1](images/', body)
 
-# Inject 1 gallery image at the midpoint of the article
+# Inject up to 2 gallery images distributed through the article
 gallery_match = re.search(r'^gallery:\s*\n((?:[ \t]+-[ \t]+.+\n(?:[ \t]+\S.+\n)*)+)', frontmatter, re.MULTILINE)
 imgs = []
 if gallery_match:
@@ -83,13 +83,19 @@ if gallery_match:
     imgs = re.findall(r'src:\s*(/images/\S+)', gallery_match.group(1))
     if not imgs:
         imgs = re.findall(r'-\s+(/images/\S+)', gallery_match.group(1))
-    imgs = [i.replace('/images/', 'images/') for i in imgs[:1]]
+    imgs = [i.replace('/images/', 'images/') for i in imgs[:2]]
 
 if imgs:
     paragraphs = re.split(r'\n\n+', body.strip())
     n = len(paragraphs)
-    mid = max(1, n // 2)
-    paragraphs.insert(mid, f'\n![gameplay]({imgs[0]})\n')
+    if len(imgs) == 1:
+        mid = max(1, n // 2)
+        paragraphs.insert(mid, f'\n![gameplay]({imgs[0]})\n')
+    else:
+        p1 = max(1, n // 3)
+        p2 = max(p1 + 2, (2 * n) // 3)
+        paragraphs.insert(p2, f'\n![gameplay]({imgs[1]})\n')
+        paragraphs.insert(p1, f'\n![gameplay]({imgs[0]})\n')
     body = '\n\n'.join(paragraphs)
 
 title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', frontmatter, re.MULTILINE)
