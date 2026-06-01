@@ -76,12 +76,12 @@
   @bottom-right { content: none; }
 }
 
-/* Páginas internas sin cabecera */
+/* Páginas internas sin cabecera ni numeración (índice, editorial) */
 @page plain-page {
-  @top-left  { content: none; }
-  @top-right { content: none; }
-  @bottom-left  { content: counter(page); font-family: 'JetBrains Mono', monospace; font-size: 7pt; }
-  @bottom-right { content: counter(page); font-family: 'JetBrains Mono', monospace; font-size: 7pt; }
+  @top-left    { content: none; }
+  @top-right   { content: none; }
+  @bottom-left  { content: none; }
+  @bottom-right { content: none; }
 }
 
 /* ── Base ── */
@@ -191,43 +191,37 @@ nav#TOC {
   column-count: 2;
   column-gap: 5mm;
   column-rule: 0.4pt solid #bbb;
+  column-fill: balance;
   counter-reset: article;
 }
-
-/* Títulos de artículo: ancho completo */
-.content h1 {
-  column-span: all;
-  font-size: 18pt;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-top: 24pt;
-  margin-bottom: 10pt;
-  padding-bottom: 6pt;
-  border-bottom: 1.5pt solid black;
-  string-set: article-running content(text);
-  counter-increment: article;
+.content + .content {
   break-before: page;
 }
-.content h1::before {
-  display: block;
-  content: "— " counter(article) " —";
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8pt;
+
+/* Títulos de artículo: ancho completo, bloque invertido */
+.content h1 {
+  column-span: all;
+  font-size: 20pt;
+  line-height: 1.15;
   font-weight: 700;
-  margin-bottom: 3pt;
-}
-/* Primer artículo sin margen superior */
-.content h1:first-child {
-  margin-top: 0;
+  margin-bottom: 12pt;
+  padding: 8pt 10pt 8pt 10pt;
+  background: #000;
+  color: #fff;
+  string-set: article-running content(text);
+  counter-increment: article;
 }
 
 /* Subsecciones dentro de columna */
 .content h2 {
-  font-size: 10pt;
+  font-size: 9.5pt;
   font-weight: 700;
-  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin-top: 14pt;
-  margin-bottom: 3pt;
+  margin-bottom: 4pt;
+  padding-bottom: 2pt;
+  border-bottom: 1pt solid #000;
   break-after: avoid;
   page-break-after: avoid;
 }
@@ -249,26 +243,28 @@ nav#TOC {
   margin-top: 2pt;
 }
 
-/* Imágenes: ancho completo */
+/* Imágenes: dentro de columna */
 .content figure {
-  column-span: all;
   text-align: center;
-  margin: 10pt 0 18pt;
+  margin: 8pt 0 10pt 0;
   break-inside: avoid;
   break-before: avoid;
 }
 .content figure img {
   max-width: 100%;
-  max-height: 45mm;
+  max-height: 52mm;
   display: block;
   margin: 0 auto;
   filter: grayscale(100%);
 }
 .content figcaption {
-  font-size: 8pt;
-  color: #444;
-  text-align: center;
-  margin-top: 4pt;
+  font-size: 7.5pt;
+  color: #555;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: left;
+  margin-top: 3pt;
+  border-top: 0.5pt solid #bbb;
+  padding-top: 2pt;
 }
 
 /* Colofón */
@@ -276,7 +272,7 @@ nav#TOC {
   column-span: all;
   margin-top: 24pt;
   padding-top: 8pt;
-  border-top: 1.5pt solid black;
+  border-top: 3pt solid black;
   font-family: 'JetBrains Mono', monospace;
   font-size: 7.5pt;
   color: #666;
@@ -292,15 +288,17 @@ nav#TOC {
 
 /* Pull quotes */
 .content blockquote {
-  border-left: 3pt solid black;
-  padding-left: 10pt;
-  margin: 8pt 0;
+  border-left: 2pt solid #888;
+  padding: 4pt 8pt;
+  margin: 10pt 0;
 }
 .content blockquote p {
-  font-size: 11pt;
+  font-size: 10.5pt;
   font-weight: 700;
   font-style: italic;
   text-align: left;
+  line-height: 1.45;
+  color: #222;
 }
 
 </style>

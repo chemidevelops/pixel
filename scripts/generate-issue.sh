@@ -129,15 +129,38 @@ with open('$HTML_FILE') as f:
 
 html = html.replace('%%EDITORIAL%%', html_editorial)
 
-# Salto de página antes de cada h1 (excepto el primero)
-first = True
-def add_page_break(m):
-    global first
-    if first:
-        first = False
-        return m.group(0)
-    return '<div style="break-before:page;page-break-before:always;column-span:all"></div>' + m.group(0)
-html = re.sub(r'<h1[^>]*>', add_page_break, html)
+# Dividir en bloques por artículo — cada h1 abre un nuevo .content
+# Esto evita los problemas de break-before:page dentro de column-count
+parts = re.split(r'(?=<h1[^>]*>)', html)
+new_parts = []
+in_content = False
+for i, part in enumerate(parts):
+    if re.match(r'<h1[^>]*>', part):
+        if in_content:
+            part = '</div><div class="content">' + part
+        in_content = True
+    new_parts.append(part)
+html = ''.join(new_parts)
+
+# Si una <figure> viene justo después de <h1>, moverla tras el primer <p>
+def move_figure_after_h1(m):
+    h1 = m.group(1)
+    fig = m.group(2)
+    rest = m.group(3)
+    # Buscar el primer <p>...</p> en el resto
+    p_match = re.search(r'(<p>.*?</p>)', rest, re.DOTALL)
+    if p_match:
+        first_p = p_match.group(1)
+        after_p = rest[p_match.end():]
+        return h1 + '\n' + first_p + '\n' + fig + after_p
+    return m.group(0)
+
+html = re.sub(
+    r'(<h1[^>]*>.*?</h1>)\s*(<figure>.*?</figure>)(.*?)(?=<h1|</div>)',
+    move_figure_after_h1,
+    html,
+    flags=re.DOTALL
+)
 
 # Convertir imagen de Mina a escala de grises
 import os
