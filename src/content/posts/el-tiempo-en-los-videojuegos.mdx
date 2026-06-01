@@ -5,7 +5,11 @@ excerpt: Cómo los videojuegos construyen su propia relación con el tiempo, y q
 tags: [crítica, diseño]
 issue: 1
 lang: es
+gallery:
+  - /images/disco-elysium-gameplay.jpg
+  - /images/tiempo-2.jpg
 ---
+import Gallery from '../../components/Gallery.astro';
 
 Hay algo extraño en cómo los videojuegos manejan el tiempo. En [*Disco Elysium*](https://store.steampowered.com/app/632470/Disco_Elysium/) el mundo lleva décadas congelado en el trauma de una revolución fallida. En *Dead Cells* morís y volvéis a empezar, eternamente. En *Animal Crossing* el tiempo del juego es el tiempo real, casi obscenamente literal.
 
@@ -21,7 +25,11 @@ Hay géneros enteros construidos sobre esa instrucción. Los shooters rítmicos,
 
 ## El tiempo como mundo
 
-![Disco Elysium — gameplay](/images/disco-elysium-gameplay.jpg)
+<Gallery images={[
+  { src: "/images/disco-elysium-gameplay.jpg", caption: "Disco Elysium — gameplay 1" },
+  { src: "/images/tiempo-1.jpg", caption: "Prince of Persia: Las Arenas del Tiempo — gameplay 2" },
+  { src: "/images/tiempo-2.jpg", caption: "Shadow of the Colossus — gameplay 3" },
+]} />
 
 La ruptura llega cuando algunos juegos deciden que el tiempo no es un recurso sino un ambiente. [*Shadow of the Colossus*](https://www.bluepointgames.com/shadow-of-the-colossus) tiene una hora dorada perpetua que convierte cada viaje entre colosos en algo cercano a la elegía. No hay prisa. El caballo va a su ritmo. El paisaje existe para ser mirado.
 

@@ -315,7 +315,7 @@ pre code { background: none; padding: 0; color: inherit; }
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .how-step {
@@ -323,7 +323,7 @@ pre code { background: none; padding: 0; color: inherit; }
   flex-direction: column;
   align-items: center;
   flex: 1;
-  min-width: 100px;
+  min-width: 0;
 }
 
 .how-diagram {
