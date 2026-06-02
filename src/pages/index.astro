@@ -5,30 +5,135 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('posts'))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 8);
+
+function getImage(post: any): string | null {
+  const g = post.data.gallery;
+  if (!g || g.length === 0) return null;
+  const first = g[0];
+  return typeof first === 'string' ? first : first.src;
+}
 ---
 <Base title="Inicio">
-  <p style="font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2.5rem;">
-    Revista de videojuegos — escritura, crítica, cultura
-  </p>
+  <p class="tagline">Revista de videojuegos — escritura, crítica, cultura</p>
 
-  <ul class="post-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
-        <div class="post-list-meta">
-          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+  <div class="grid">
+    {posts.map((post, i) => {
+      const img = getImage(post);
+      return (
+        <a href={`/posts/${post.id}`} class={`card ${i === 0 ? 'card--featured' : ''}`}>
+          {img && <img src={img} alt="" class="card-img" loading="lazy" />}
+          <div class="card-body">
+            <div class="card-meta">
+              {post.data.tags?.[0] && <span class="card-tag">{post.data.tags[0]}</span>}
+            </div>
+            <h2 class="card-title">{post.data.title}</h2>
+            {(i === 0 || !img) && post.data.excerpt && <p class="card-excerpt">{post.data.excerpt}</p>}
+          </div>
+        </a>
+      );
+    })}
+  </div>
 
-          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
-          {post.data.tags?.map((tag: string) => (
-            <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
-          ))}
-        </div>
-        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
-      </li>
-    ))}
-  </ul>
-
-  <p style="margin-top:2rem; font-size:0.82rem; font-family:var(--font-mono);">
+  <p class="ver-todos">
     <a href="/posts">Ver todos los artículos →</a>
   </p>
 </Base>
+
+<style>
+.tagline {
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Artículo destacado ocupa 2 columnas */
+.card--featured {
+  grid-column: span 2;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px dashed var(--border);
+  transition: border-color 0.15s;
+}
+.card:hover {
+  border-color: var(--accent);
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.2s;
+}
+.card:hover .card-img {
+  filter: grayscale(0%);
+}
+
+.card-body {
+  padding: 0.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.card-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.card-tag {
+  color: var(--accent);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.card--featured .card-title {
+  font-size: 1.25rem;
+}
+
+.card-excerpt {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card--featured {
+    grid-column: span 1;
+  }
+}
+
+.ver-todos {
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+}
+</style>
