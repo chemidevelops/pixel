@@ -76,8 +76,38 @@ def impose(input_path, output_path):
     writer.write(output_path)
     print(f"Print PDF: {output_path} ({num_sheets} hojas A4, {n} páginas A5)")
 
+def spreads(input_path, output_path):
+    """Genera un PDF A4 apaisado en orden de lectura (páginas de 2 en 2)."""
+    reader = PdfReader(input_path)
+    pages = list(reader.pages)
+
+    a5_w = float(pages[0].mediabox.width)
+    a5_h = float(pages[0].mediabox.height)
+
+    # Rellenar hasta múltiplo de 2
+    while len(pages) % 2 != 0:
+        pages.append(None)
+
+    writer = PdfWriter()
+    a4_w = a5_w * 2
+    a4_h = a5_h
+
+    for i in range(0, len(pages), 2):
+        spread = writer.add_blank_page(width=a4_w, height=a4_h)
+        for src, x_off in [(pages[i], 0), (pages[i+1], a5_w)]:
+            if src is None:
+                continue
+            spread.merge_transformed_page(src, Transformation().translate(x_off, 0))
+
+    writer.write(output_path)
+    print(f"Spreads PDF: {output_path} ({len(pages)//2} hojas A4)")
+
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) == 4 and sys.argv[1] == "--spreads":
+        spreads(sys.argv[2], sys.argv[3])
+    elif len(sys.argv) == 3:
+        impose(sys.argv[1], sys.argv[2])
+    else:
         print("Uso: impose.py <digital.pdf> <print.pdf>")
+        print("     impose.py --spreads <digital.pdf> <spreads.pdf>")
         sys.exit(1)
-    impose(sys.argv[1], sys.argv[2])
