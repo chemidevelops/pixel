@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  background: #008080;
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+button, input { font: inherit; }
+button { color: inherit; }
+[hidden] { display: none !important; }
+
+.pixel-os {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background-color: #008080;
+  background-position: center;
+  background-size: cover;
+}
+.wallpaper-grid {
+  background-color: #f4f4f0;
+  background-image:
+    linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.wallpaper-teal { background: #008080; }
+.wallpaper-clouds {
+  background:
+    radial-gradient(ellipse at 20% 30%, #fff 0 6%, transparent 7%),
+    radial-gradient(ellipse at 30% 32%, #fff 0 9%, transparent 10%),
+    radial-gradient(ellipse at 75% 18%, rgba(255,255,255,.9) 0 8%, transparent 9%),
+    linear-gradient(#4d91df, #b7dcff 70%, #5a9d44 71%);
+}
+.wallpaper-red { background: #c90000; }
+
+.desktop { position: absolute; inset: 0 0 34px; }
+.desktop-icons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(6, 92px);
+  grid-auto-columns: 92px;
+  gap: 8px;
+  align-content: start;
+  justify-content: start;
+  padding: 14px;
+}
+.desktop-icon {
+  width: 88px;
+  min-height: 82px;
+  border: 1px solid transparent;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  cursor: default;
+}
+.desktop-icon:focus, .desktop-icon:hover { border: 1px dotted #fff; background: rgba(0,0,128,.2); }
+.desktop-icon > span:last-child {
+  padding: 1px 4px;
+  color: #fff;
+  background: #000080;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+}
+.wallpaper-grid .desktop-icon > span:last-child { color: #000; background: rgba(255,255,255,.75); }
+.icon-art { position: relative; display: grid; place-items: center; width: 44px; height: 42px; }
+.folder-icon, .mini-folder, .large-folder {
+  background: #f5d447;
+  border: 2px solid #111;
+  box-shadow: inset -5px -5px 0 #c5a62e, inset 3px 3px 0 #fff29a;
+}
+.folder-icon::before, .mini-folder::before, .large-folder::before {
+  content: ''; position: absolute; left: -2px; top: -9px; width: 22px; height: 10px;
+  background: #f5d447; border: 2px solid #111; border-bottom: 0;
+}
+.interview-icon { background: #fff; border: 2px solid #111; color: #c00; font: 700 30px Georgia; }
+.arcade-icon { background: #333; border: 3px outset #bbb; color: #ff0; font: 700 32px monospace; }
+.disk-icon { background: #222; border: 3px outset #aaa; }
+.disk-icon::after { content:''; width:24px; height:13px; background:#ddd; border:1px solid #000; position:absolute; bottom:4px; }
+.computer-icon { background:#ddd; border:3px outset #fff; }
+.computer-icon::before { content:'P.'; display:grid; place-items:center; width:30px; height:22px; background:#111; color:#fff; font:bold 12px monospace; }
+.settings-icon { background:#ccc; border-radius:50%; border:3px dashed #555; font-size:25px; }
+
+.os-window {
+  position: absolute;
+  width: min(760px, calc(100vw - 190px));
+  height: min(590px, calc(100vh - 100px));
+  min-width: 420px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  box-shadow: 2px 2px 0 #000;
+}
+.os-window.focused .title-bar { background: #000080; color: #fff; }
+.os-window.minimized { display: none; }
+.os-window.maximized { inset: 0 !important; width: 100% !important; height: 100% !important; }
+.title-bar {
+  height: 25px;
+  flex: 0 0 25px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 3px 2px 5px;
+  background: #777;
+  color: #ddd;
+  font-size: 13px;
+  user-select: none;
+}
+.title-bar strong { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.window-icon { font-family: monospace; font-weight: bold; }
+.window-controls { display: flex; gap: 2px; height: 19px; }
+.window-controls button, .start-button, .tray, .menu-bar button, .reader-toolbar button {
+  min-width: 22px;
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  font-weight: bold;
+}
+.window-controls button:active, .start-button:active { border-style: inset; }
+.menu-bar {
+  height: 24px; display:flex; align-items:center; gap:18px; padding:0 8px;
+  border-bottom: 1px solid #888; font-size: 12px;
+}
+.menu-bar span::first-letter { text-decoration: underline; }
+.address-bar { display:flex; align-items:center; gap:6px; padding:3px 5px; font-size:11px; border-bottom:1px solid #888; }
+.address-bar div { flex:1; background:#fff; border:2px inset #fff; padding:3px 6px; font-family:monospace; }
+.window-body { flex:1; min-height:0; background:#fff; border:2px inset #fff; margin:3px; overflow:auto; }
+.explorer-body { display:grid; grid-template-columns:150px 1fr; }
+.folder-info {
+  padding:18px 12px;
+  background:linear-gradient(135deg,#fff,#ddd);
+  border-right:1px solid #aaa;
+}
+.large-folder { position:relative; display:block; width:65px; height:48px; margin:10px auto 22px; }
+.folder-info h2 { font:700 20px 'JetBrains Mono', monospace; overflow-wrap:anywhere; }
+.folder-info p { font-size:12px; color:#555; }
+.file-view { padding:12px; display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); align-content:start; gap:14px 8px; }
+.file-item {
+  min-height:92px; padding:4px; border:1px solid transparent; background:transparent;
+  display:flex; flex-direction:column; align-items:center; gap:4px; color:#000; text-decoration:none;
+  text-align:center; font-size:11px; cursor:default;
+}
+.file-item:hover, .file-item.selected { color:#fff; background:#000080; border:1px dotted #fff; }
+.file-item small { opacity:.7; font-size:9px; }
+.paper-file { position:relative; width:36px; height:45px; background:#fff; border:2px solid #111; box-shadow:inset -5px -5px #ddd; }
+.paper-file::after { content:''; position:absolute; right:-2px; top:-2px; border-style:solid; border-width:0 0 11px 11px; border-color:transparent transparent #777 transparent; }
+.paper-file i { position:absolute; left:4px; bottom:5px; color:#c00; font:bold 11px monospace; }
+.pdf-file { display:grid; place-items:end center; width:39px; height:45px; background:#fff; border:2px solid #111; color:#fff; font:bold 10px monospace; }
+.pdf-file::after { content:'PDF'; width:100%; padding:3px 0; background:#c00; }
+.status-bar { display:flex; justify-content:space-between; gap:4px; padding:2px 4px; font-size:10px; }
+.status-bar span { flex:1; border:1px inset #fff; padding:2px 4px; }
+
+.reader-window { width:min(980px,calc(100vw - 210px)); height:calc(100vh - 70px); }
+.reader-toolbar { display:flex; align-items:center; gap:8px; padding:4px; font:11px monospace; }
+.reader-toolbar span { flex:1; background:#fff; border:2px inset #fff; padding:4px; overflow:hidden; white-space:nowrap; }
+.reader-toolbar a { color:#000080; }
+.reader-window iframe { flex:1; width:100%; border:2px inset #fff; background:#fff; }
+.about-window, .settings-window, .game-window { width:470px; height:auto; min-height:0; }
+.about-content, .settings-content, .game-content { padding:20px; }
+.about-logo { float:left; margin:0 22px 8px 0; font:700 34px 'JetBrains Mono',monospace; }
+.about-logo span { color:#c00; }
+.about-content h1 { font-size:24px; margin:0; }
+.about-content p { font:14px/1.5 Georgia,serif; }
+.about-content hr { clear:both; border:0; border-top:1px solid #777; border-bottom:1px solid #fff; }
+.about-content dl { display:grid; grid-template-columns:90px 1fr; font-size:12px; }
+.about-content dt { font-weight:bold; }
+.about-hint { color:#666; font-style:italic; }
+.settings-content fieldset { border:2px groove #fff; }
+.wallpaper-options { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.wallpaper-options button { background:#c0c0c0; border:2px outset #fff; padding:7px; font-size:10px; }
+.wallpaper-preview { display:block; height:52px; margin-bottom:5px; border:2px inset #fff; }
+.wallpaper-preview.grid { background-color:#f4f4f0; background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px); background-size:8px 8px; }
+.wallpaper-preview.teal { background:#008080; }
+.wallpaper-preview.clouds { background:linear-gradient(#4d91df,#fff,#5a9d44); }
+.wallpaper-preview.red { background:#c90000; }
+.setting-check { display:block; margin-top:16px; font-size:12px; }
+
+.taskbar {
+  position:absolute; left:0; right:0; bottom:0; height:34px; display:flex; gap:4px;
+  padding:3px; background:#c0c0c0; border-top:2px outset #fff; z-index:10000;
+}
+.start-button { display:flex; align-items:center; gap:5px; padding:0 8px; }
+.start-flag { padding:2px; background:#111; color:#fff; font:bold 11px monospace; }
+.task-buttons { flex:1; display:flex; min-width:0; gap:3px; }
+.task-buttons button { max-width:180px; flex:1; border:2px outset #fff; background:#c0c0c0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; text-align:left; font-size:11px; }
+.task-buttons button.active { border-style:inset; background:#ddd; }
+.tray { min-width:70px; font:11px monospace; }
+.start-menu {
+  position:absolute; left:3px; bottom:34px; width:230px; height:290px; display:grid;
+  grid-template-columns:30px 1fr; background:#c0c0c0; border:2px outset #fff; z-index:10001;
+}
+.start-brand { writing-mode:vertical-rl; transform:rotate(180deg); padding:8px 5px; background:#777; color:#ddd; font:bold 20px Arial; }
+.start-brand b { color:#fff; }
+.start-items { padding:5px; display:flex; flex-direction:column; }
+.start-items button { flex:1; display:flex; gap:10px; align-items:center; border:0; background:transparent; text-align:left; }
+.start-items button:hover { background:#000080; color:#fff; }
+.start-items button span { width:30px; text-align:center; font-size:20px; }
+
+.mobile-status, .mobile-launcher { display:none; }
+
+.screensaver {
+  position:fixed; inset:0; z-index:20000; background:#020207; overflow:hidden; color:#fff;
+}
+.screensaver-object { position:absolute; animation:bounce 13s linear infinite alternate; transform-style:preserve-3d; }
+.screensaver-object strong { position:absolute; inset:0; display:grid; place-items:center; font:700 28px monospace; text-shadow:0 0 12px #fff; }
+.screensaver-object strong span { color:#f00; }
+.wire-cube { width:170px; height:170px; transform-style:preserve-3d; animation:spin3d 8s linear infinite; }
+.wire-cube i { position:absolute; inset:25px; border:3px solid; border-image:linear-gradient(45deg,#f00,#0ff,#ff0) 1; }
+.wire-cube i:nth-child(1){transform:translateZ(60px)} .wire-cube i:nth-child(2){transform:rotateY(90deg) translateZ(60px)}
+.wire-cube i:nth-child(3){transform:rotateY(180deg) translateZ(60px)} .wire-cube i:nth-child(4){transform:rotateY(-90deg) translateZ(60px)}
+.wire-cube i:nth-child(5){transform:rotateX(90deg) translateZ(60px)} .wire-cube i:nth-child(6){transform:rotateX(-90deg) translateZ(60px)}
+.screensaver small { position:absolute; bottom:20px; width:100%; text-align:center; color:#777; font:11px monospace; }
+@keyframes spin3d { to { transform:rotateX(360deg) rotateY(720deg) rotateZ(180deg); } }
+@keyframes bounce { from { left:5%; top:5%; } to { left:75%; top:68%; } }
+.shutdown-screen { position:fixed; inset:0; z-index:30000; display:grid; place-content:center; gap:20px; background:#000; color:#f90; text-align:center; font:22px Georgia,serif; }
+.shutdown-screen button { padding:8px; background:#c0c0c0; border:2px outset #fff; }
+
+.game-content { background:#111; color:#fff; font:12px monospace; text-align:center; }
+.game-stats { margin-bottom:8px; color:#f33; }
+.game-board { display:grid; grid-template-columns:repeat(10,24px); justify-content:center; border:2px inset #fff; background:#222; }
+.game-board i { width:24px; height:24px; display:grid; place-items:center; border:1px solid #292929; font-style:normal; }
+.game-board .wall { background:#777; border:2px outset #aaa; }
+.game-board .pixel { width:12px; height:12px; margin:6px; background:#f00; box-shadow:0 0 7px #f00; }
+.game-board .player { background:#fff; color:#000; font-weight:bold; }
+.touch-dpad { display:none; }
+
+@media (max-width:700px) {
+  html, body { overflow:hidden; }
+  .pixel-os { background:#d4d0c8; }
+  .desktop { inset:42px 0 46px; }
+  .desktop-icons { display:none; }
+  .mobile-status {
+    position:absolute; top:0; left:0; right:0; height:42px; z-index:10000;
+    display:flex; align-items:center; justify-content:space-between; padding:0 12px;
+    background:#000080; color:#fff; font:12px 'JetBrains Mono',monospace;
+  }
+  .mobile-launcher { display:block; height:100%; overflow:auto; padding:14px; }
+  .mobile-welcome { padding:15px 12px 18px; border-bottom:2px solid #777; }
+  .pixel-logo { font:700 28px 'JetBrains Mono',monospace; }
+  .pixel-logo span { color:#c00; }
+  .mobile-welcome p { margin:3px 0 0; font:12px Georgia,serif; color:#555; }
+  .mobile-folder-list { margin-top:12px; border:2px inset #fff; background:#fff; }
+  .mobile-folder-list button {
+    width:100%; min-height:72px; display:grid; grid-template-columns:44px 1fr 20px; align-items:center;
+    gap:10px; padding:8px 10px; border:0; border-bottom:1px solid #aaa; background:#fff; text-align:left;
+  }
+  .mobile-folder-list button:active { background:#000080; color:#fff; }
+  .mobile-folder-list span:nth-child(2) { display:flex; flex-direction:column; gap:3px; }
+  .mobile-folder-list small { color:#666; }
+  .mobile-folder-list b { font-size:25px; }
+  .mini-folder { position:relative; width:36px; height:27px; margin-top:7px; }
+  .mobile-file-icon { display:grid; place-items:center; width:36px; height:36px; background:#111; color:#fff; font:bold 13px monospace; }
+  .os-window {
+    position:fixed !important; inset:42px 0 46px !important; width:100% !important; height:auto !important;
+    min-width:0; min-height:0; box-shadow:none; border-width:0; z-index:9000 !important;
+  }
+  .title-bar { height:34px; flex-basis:34px; font-size:12px; }
+  .window-controls { height:26px; }
+  .window-controls [data-minimize], .window-controls [data-maximize] { display:none; }
+  .window-controls button { min-width:32px; }
+  .menu-bar { display:none; }
+  .address-bar { height:34px; }
+  .explorer-body { display:block; }
+  .folder-info { display:none; }
+  .file-view { display:block; padding:0; }
+  .file-item {
+    min-height:64px; display:grid; grid-template-columns:45px 1fr auto; align-items:center; gap:8px;
+    border:0; border-bottom:1px solid #ccc; text-align:left; padding:7px 10px;
+  }
+  .file-item span:nth-child(2) { font-size:12px; }
+  .paper-file, .pdf-file { transform:scale(.8); }
+  .reader-toolbar span { display:none; }
+  .reader-window iframe { border:0; }
+  .about-window, .settings-window, .game-window { overflow:auto; }
+  .about-content, .settings-content, .game-content { flex:1; }
+  .wallpaper-options { grid-template-columns:repeat(2,1fr); }
+  .taskbar { height:46px; padding-bottom:max(3px,env(safe-area-inset-bottom)); }
+  .start-button { min-width:90px; }
+  .tray { min-width:58px; }
+  .task-buttons button { display:none; }
+  .start-menu { bottom:46px; width:calc(100% - 6px); height:300px; }
+  .touch-dpad { display:block; margin-top:12px; }
+  .touch-dpad button { width:45px; height:35px; margin:2px; background:#c0c0c0; border:2px outset #fff; }
+  .game-board { grid-template-columns:repeat(10,min(8vw,24px)); }
+  .game-board i { width:min(8vw,24px); height:min(8vw,24px); }
+  .screensaver-object { transform:scale(.65); }
+  @keyframes bounce { from { left:-5%; top:8%; } to { left:50%; top:65%; } }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .screensaver-object, .wire-cube { animation-duration:40s; }
+}

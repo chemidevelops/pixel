@@ -1,0 +1,475 @@
+---
+interface PostFile {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  tags: string[];
+  issue?: number;
+}
+
+interface IssueFile {
+  number: number;
+  title: string;
+  date: string;
+  pdf?: string;
+  pdfPrint?: string;
+}
+
+interface Props {
+  posts: PostFile[];
+  issues: IssueFile[];
+}
+
+const { posts, issues } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="PIXEL — revista independiente de videojuegos" />
+  <title>PixelOS — PIXEL</title>
+  <link rel="stylesheet" href="/styles/pixelos.css" />
+</head>
+<body>
+  <div id="pixel-os" class="pixel-os wallpaper-grid">
+    <header class="mobile-status">
+      <strong>Pixel Explorer</strong>
+      <time id="mobile-clock">00:00</time>
+    </header>
+
+    <main class="desktop" aria-label="Escritorio PixelOS">
+      <div class="desktop-icons">
+        <button class="desktop-icon" data-folder="all">
+          <span class="icon-art folder-icon"></span>
+          <span>Artículos</span>
+        </button>
+        <button class="desktop-icon" data-folder="entrevista">
+          <span class="icon-art interview-icon">i</span>
+          <span>Entrevistas</span>
+        </button>
+        <button class="desktop-icon" data-folder="arcade">
+          <span class="icon-art arcade-icon">+</span>
+          <span>Arcade</span>
+        </button>
+        <button class="desktop-icon" data-folder="fanzines">
+          <span class="icon-art disk-icon"></span>
+          <span>Fanzines</span>
+        </button>
+        <button class="desktop-icon" data-window="about">
+          <span class="icon-art computer-icon"></span>
+          <span>Mi Pixel</span>
+        </button>
+        <button class="desktop-icon" data-window="settings">
+          <span class="icon-art settings-icon">⚙</span>
+          <span>Panel de control</span>
+        </button>
+      </div>
+
+      <section class="mobile-launcher" aria-label="Explorador">
+        <div class="mobile-welcome">
+          <span class="pixel-logo">PIXEL<span>.</span></span>
+          <p>Revista independiente de videojuegos</p>
+        </div>
+        <div class="mobile-folder-list">
+          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Todos los textos publicados</small></span><b>›</b></button>
+          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Conversaciones y perfiles</small></span><b>›</b></button>
+          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Clásicos, acción y recreativas</small></span><b>›</b></button>
+          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>PDF para leer e imprimir</small></span><b>›</b></button>
+          <button data-window="about"><span class="mobile-file-icon">P.</span><span><strong>Sobre PIXEL</strong><small>Información del sistema</small></span><b>›</b></button>
+        </div>
+      </section>
+
+      <section class="os-window explorer-window" id="window-explorer" hidden>
+        <div class="title-bar">
+          <span class="window-icon">▣</span>
+          <strong id="explorer-title">Artículos</strong>
+          <div class="window-controls">
+            <button data-minimize aria-label="Minimizar">_</button>
+            <button data-close aria-label="Cerrar">×</button>
+          </div>
+        </div>
+        <div class="menu-bar"><span>Archivo</span><span>Edición</span><span>Ver</span><span>Ayuda</span></div>
+        <div class="address-bar"><span>Dirección</span><div id="explorer-address">C:\PIXEL\ARTICULOS</div></div>
+        <div class="window-body explorer-body">
+          <aside class="folder-info">
+            <span class="large-folder"></span>
+            <h2 id="folder-name">Artículos</h2>
+            <p id="folder-count"></p>
+          </aside>
+          <div class="file-view" id="file-view"></div>
+        </div>
+        <div class="status-bar"><span id="status-count">0 objetos</span><span>PixelOS 95</span></div>
+      </section>
+
+      <section class="os-window reader-window" id="window-reader" hidden>
+        <div class="title-bar">
+          <span class="window-icon">▤</span>
+          <strong id="reader-title">Lector de PIXEL</strong>
+          <div class="window-controls">
+            <button data-minimize aria-label="Minimizar">_</button>
+            <button data-maximize aria-label="Maximizar">□</button>
+            <button data-close aria-label="Cerrar">×</button>
+          </div>
+        </div>
+        <div class="reader-toolbar">
+          <button id="reader-back">← Atrás</button>
+          <span id="reader-path">pixel://articulo</span>
+          <a id="reader-new-tab" href="/" target="_blank">Abrir aparte</a>
+        </div>
+        <iframe id="article-frame" title="Artículo de PIXEL"></iframe>
+      </section>
+
+      <section class="os-window about-window" id="window-about" hidden>
+        <div class="title-bar">
+          <span class="window-icon">P.</span>
+          <strong>Acerca de PixelOS</strong>
+          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
+        </div>
+        <div class="about-content">
+          <div class="about-logo">PIXEL<span>.</span></div>
+          <h1>PixelOS 95</h1>
+          <p>Una revista independiente de videojuegos convertida en sistema operativo.</p>
+          <hr />
+          <dl>
+            <dt>Versión</dt><dd>0.1 Experimental</dd>
+            <dt>Memoria</dt><dd>{posts.length} artículos cargados</dd>
+            <dt>Formato</dt><dd>HTML, papel y secretos</dd>
+          </dl>
+          <p class="about-hint">Consejo: algunos sistemas responden a secuencias de teclado antiguas.</p>
+        </div>
+      </section>
+
+      <section class="os-window settings-window" id="window-settings" hidden>
+        <div class="title-bar">
+          <span class="window-icon">⚙</span>
+          <strong>Propiedades de pantalla</strong>
+          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
+        </div>
+        <div class="settings-content">
+          <fieldset>
+            <legend>Fondo del escritorio</legend>
+            <div class="wallpaper-options">
+              <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
+              <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
+              <button data-wallpaper="clouds"><span class="wallpaper-preview clouds"></span>Nubes</button>
+              <button data-wallpaper="red"><span class="wallpaper-preview red"></span>Alerta</button>
+            </div>
+          </fieldset>
+          <label class="setting-check"><input type="checkbox" id="screensaver-toggle" checked /> Activar salvapantallas tras 45 segundos</label>
+        </div>
+      </section>
+
+      <section class="os-window game-window" id="window-game" hidden>
+        <div class="title-bar">
+          <span class="window-icon">?</span>
+          <strong>PIXEL QUEST.EXE</strong>
+          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
+        </div>
+        <div class="game-content">
+          <div class="game-stats">PIXELS: <span id="game-score">0</span>/5</div>
+          <div id="game-board" class="game-board" aria-label="Minijuego Pixel Quest"></div>
+          <p id="game-message">Recoge los cinco píxeles rojos. Usa las flechas.</p>
+          <div class="touch-dpad">
+            <button data-move="up">▲</button>
+            <div><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="start-menu" id="start-menu" hidden>
+      <div class="start-brand">PixelOS <b>95</b></div>
+      <div class="start-items">
+        <button data-folder="all"><span>▣</span> Artículos</button>
+        <button data-folder="fanzines"><span>▤</span> Fanzines</button>
+        <button data-window="settings"><span>⚙</span> Configuración</button>
+        <button data-window="about"><span>ⓘ</span> Acerca de...</button>
+        <hr />
+        <button id="shutdown"><span>◼</span> Apagar...</button>
+      </div>
+    </div>
+
+    <footer class="taskbar">
+      <button class="start-button" id="start-button"><span class="start-flag">P.</span> Inicio</button>
+      <div class="task-buttons" id="task-buttons"></div>
+      <button class="tray" id="tray-clock">00:00</button>
+    </footer>
+
+    <div class="screensaver" id="screensaver" hidden>
+      <div class="screensaver-object">
+        <div class="wire-cube">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <strong>PIXEL<span>.</span></strong>
+      </div>
+      <small>Mueve el ratón o pulsa una tecla</small>
+    </div>
+
+    <div class="shutdown-screen" id="shutdown-screen" hidden>
+      <strong>Ahora puede apagar su revista.</strong>
+      <button id="restart">Reiniciar PixelOS</button>
+    </div>
+  </div>
+
+  <script define:vars={{ posts, issues }}>
+    const os = document.getElementById('pixel-os');
+    const windows = [...document.querySelectorAll('.os-window')];
+    const explorer = document.getElementById('window-explorer');
+    const fileView = document.getElementById('file-view');
+    const taskButtons = document.getElementById('task-buttons');
+    const startMenu = document.getElementById('start-menu');
+    const articleFrame = document.getElementById('article-frame');
+    const folderTitles = {
+      all: ['Artículos', 'C:\\PIXEL\\ARTICULOS'],
+      entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
+      arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
+      fanzines: ['Fanzines', 'A:\\FANZINES'],
+    };
+    let topZ = 20;
+    let currentFolder = 'all';
+
+    function showWindow(id) {
+      const win = document.getElementById(`window-${id}`);
+      if (!win) return;
+      win.hidden = false;
+      win.classList.remove('minimized');
+      focusWindow(win);
+      syncTasks();
+      startMenu.hidden = true;
+    }
+
+    function focusWindow(win) {
+      topZ += 1;
+      win.style.zIndex = String(topZ);
+      windows.forEach(item => item.classList.toggle('focused', item === win));
+    }
+
+    function closeWindow(win) {
+      win.hidden = true;
+      win.classList.remove('maximized', 'minimized');
+      syncTasks();
+    }
+
+    function syncTasks() {
+      taskButtons.innerHTML = '';
+      windows.filter(win => !win.hidden).forEach(win => {
+        const button = document.createElement('button');
+        button.textContent = win.querySelector('.title-bar strong')?.textContent || 'Ventana';
+        button.className = win.classList.contains('minimized') ? '' : 'active';
+        button.addEventListener('click', () => {
+          if (win.classList.contains('minimized')) {
+            win.classList.remove('minimized');
+            focusWindow(win);
+          } else if (win.classList.contains('focused')) {
+            win.classList.add('minimized');
+          } else {
+            focusWindow(win);
+          }
+          syncTasks();
+        });
+        taskButtons.appendChild(button);
+      });
+    }
+
+    function filesFor(folder) {
+      if (folder === 'all') return posts;
+      if (folder === 'entrevista') return posts.filter(post => post.tags.includes('entrevista'));
+      if (folder === 'arcade') return posts.filter(post => post.tags.some(tag => ['arcade', 'acción', 'clásicos'].includes(tag)));
+      return [];
+    }
+
+    function openFolder(folder) {
+      currentFolder = folder;
+      const [title, path] = folderTitles[folder];
+      document.getElementById('explorer-title').textContent = title;
+      document.getElementById('folder-name').textContent = title;
+      document.getElementById('explorer-address').textContent = path;
+      fileView.innerHTML = '';
+
+      if (folder === 'fanzines') {
+        issues.forEach(issue => {
+          if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
+          if (issue.pdfPrint) fileView.appendChild(makeDownloadFile(issue, true));
+        });
+        document.getElementById('folder-count').textContent = `${issues.length} números disponibles`;
+        document.getElementById('status-count').textContent = `${fileView.children.length} objetos`;
+      } else {
+        const files = filesFor(folder);
+        files.forEach(post => fileView.appendChild(makeArticleFile(post)));
+        document.getElementById('folder-count').textContent = `${files.length} artículos`;
+        document.getElementById('status-count').textContent = `${files.length} objetos`;
+      }
+      showWindow('explorer');
+    }
+
+    function makeArticleFile(post) {
+      const button = document.createElement('button');
+      button.className = 'file-item';
+      button.innerHTML = `<span class="paper-file"><i>PX</i></span><span>${post.title}</span><small>${formatDate(post.date)}</small>`;
+      button.addEventListener('dblclick', () => openArticle(post));
+      button.addEventListener('click', () => {
+        if (matchMedia('(max-width: 700px)').matches) {
+          openArticle(post);
+          return;
+        }
+        document.querySelectorAll('.file-item').forEach(item => item.classList.remove('selected'));
+        button.classList.add('selected');
+      });
+      button.addEventListener('keydown', event => {
+        if (event.key === 'Enter') openArticle(post);
+      });
+      return button;
+    }
+
+    function makeDownloadFile(issue, print) {
+      const link = document.createElement('a');
+      const href = print ? issue.pdfPrint : issue.pdf;
+      link.className = 'file-item';
+      link.href = href;
+      link.download = '';
+      link.innerHTML = `<span class="pdf-file">PDF</span><span>${issue.title}${print ? ' — Imprimir' : ''}</span><small>${issue.date}</small>`;
+      return link;
+    }
+
+    function openArticle(post) {
+      const url = `/posts/${post.id}`;
+      articleFrame.src = url;
+      document.getElementById('reader-title').textContent = post.title;
+      document.getElementById('reader-path').textContent = `pixel://${post.id}`;
+      document.getElementById('reader-new-tab').href = url;
+      showWindow('reader');
+    }
+
+    function formatDate(date) {
+      return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    document.querySelectorAll('[data-folder]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folder)));
+    document.querySelectorAll('[data-window]').forEach(button => button.addEventListener('click', () => showWindow(button.dataset.window)));
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => closeWindow(button.closest('.os-window'))));
+    document.querySelectorAll('[data-minimize]').forEach(button => button.addEventListener('click', () => {
+      button.closest('.os-window').classList.add('minimized');
+      syncTasks();
+    }));
+    document.querySelectorAll('[data-maximize]').forEach(button => button.addEventListener('click', () => button.closest('.os-window').classList.toggle('maximized')));
+    windows.forEach(win => win.addEventListener('pointerdown', () => focusWindow(win)));
+
+    document.getElementById('reader-back').addEventListener('click', () => {
+      closeWindow(document.getElementById('window-reader'));
+      showWindow('explorer');
+    });
+    document.getElementById('start-button').addEventListener('click', event => {
+      event.stopPropagation();
+      startMenu.hidden = !startMenu.hidden;
+    });
+    document.addEventListener('click', event => {
+      if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true;
+    });
+
+    document.querySelectorAll('[data-wallpaper]').forEach(button => button.addEventListener('click', () => {
+      os.className = `pixel-os wallpaper-${button.dataset.wallpaper}`;
+      localStorage.setItem('pixelos-wallpaper', button.dataset.wallpaper);
+    }));
+    const savedWallpaper = localStorage.getItem('pixelos-wallpaper');
+    if (savedWallpaper) os.className = `pixel-os wallpaper-${savedWallpaper}`;
+
+    windows.forEach((win, index) => {
+      if (matchMedia('(max-width: 700px)').matches) return;
+      win.style.left = `${170 + index * 28}px`;
+      win.style.top = `${70 + index * 24}px`;
+      const bar = win.querySelector('.title-bar');
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+      bar.addEventListener('pointerdown', event => {
+        if (event.target.closest('button') || win.classList.contains('maximized')) return;
+        dragging = true;
+        offsetX = event.clientX - win.offsetLeft;
+        offsetY = event.clientY - win.offsetTop;
+        bar.setPointerCapture(event.pointerId);
+      });
+      bar.addEventListener('pointermove', event => {
+        if (!dragging) return;
+        win.style.left = `${Math.max(0, event.clientX - offsetX)}px`;
+        win.style.top = `${Math.max(0, event.clientY - offsetY)}px`;
+      });
+      bar.addEventListener('pointerup', () => dragging = false);
+    });
+
+    function updateClock() {
+      const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('tray-clock').textContent = value;
+      document.getElementById('mobile-clock').textContent = value;
+    }
+    updateClock();
+    setInterval(updateClock, 15000);
+
+    const screensaver = document.getElementById('screensaver');
+    const saverToggle = document.getElementById('screensaver-toggle');
+    let saverTimer;
+    function resetSaver() {
+      screensaver.hidden = true;
+      clearTimeout(saverTimer);
+      if (saverToggle.checked) saverTimer = setTimeout(() => screensaver.hidden = false, 45000);
+    }
+    ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(name => document.addEventListener(name, resetSaver, { passive: true }));
+    saverToggle.addEventListener('change', resetSaver);
+    resetSaver();
+
+    document.getElementById('shutdown').addEventListener('click', () => document.getElementById('shutdown-screen').hidden = false);
+    document.getElementById('restart').addEventListener('click', () => document.getElementById('shutdown-screen').hidden = true);
+
+    const gameBoard = document.getElementById('game-board');
+    let player = { x: 1, y: 1 };
+    let pixels = [{x:7,y:1},{x:3,y:3},{x:8,y:4},{x:2,y:6},{x:6,y:7}];
+    const walls = new Set(['4,0','4,1','4,2','4,4','4,5','4,6','1,4','2,4','6,3','7,3']);
+    function renderGame() {
+      gameBoard.innerHTML = '';
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 10; x++) {
+          const cell = document.createElement('i');
+          if (walls.has(`${x},${y}`)) cell.className = 'wall';
+          if (pixels.some(pixel => pixel.x === x && pixel.y === y)) cell.className = 'pixel';
+          if (player.x === x && player.y === y) { cell.className = 'player'; cell.textContent = 'P'; }
+          gameBoard.appendChild(cell);
+        }
+      }
+      document.getElementById('game-score').textContent = String(5 - pixels.length);
+      if (!pixels.length) document.getElementById('game-message').textContent = 'Has restaurado los píxeles perdidos.';
+    }
+    function movePlayer(dx, dy) {
+      const next = { x: Math.max(0, Math.min(9, player.x + dx)), y: Math.max(0, Math.min(8, player.y + dy)) };
+      if (!walls.has(`${next.x},${next.y}`)) player = next;
+      pixels = pixels.filter(pixel => pixel.x !== player.x || pixel.y !== player.y);
+      renderGame();
+    }
+    const moves = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0] };
+    document.addEventListener('keydown', event => {
+      if (!document.getElementById('window-game').hidden && moves[event.key]) {
+        event.preventDefault();
+        movePlayer(...moves[event.key]);
+      }
+    });
+    document.querySelectorAll('[data-move]').forEach(button => button.addEventListener('click', () => {
+      const map = { up:[0,-1], down:[0,1], left:[-1,0], right:[1,0] };
+      movePlayer(...map[button.dataset.move]);
+    }));
+    renderGame();
+
+    const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let secretIndex = 0;
+    document.addEventListener('keydown', event => {
+      secretIndex = event.key === konami[secretIndex] ? secretIndex + 1 : 0;
+      if (secretIndex === konami.length) {
+        showWindow('game');
+        secretIndex = 0;
+      }
+    });
+
+    openFolder('all');
+    if (matchMedia('(max-width: 700px)').matches) closeWindow(explorer);
+  </script>
+</body>
+</html>

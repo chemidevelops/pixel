@@ -1,34 +1,26 @@
 ---
-import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import PixelOS from '../components/PixelOS.astro';
 
 const posts = (await getCollection('posts'))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 8);
+  .map(post => ({
+    id: post.id,
+    title: post.data.title,
+    date: post.data.date,
+    excerpt: post.data.excerpt ?? '',
+    tags: post.data.tags ?? [],
+    issue: post.data.issue,
+  }));
+
+const issues = (await getCollection('issues'))
+  .sort((a, b) => b.data.number - a.data.number)
+  .map(issue => ({
+    number: issue.data.number,
+    title: issue.data.title,
+    date: issue.data.date,
+    pdf: issue.data.pdf,
+    pdfPrint: issue.data.pdf_print,
+  }));
 ---
-<Base title="Inicio">
-  <p style="font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2.5rem;">
-    Revista de videojuegos — escritura, crítica, cultura
-  </p>
-
-  <ul class="post-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
-        <div class="post-list-meta">
-          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
-
-          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
-          {post.data.tags?.map((tag: string) => (
-            <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
-          ))}
-        </div>
-        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
-      </li>
-    ))}
-  </ul>
-
-  <p style="margin-top:2rem; font-size:0.82rem; font-family:var(--font-mono);">
-    <a href="/posts">Ver todos los artículos →</a>
-  </p>
-</Base>
+<PixelOS posts={posts} issues={issues} />
