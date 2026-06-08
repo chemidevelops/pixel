@@ -18,8 +18,9 @@ const currentPath = Astro.url.pathname;
 <body>
   <div class="container">
     <header class="site-header">
-      <a href="/" class="site-mark" aria-label="PIXEL">
-        <span class="site-mark-letter">P</span><span class="site-mark-dot"></span>
+      <a href="/" class="site-title">
+        <span class="site-title-main">PIXEL<span class="dot"></span></span>
+        <span class="site-title-jp">ピクセル</span>
       </a>
       <nav class="site-nav">
         <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>
