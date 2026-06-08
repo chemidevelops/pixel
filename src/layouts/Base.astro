@@ -18,15 +18,13 @@ const currentPath = Astro.url.pathname;
 <body>
   <div class="container">
     <header class="site-header">
-      <a href="/" class="site-title">
-        <span class="site-title-main">PIXEL<span class="dot"></span></span>
-        <span class="site-title-jp">ピクセル</span>
-      </a>
+      <a href="/" class="site-mark" aria-label="PIXEL">P<span>.</span></a>
       <nav class="site-nav">
-        <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>
-        <a href="/posts" class={currentPath.startsWith("/posts") ? "active" : ""}>Artículos</a>
-        <a href="/descargas" class={currentPath.startsWith("/descargas") ? "active" : ""}>Descargas</a>
+        <a href="/" class={currentPath === "/" ? "active" : ""}>Pixel</a>
         <a href="/sobre" class={currentPath === "/sobre" ? "active" : ""}>Sobre</a>
+        <a href="/posts" class={currentPath.startsWith("/posts") ? "active" : ""}>Archivo</a>
+        <a href="/descargas" class={currentPath.startsWith("/descargas") ? "active" : ""}>Fanzine</a>
+        <a href="/rss.xml">RSS</a>
       </nav>
     </header>
 

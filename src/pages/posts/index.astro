@@ -7,10 +7,17 @@ const posts = (await getCollection('posts'))
 
 const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
 const allIssues = [...new Set(posts.map(p => p.data.issue).filter(Boolean))].sort((a, b) => a - b);
+const postsByYear = posts.reduce<Record<string, typeof posts>>((groups, post) => {
+  const year = String(new Date(post.data.date).getFullYear());
+  (groups[year] ??= []).push(post);
+  return groups;
+}, {});
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 <Base title="Artículos" description="Todos los artículos de PIXEL — crítica y cultura de videojuegos">
-  <div class="posts-header">
-    <h1>Artículos</h1>
+  <div class="archive-intro">
+    <h1>Archivo</h1>
+    <p>Índice cronológico de los artículos publicados en PIXEL.</p>
     <div class="tag-filter">
       {allIssues.map(issue => (
         <a href={`/tags/nº${issue}`} class="post-tag post-tag-issue">nº{issue}</a>
@@ -21,31 +28,25 @@ const allIssues = [...new Set(posts.map(p => p.data.issue).filter(Boolean))].sor
     </div>
   </div>
 
-  <ul class="post-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
-        <div class="post-list-meta">
-          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
-
-          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
-          {post.data.tags?.map((tag: string) => (
-            <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
+  <div class="year-groups">
+    {years.map(year => (
+      <section class="year-group">
+        <h2>{year}</h2>
+        <ul>
+          {postsByYear[year]?.map(post => (
+            <li>
+              <span class="list-glyph">◆</span>
+              <a href={`/posts/${post.id}`}>{post.data.title}</a>
+              <time>{new Date(post.data.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })}</time>
+            </li>
           ))}
-        </div>
-        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
-      </li>
+        </ul>
+      </section>
     ))}
-  </ul>
+  </div>
 </Base>
 
 <style>
-.posts-header {
-  margin-bottom: 2.5rem;
-}
-.posts-header h1 {
-  margin-bottom: 1rem;
-}
 .tag-filter {
   display: flex;
   flex-wrap: wrap;

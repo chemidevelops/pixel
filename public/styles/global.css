@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
-  --bg: #f8f8f0;
+  --bg: #ffffff;
   --text: #111111;
   --text-muted: #555555;
   --red: #cc0000;
@@ -553,4 +553,261 @@ pre code { background: none; padding: 0; color: inherit; }
 .gameboy img {
   filter: grayscale(100%) contrast(200%) brightness(110%);
   image-rendering: pixelated;
+}
+
+/* ── Gwern-inspired editorial directory ── */
+body {
+  padding: 0 1.25rem;
+  line-height: 1.62;
+}
+
+.container {
+  max-width: 1240px;
+  padding-top: 1.5rem;
+}
+
+.site-header {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+  border: 0;
+  margin-bottom: 3.5rem;
+  padding: 0;
+}
+
+.site-mark {
+  display: block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 5.5rem;
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.14em;
+  color: var(--text);
+  text-decoration: none;
+}
+.site-mark span { color: var(--red); }
+.site-mark:hover { color: var(--text-muted); }
+
+.site-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px dotted var(--text-muted);
+  border-bottom: 1px dotted var(--text-muted);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+.site-nav a {
+  padding: 0.55rem 0.75rem;
+  border-right: 1px dotted var(--text-muted);
+  color: var(--text);
+  text-decoration: none;
+  text-align: center;
+}
+.site-nav a:first-child { border-left: 1px dotted var(--text-muted); }
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--red);
+  background: transparent;
+}
+
+.home-about {
+  max-width: 1080px;
+  margin: 0 auto 3.5rem;
+  font-size: 1.28rem;
+}
+.home-about h1 {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+}
+.home-about p {
+  margin-bottom: 0.7rem;
+  text-align: left;
+  hyphens: none;
+}
+.home-about > p:first-of-type { font-size: 1.35rem; }
+.home-note { text-indent: 3rem; }
+.home-note strong {
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+}
+
+.home-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem;
+  max-width: 1080px;
+  margin: 0 auto 3rem;
+}
+
+.directory-section h2,
+.topic-directory h2 {
+  margin: 0 0 1rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px dotted var(--text-muted);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-variant: small-caps;
+  line-height: 1;
+}
+.directory-section h2 a { text-decoration: none; }
+
+.directory-list {
+  list-style: none;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+.directory-list li {
+  display: grid;
+  grid-template-columns: 1.2rem minmax(0, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+.directory-list a {
+  text-decoration-color: var(--text-muted);
+  text-decoration-thickness: 1px;
+  text-decoration-style: dotted;
+}
+.list-glyph {
+  color: var(--text-muted);
+  font-size: 0.72em;
+  padding-top: 0.35em;
+}
+
+.topic-directory {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.topic-grid {
+  columns: 3;
+  column-gap: 2.5rem;
+}
+.topic-grid a {
+  display: block;
+  padding: 0.18rem 0;
+  text-transform: capitalize;
+  text-decoration-color: var(--text-muted);
+  text-decoration-thickness: 1px;
+  text-decoration-style: dotted;
+}
+.topic-grid a::before {
+  content: '§ ';
+  color: var(--red);
+}
+
+.archive-intro {
+  max-width: 1080px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.archive-intro h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-variant: small-caps;
+  margin-bottom: 1.25rem;
+}
+.archive-intro > p {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+.archive-intro .tag-filter { justify-content: center; }
+
+.year-groups {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.year-group { margin-bottom: 2.5rem; }
+.year-group h2 {
+  margin: 0 0 1rem;
+  border-bottom: 1px solid var(--text-muted);
+  text-align: right;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.year-group ul { list-style: none; padding: 0 2rem; }
+.year-group li {
+  display: grid;
+  grid-template-columns: 1.2rem minmax(0, 1fr) auto;
+  gap: 0.45rem;
+  align-items: baseline;
+  margin: 0.5rem 0;
+  font-size: 1.14rem;
+}
+.year-group li a {
+  font-weight: 600;
+  text-decoration-color: var(--text-muted);
+  text-decoration-thickness: 1px;
+}
+.year-group time {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.post-header {
+  text-align: center;
+  border-bottom: 1px solid var(--border) !important;
+}
+.post-header-meta { justify-content: center; }
+.post-header h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-variant: small-caps;
+}
+.post-excerpt-header {
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+.site-footer {
+  border-top: 1px dotted var(--text-muted);
+}
+
+#settings-toggle {
+  border: 0;
+  border-radius: 0;
+  color: #999;
+}
+#settings-panel {
+  border: 1px solid #aaa;
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  body { padding: 0 0.8rem; }
+  .container { padding-top: 0.8rem; }
+  .site-header {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-bottom: 2.5rem;
+  }
+  .site-mark {
+    font-size: 4rem;
+    text-align: center;
+  }
+  .site-nav { font-size: 0.69rem; }
+  .site-nav a { padding: 0.45rem 0.15rem; }
+  .home-about { font-size: 1rem; }
+  .home-about > p:first-of-type { font-size: 1.08rem; }
+  .home-note { text-indent: 1.5rem; }
+  .home-columns { grid-template-columns: 1fr; gap: 2rem; }
+  .topic-grid { columns: 2; }
+  .year-group ul { padding: 0; }
+  .year-group li {
+    grid-template-columns: 1rem minmax(0, 1fr);
+    font-size: 1rem;
+  }
+  .year-group time {
+    grid-column: 2;
+    margin-top: -0.35rem;
+  }
 }
