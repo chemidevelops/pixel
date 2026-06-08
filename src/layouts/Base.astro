@@ -16,20 +16,12 @@ const currentPath = Astro.url.pathname;
   <link rel="stylesheet" href="/styles/global.css" />
 </head>
 <body>
-  <div class="signal-strip" aria-hidden="true">
-    <span>PIXEL / CRÍTICA / CULTURA / VIDEOJUEGOS / PAPEL /</span>
-    <span>PIXEL / CRÍTICA / CULTURA / VIDEOJUEGOS / PAPEL /</span>
-  </div>
   <div class="container">
     <header class="site-header">
       <a href="/" class="site-title">
         <span class="site-title-main">PIXEL<span class="dot"></span></span>
         <span class="site-title-jp">ピクセル</span>
       </a>
-      <div class="site-stamp">
-        <span>REVISTA INDEPENDIENTE</span>
-        <span>ES / 2026</span>
-      </div>
       <nav class="site-nav">
         <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>
         <a href="/posts" class={currentPath.startsWith("/posts") ? "active" : ""}>Artículos</a>
@@ -38,7 +30,7 @@ const currentPath = Astro.url.pathname;
       </nav>
     </header>
 
-    <main class:list={{ "reading-page": currentPath.startsWith("/posts/") && currentPath !== "/posts", "reading-page about-page": currentPath === "/sobre" }}>
+    <main>
       <slot />
     </main>
 

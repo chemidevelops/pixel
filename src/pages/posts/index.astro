@@ -21,11 +21,9 @@ const allIssues = [...new Set(posts.map(p => p.data.issue).filter(Boolean))].sor
     </div>
   </div>
 
-  <ol class="post-list brutal-list">
-    {posts.map((post, index) => (
+  <ul class="post-list">
+    {posts.map(post => (
       <li>
-        <span class="post-index">{String(index + 1).padStart(3, '0')}</span>
-        <div class="post-list-content">
         <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
         <div class="post-list-meta">
           {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -36,10 +34,9 @@ const allIssues = [...new Set(posts.map(p => p.data.issue).filter(Boolean))].sor
           ))}
         </div>
         {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
-        </div>
       </li>
     ))}
-  </ol>
+  </ul>
 </Base>
 
 <style>
