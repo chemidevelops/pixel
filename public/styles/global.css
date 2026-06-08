@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
   --bg: #ffffff;
@@ -134,7 +134,7 @@ pre code { background: none; padding: 0; color: inherit; }
   padding: 1.5rem 0 1.25rem;
   margin-bottom: 3rem;
   display: grid;
-  grid-template-columns: 104px minmax(0, 1fr);
+  grid-template-columns: 74px minmax(0, 1fr);
   align-items: start;
   gap: 1.25rem;
 }
@@ -149,15 +149,15 @@ pre code { background: none; padding: 0; color: inherit; }
 }
 
 .site-mark-letter {
-  font-family: var(--font-mono);
-  font-size: 5.4rem;
-  font-weight: 600;
-  letter-spacing: -0.16em;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  letter-spacing: -0.08em;
 }
 
 .site-mark-dot {
-  width: 1rem;
-  height: 1rem;
+  width: 0.72rem;
+  height: 0.72rem;
   background: var(--red);
   flex: 0 0 auto;
   margin-bottom: 0.08rem;
@@ -544,8 +544,8 @@ pre code { background: none; padding: 0; color: inherit; }
     justify-items: center;
     gap: 1rem;
   }
-  .site-mark-letter { font-size: 4.7rem; }
-  .site-mark-dot { width: 0.85rem; height: 0.85rem; }
+  .site-mark-letter { font-size: 3.45rem; }
+  .site-mark-dot { width: 0.65rem; height: 0.65rem; }
   .site-nav { width: 100%; font-size: 0.66rem; }
   .site-nav a { padding: 0.58rem 0.15rem; }
   .issue-card { flex-direction: column; }
