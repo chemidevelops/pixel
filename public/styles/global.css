@@ -139,7 +139,7 @@ pre code { background: none; padding: 0; color: inherit; }
   margin-bottom: 3rem;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
+  align-items: end;
   gap: 1.25rem;
 }
 
