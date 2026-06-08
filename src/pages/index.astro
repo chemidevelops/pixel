@@ -3,65 +3,32 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-const newest = posts.slice(0, 7);
-const classics = [...posts].sort((a, b) => a.data.title.localeCompare(b.data.title, 'es')).slice(0, 7);
-const tags = [...new Set(posts.flatMap(post => post.data.tags ?? []))].sort();
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 8);
 ---
 <Base title="Inicio">
-  <section class="home-about">
-    <h1>PIXEL</h1>
-    <p>
-      Esta es una revista independiente sobre videojuegos. Escribimos sobre diseño,
-      historia y cultura del medio: sin notas numéricas, noticias de última hora ni
-      textos dictados por el calendario.
-    </p>
-    <p class="home-note">
-      <strong>NAVEGACIÓN:</strong> consulta el <a href="/posts">archivo completo</a>,
-      descarga el <a href="/descargas">fanzine imprimible</a>, conoce
-      <a href="/sobre">el proyecto</a> o sigue las publicaciones mediante
-      <a href="/rss.xml">RSS</a>.
-    </p>
-    <p class="home-note">
-      <strong>LECTURA:</strong> los artículos están pensados para leerse despacio.
-      El panel inferior permite cambiar el tamaño del texto, el contraste fotográfico
-      y el modo claro u oscuro.
-    </p>
-  </section>
+  <p style="font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2.5rem;">
+    Revista de videojuegos — escritura, crítica, cultura
+  </p>
 
-  <div class="home-columns">
-    <section class="directory-section">
-      <h2><a href="/posts">Nuevos</a></h2>
-      <ul class="directory-list">
-        {newest.map(post => (
-          <li>
-            <span class="list-glyph">◆</span>
-            <a href={`/posts/${post.id}`}>{post.data.title}</a>
-          </li>
-        ))}
-      </ul>
-    </section>
+  <ul class="post-list">
+    {posts.map(post => (
+      <li>
+        <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
+        <div class="post-list-meta">
+          {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
 
-    <section class="directory-section">
-      <h2>Índice</h2>
-      <ul class="directory-list">
-        {classics.map(post => (
-          <li>
-            <span class="list-glyph">◇</span>
-            <a href={`/posts/${post.id}`}>{post.data.title}</a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  </div>
+          {post.data.issue && <span> · <a href={`/tags/nº${post.data.issue}`} class="post-tag post-tag-issue">nº{post.data.issue}</a></span>}
+          {post.data.tags?.map((tag: string) => (
+            <span> · <a href={`/tags/${tag}`} class="post-tag">{tag}</a></span>
+          ))}
+        </div>
+        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+      </li>
+    ))}
+  </ul>
 
-  <section class="topic-directory">
-    <h2>Temas</h2>
-    <div class="topic-grid">
-      {tags.map(tag => (
-        <a href={`/tags/${tag}`}>{tag}</a>
-      ))}
-      <a href="/tags/nº1">nº1</a>
-    </div>
-  </section>
+  <p style="margin-top:2rem; font-size:0.82rem; font-family:var(--font-mono);">
+    <a href="/posts">Ver todos los artículos →</a>
+  </p>
 </Base>
