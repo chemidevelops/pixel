@@ -20,7 +20,6 @@ button { color: inherit; }
   background-position: center;
   background-size: cover;
 }
-.wallpaper-green { background: #008000; }
 .wallpaper-grid {
   background-color: #f4f4f0;
   background-image:
@@ -29,13 +28,6 @@ button { color: inherit; }
   background-size: 24px 24px;
 }
 .wallpaper-teal { background: #008080; }
-.wallpaper-maze {
-  background-color: #080808;
-  background-image: url('/images/maze-wallpaper.png');
-  background-size: cover;
-  background-position: center;
-  image-rendering: pixelated;
-}
 
 .desktop { position: absolute; inset: 0 0 34px; }
 .desktop-icons {
@@ -177,11 +169,6 @@ button { color: inherit; }
 .wallpaper-options { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .wallpaper-options button { background:#c0c0c0; border:2px outset #fff; padding:7px; font-size:10px; }
 .wallpaper-preview { display:block; height:52px; margin-bottom:5px; border:2px inset #fff; }
-.wallpaper-preview.green { background:#008000; }
-.wallpaper-preview.maze {
-  background:#080808 url('/images/maze-wallpaper.png') center/cover;
-  image-rendering:pixelated;
-}
 .wallpaper-preview.grid { background-color:#f4f4f0; background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px); background-size:8px 8px; }
 .wallpaper-preview.teal { background:#008080; }
 .setting-check { display:block; margin-top:16px; font-size:12px; }
@@ -212,17 +199,10 @@ button { color: inherit; }
 .screensaver {
   position:fixed; inset:0; z-index:20000; background:#020207; overflow:hidden; color:#fff;
 }
-.screensaver-object { position:absolute; animation:bounce 13s linear infinite alternate; transform-style:preserve-3d; }
-.screensaver-object strong { position:absolute; inset:0; display:grid; place-items:center; font:700 28px monospace; text-shadow:0 0 12px #fff; }
-.screensaver-object strong span { color:#f00; }
-.wire-cube { width:170px; height:170px; transform-style:preserve-3d; animation:spin3d 8s linear infinite; }
-.wire-cube i { position:absolute; inset:25px; border:3px solid; border-image:linear-gradient(45deg,#f00,#0ff,#ff0) 1; }
-.wire-cube i:nth-child(1){transform:translateZ(60px)} .wire-cube i:nth-child(2){transform:rotateY(90deg) translateZ(60px)}
-.wire-cube i:nth-child(3){transform:rotateY(180deg) translateZ(60px)} .wire-cube i:nth-child(4){transform:rotateY(-90deg) translateZ(60px)}
-.wire-cube i:nth-child(5){transform:rotateX(90deg) translateZ(60px)} .wire-cube i:nth-child(6){transform:rotateX(-90deg) translateZ(60px)}
+.screensaver canvas {
+  width:100%; height:100%; display:block; image-rendering:pixelated;
+}
 .screensaver small { position:absolute; bottom:20px; width:100%; text-align:center; color:#777; font:11px monospace; }
-@keyframes spin3d { to { transform:rotateX(360deg) rotateY(720deg) rotateZ(180deg); } }
-@keyframes bounce { from { left:5%; top:5%; } to { left:75%; top:68%; } }
 .shutdown-screen { position:fixed; inset:0; z-index:30000; display:grid; place-content:center; gap:20px; background:#000; color:#f90; text-align:center; font:22px Georgia,serif; }
 .shutdown-screen button { padding:8px; background:#c0c0c0; border:2px outset #fff; }
 
@@ -315,10 +295,4 @@ button { color: inherit; }
   .touch-dpad button { width:45px; height:35px; margin:2px; background:#c0c0c0; border:2px outset #fff; }
   .game-board { grid-template-columns:repeat(10,min(8vw,24px)); }
   .game-board i { width:min(8vw,24px); height:min(8vw,24px); }
-  .screensaver-object { transform:scale(.65); }
-  @keyframes bounce { from { left:-5%; top:8%; } to { left:50%; top:65%; } }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .screensaver-object, .wire-cube { animation-duration:40s; }
 }

@@ -33,7 +33,7 @@ const { posts, issues } = Astro.props;
   <link rel="stylesheet" href="/styles/pixelos.css" />
 </head>
 <body>
-  <div id="pixel-os" class="pixel-os wallpaper-green">
+  <div id="pixel-os" class="pixel-os wallpaper-teal">
     <header class="mobile-status">
       <strong>Pixel Explorer</strong>
       <time id="mobile-clock">00:00</time>
@@ -138,10 +138,8 @@ const { posts, issues } = Astro.props;
           <fieldset>
             <legend>Fondo del escritorio</legend>
             <div class="wallpaper-options">
-              <button data-wallpaper="green"><span class="wallpaper-preview green"></span>Verde</button>
-              <button data-wallpaper="maze"><span class="wallpaper-preview maze"></span>Maze 3D</button>
-              <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
               <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
+              <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
             </div>
           </fieldset>
           <label class="setting-check"><input type="checkbox" id="screensaver-toggle" checked /> Activar salvapantallas tras 45 segundos</label>
@@ -185,12 +183,7 @@ const { posts, issues } = Astro.props;
     </footer>
 
     <div class="screensaver" id="screensaver" hidden>
-      <div class="screensaver-object">
-        <div class="wire-cube">
-          <i></i><i></i><i></i><i></i><i></i><i></i>
-        </div>
-        <strong>PIXEL<span>.</span></strong>
-      </div>
+      <canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas>
       <small>Mueve el ratón o pulsa una tecla</small>
     </div>
 
@@ -228,6 +221,7 @@ const { posts, issues } = Astro.props;
     const startMenu = document.getElementById('start-menu');
     const readerWindows = document.getElementById('reader-windows');
     const readerTemplate = document.getElementById('reader-template');
+    const mazeCanvas = document.getElementById('maze-screensaver');
     const folderTitles = {
       all: ['Artículos', 'C:\\PIXEL\\ARTICULOS'],
       entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
@@ -424,10 +418,85 @@ const { posts, issues } = Astro.props;
 
     document.querySelectorAll('[data-wallpaper]').forEach(button => button.addEventListener('click', () => {
       os.className = `pixel-os wallpaper-${button.dataset.wallpaper}`;
-      localStorage.setItem('pixelos-wallpaper-v2', button.dataset.wallpaper);
+      localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper);
     }));
-    const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v2');
+    const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
     if (savedWallpaper) os.className = `pixel-os wallpaper-${savedWallpaper}`;
+
+    const mazeMap = [
+      '111111111111',
+      '100000100001',
+      '101110101101',
+      '101000001001',
+      '101011111001',
+      '100010000001',
+      '111010111101',
+      '100010100001',
+      '101110101111',
+      '100000100001',
+      '101111000001',
+      '111111111111',
+    ];
+    const mazeContext = mazeCanvas.getContext('2d', { alpha: false });
+    mazeContext.imageSmoothingEnabled = false;
+    let mazeFrame = 0;
+    let mazeLastTime = 0;
+    const mazePlayer = { x: 1.5, y: 1.5, angle: 0 };
+
+    function wallAt(x, y) {
+      const row = mazeMap[Math.floor(y)];
+      return !row || row[Math.floor(x)] !== '0';
+    }
+
+    function renderMaze(time) {
+      if (screensaver.hidden) {
+        mazeFrame = 0;
+        return;
+      }
+      const elapsed = Math.min(0.04, (time - mazeLastTime) / 1000 || 0);
+      mazeLastTime = time;
+      const speed = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.08 : 0.55;
+      const nextX = mazePlayer.x + Math.cos(mazePlayer.angle) * elapsed * speed;
+      const nextY = mazePlayer.y + Math.sin(mazePlayer.angle) * elapsed * speed;
+      if (!wallAt(nextX, nextY)) {
+        mazePlayer.x = nextX;
+        mazePlayer.y = nextY;
+      } else {
+        mazePlayer.angle += Math.PI / 2;
+      }
+      mazePlayer.angle += Math.sin(time / 2800) * 0.0007;
+
+      const width = mazeCanvas.width;
+      const height = mazeCanvas.height;
+      mazeContext.fillStyle = '#080b08';
+      mazeContext.fillRect(0, 0, width, height / 2);
+      mazeContext.fillStyle = '#181c17';
+      mazeContext.fillRect(0, height / 2, width, height / 2);
+
+      for (let column = 0; column < width; column += 2) {
+        const rayAngle = mazePlayer.angle - Math.PI / 6 + (column / width) * Math.PI / 3;
+        let distance = 0.04;
+        while (distance < 14 && !wallAt(
+          mazePlayer.x + Math.cos(rayAngle) * distance,
+          mazePlayer.y + Math.sin(rayAngle) * distance
+        )) distance += 0.035;
+        const corrected = distance * Math.cos(rayAngle - mazePlayer.angle);
+        const wallHeight = Math.min(height, height / Math.max(0.2, corrected));
+        const shade = Math.max(28, 155 - corrected * 13);
+        mazeContext.fillStyle = `rgb(${shade * 0.72},${shade * 0.82},${shade * 0.69})`;
+        mazeContext.fillRect(column, (height - wallHeight) / 2, 2, wallHeight);
+        mazeContext.fillStyle = `rgba(0,0,0,${0.12 + (column % 8 === 0 ? 0.15 : 0)})`;
+        mazeContext.fillRect(column, (height - wallHeight) / 2, 1, wallHeight);
+      }
+      mazeFrame = requestAnimationFrame(renderMaze);
+    }
+
+    function startMazeScreensaver() {
+      cancelAnimationFrame(mazeFrame);
+      mazeFrame = 0;
+      mazeLastTime = performance.now();
+      mazeFrame = requestAnimationFrame(renderMaze);
+    }
 
     allWindows().forEach((win, index) => {
       if (matchMedia('(max-width: 700px)').matches) return;
@@ -448,8 +517,13 @@ const { posts, issues } = Astro.props;
     let saverTimer;
     function resetSaver() {
       screensaver.hidden = true;
+      cancelAnimationFrame(mazeFrame);
+      mazeFrame = 0;
       clearTimeout(saverTimer);
-      if (saverToggle.checked) saverTimer = setTimeout(() => screensaver.hidden = false, 45000);
+      if (saverToggle.checked) saverTimer = setTimeout(() => {
+        screensaver.hidden = false;
+        startMazeScreensaver();
+      }, 45000);
     }
     ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(name => document.addEventListener(name, resetSaver, { passive: true }));
     saverToggle.addEventListener('change', resetSaver);
