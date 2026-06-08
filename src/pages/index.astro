@@ -5,15 +5,46 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('posts'))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 8);
+const [featured, ...rest] = posts;
+const featuredImage = featured?.data.gallery?.[0];
+const featuredImageSrc = typeof featuredImage === 'string' ? featuredImage : featuredImage?.src;
 ---
 <Base title="Inicio">
-  <p style="font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2.5rem;">
-    Revista de videojuegos — escritura, crítica, cultura
-  </p>
+  <section class="home-intro">
+    <p>Revista de videojuegos</p>
+    <p>Escritura / crítica / cultura</p>
+    <p>Sin notas. Sin prisas.</p>
+  </section>
 
-  <ul class="post-list">
-    {posts.map(post => (
+  {featured && (
+    <article class="featured-post">
+      <a href={`/posts/${featured.id}`} class="featured-image">
+        {featuredImageSrc
+          ? <img src={featuredImageSrc} alt="" />
+          : <span class="featured-placeholder">PIXEL</span>}
+      </a>
+      <div class="featured-copy">
+        <span class="editorial-kicker">Artículo destacado / 001</span>
+        <h1><a href={`/posts/${featured.id}`}>{featured.data.title}</a></h1>
+        {featured.data.excerpt && <p>{featured.data.excerpt}</p>}
+        <div class="featured-meta">
+          {new Date(featured.data.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          {featured.data.tags?.[0] && <span> / {featured.data.tags[0]}</span>}
+        </div>
+      </div>
+    </article>
+  )}
+
+  <div class="index-heading">
+    <span>Índice reciente</span>
+    <span>{String(rest.length).padStart(2, '0')} entradas</span>
+  </div>
+
+  <ol class="post-list brutal-list">
+    {rest.map((post, index) => (
       <li>
+        <span class="post-index">{String(index + 2).padStart(3, '0')}</span>
+        <div class="post-list-content">
         <a href={`/posts/${post.id}`} class="post-list-title">{post.data.title}</a>
         <div class="post-list-meta">
           {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -24,11 +55,12 @@ const posts = (await getCollection('posts'))
           ))}
         </div>
         {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+        </div>
       </li>
     ))}
-  </ul>
+  </ol>
 
-  <p style="margin-top:2rem; font-size:0.82rem; font-family:var(--font-mono);">
+  <p class="all-posts-link">
     <a href="/posts">Ver todos los artículos →</a>
   </p>
 </Base>
