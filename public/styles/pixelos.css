@@ -20,6 +20,7 @@ button { color: inherit; }
   background-position: center;
   background-size: cover;
 }
+.wallpaper-green { background: #008000; }
 .wallpaper-grid {
   background-color: #f4f4f0;
   background-image:
@@ -28,14 +29,13 @@ button { color: inherit; }
   background-size: 24px 24px;
 }
 .wallpaper-teal { background: #008080; }
-.wallpaper-clouds {
-  background:
-    radial-gradient(ellipse at 20% 30%, #fff 0 6%, transparent 7%),
-    radial-gradient(ellipse at 30% 32%, #fff 0 9%, transparent 10%),
-    radial-gradient(ellipse at 75% 18%, rgba(255,255,255,.9) 0 8%, transparent 9%),
-    linear-gradient(#4d91df, #b7dcff 70%, #5a9d44 71%);
+.wallpaper-maze {
+  background-color: #080808;
+  background-image: url('/images/maze-wallpaper.png');
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
 }
-.wallpaper-red { background: #c90000; }
 
 .desktop { position: absolute; inset: 0 0 34px; }
 .desktop-icons {
@@ -177,10 +177,13 @@ button { color: inherit; }
 .wallpaper-options { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .wallpaper-options button { background:#c0c0c0; border:2px outset #fff; padding:7px; font-size:10px; }
 .wallpaper-preview { display:block; height:52px; margin-bottom:5px; border:2px inset #fff; }
+.wallpaper-preview.green { background:#008000; }
+.wallpaper-preview.maze {
+  background:#080808 url('/images/maze-wallpaper.png') center/cover;
+  image-rendering:pixelated;
+}
 .wallpaper-preview.grid { background-color:#f4f4f0; background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px); background-size:8px 8px; }
 .wallpaper-preview.teal { background:#008080; }
-.wallpaper-preview.clouds { background:linear-gradient(#4d91df,#fff,#5a9d44); }
-.wallpaper-preview.red { background:#c90000; }
 .setting-check { display:block; margin-top:16px; font-size:12px; }
 
 .taskbar {
@@ -238,55 +241,76 @@ button { color: inherit; }
   .desktop { inset:42px 0 46px; }
   .desktop-icons { display:none; }
   .mobile-status {
-    position:absolute; top:0; left:0; right:0; height:42px; z-index:10000;
-    display:flex; align-items:center; justify-content:space-between; padding:0 12px;
-    background:#000080; color:#fff; font:12px 'JetBrains Mono',monospace;
+    position:absolute; top:0; left:0; right:0; height:28px; z-index:10000;
+    display:flex; align-items:center; justify-content:space-between; padding:0 6px;
+    background:#000080; color:#fff; font:bold 11px Arial,sans-serif;
   }
-  .mobile-launcher { display:block; height:100%; overflow:auto; padding:14px; }
-  .mobile-welcome { padding:15px 12px 18px; border-bottom:2px solid #777; }
-  .pixel-logo { font:700 28px 'JetBrains Mono',monospace; }
-  .pixel-logo span { color:#c00; }
-  .mobile-welcome p { margin:3px 0 0; font:12px Georgia,serif; color:#555; }
-  .mobile-folder-list { margin-top:12px; border:2px inset #fff; background:#fff; }
+  .desktop { inset:28px 0 34px; border:2px inset #fff; }
+  .mobile-launcher { display:flex; flex-direction:column; height:100%; overflow:hidden; padding:0; background:#c0c0c0; }
+  .pda-menu {
+    display:flex; align-items:center; gap:18px; height:24px; flex:0 0 24px;
+    padding:0 7px; border-bottom:1px solid #777; font:11px Arial,sans-serif;
+  }
+  .pda-menu span::first-letter { text-decoration:underline; }
+  .pda-address {
+    display:flex; height:29px; flex:0 0 29px; margin:3px; border:2px inset #fff; background:#fff;
+    font:11px Arial,sans-serif;
+  }
+  .pda-address span { flex:1; padding:5px; }
+  .pda-address button { width:24px; border:0; border-left:1px solid #777; background:#c0c0c0; }
+  .mobile-welcome {
+    display:flex; align-items:baseline; gap:10px; padding:8px 10px;
+    border-top:1px solid #fff; border-bottom:1px solid #777; background:#d4d0c8;
+  }
+  .pixel-logo { font:bold 17px Arial,sans-serif; }
+  .pixel-logo span { color:inherit; }
+  .mobile-welcome p { margin:0; font:10px Arial,sans-serif; color:#555; }
+  .mobile-folder-list { flex:1; overflow:auto; margin:3px; border:2px inset #fff; background:#fff; }
   .mobile-folder-list button {
-    width:100%; min-height:72px; display:grid; grid-template-columns:44px 1fr 20px; align-items:center;
-    gap:10px; padding:8px 10px; border:0; border-bottom:1px solid #aaa; background:#fff; text-align:left;
+    width:100%; min-height:52px; display:grid; grid-template-columns:37px 1fr; align-items:center;
+    gap:7px; padding:5px 7px; border:0; border-bottom:1px solid #ccc; background:#fff; text-align:left;
   }
   .mobile-folder-list button:active { background:#000080; color:#fff; }
   .mobile-folder-list span:nth-child(2) { display:flex; flex-direction:column; gap:3px; }
-  .mobile-folder-list small { color:#666; }
-  .mobile-folder-list b { font-size:25px; }
-  .mini-folder { position:relative; width:36px; height:27px; margin-top:7px; }
-  .mobile-file-icon { display:grid; place-items:center; width:36px; height:36px; background:#111; color:#fff; font:bold 13px monospace; }
+  .mobile-folder-list strong { font:12px Arial,sans-serif; }
+  .mobile-folder-list small { color:#666; font:9px Arial,sans-serif; }
+  .mini-folder { position:relative; width:30px; height:22px; margin-top:6px; }
+  .mobile-file-icon { display:grid; place-items:center; width:30px; height:32px; background:#fff; border:1px solid #000; color:#000; font:bold 10px monospace; }
+  .pda-status {
+    height:21px; flex:0 0 21px; margin:0 3px 3px; padding:3px 5px;
+    border:1px inset #fff; font:10px Arial,sans-serif;
+  }
   .os-window {
-    position:fixed !important; inset:42px 0 46px !important; width:100% !important; height:auto !important;
+    position:fixed !important; inset:28px 0 34px !important; width:100% !important; height:auto !important;
     min-width:0; min-height:0; box-shadow:none; border-width:0; z-index:9000 !important;
   }
-  .title-bar { height:34px; flex-basis:34px; font-size:12px; }
-  .window-controls { height:26px; }
+  .title-bar { height:28px; flex-basis:28px; font-size:11px; }
+  .window-controls { height:22px; }
   .window-controls [data-minimize], .window-controls [data-maximize] { display:none; }
-  .window-controls button { min-width:32px; }
-  .menu-bar { display:none; }
-  .address-bar { height:34px; }
+  .window-controls button { min-width:28px; }
+  .menu-bar { display:flex; height:23px; font-size:10px; }
+  .address-bar { height:29px; }
   .explorer-body { display:block; }
   .folder-info { display:none; }
   .file-view { display:block; padding:0; }
   .file-item {
-    min-height:64px; display:grid; grid-template-columns:45px 1fr auto; align-items:center; gap:8px;
-    border:0; border-bottom:1px solid #ccc; text-align:left; padding:7px 10px;
+    min-height:50px; display:grid; grid-template-columns:38px 1fr 60px; align-items:center; gap:5px;
+    border:0; border-bottom:1px solid #ccc; text-align:left; padding:4px 7px;
   }
-  .file-item span:nth-child(2) { font-size:12px; }
-  .paper-file, .pdf-file { transform:scale(.8); }
-  .reader-toolbar span { display:none; }
+  .file-item span:nth-child(2) { font-size:11px; }
+  .paper-file, .pdf-file { transform:scale(.7); transform-origin:center; }
+  .reader-toolbar { height:31px; padding:3px; }
+  .reader-toolbar span { display:block; font-size:9px; }
+  .reader-toolbar a { display:none; }
   .reader-window iframe { border:0; }
   .about-window, .settings-window, .game-window { overflow:auto; }
   .about-content, .settings-content, .game-content { flex:1; }
   .wallpaper-options { grid-template-columns:repeat(2,1fr); }
-  .taskbar { height:46px; padding-bottom:max(3px,env(safe-area-inset-bottom)); }
-  .start-button { min-width:90px; }
+  .taskbar { height:34px; padding-bottom:max(3px,env(safe-area-inset-bottom)); }
+  .start-button { min-width:82px; font-size:11px; }
   .tray { min-width:58px; }
   .task-buttons button { display:none; }
-  .start-menu { bottom:46px; width:calc(100% - 6px); height:300px; }
+  .start-menu { bottom:34px; width:calc(100% - 6px); height:270px; }
   .touch-dpad { display:block; margin-top:12px; }
   .touch-dpad button { width:45px; height:35px; margin:2px; background:#c0c0c0; border:2px outset #fff; }
   .game-board { grid-template-columns:repeat(10,min(8vw,24px)); }

@@ -33,7 +33,7 @@ const { posts, issues } = Astro.props;
   <link rel="stylesheet" href="/styles/pixelos.css" />
 </head>
 <body>
-  <div id="pixel-os" class="pixel-os wallpaper-grid">
+  <div id="pixel-os" class="pixel-os wallpaper-green">
     <header class="mobile-status">
       <strong>Pixel Explorer</strong>
       <time id="mobile-clock">00:00</time>
@@ -68,17 +68,20 @@ const { posts, issues } = Astro.props;
       </div>
 
       <section class="mobile-launcher" aria-label="Explorador">
+        <div class="pda-menu"><span>Archivo</span><span>Ver</span><span>Ayuda</span></div>
+        <div class="pda-address"><span>Mi dispositivo</span><button>▼</button></div>
         <div class="mobile-welcome">
-          <span class="pixel-logo">PIXEL<span>.</span></span>
-          <p>Revista independiente de videojuegos</p>
+          <span class="pixel-logo">Mi Pixel</span>
+          <p>Contenido de \PIXEL</p>
         </div>
         <div class="mobile-folder-list">
-          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Todos los textos publicados</small></span><b>›</b></button>
-          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Conversaciones y perfiles</small></span><b>›</b></button>
-          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Clásicos, acción y recreativas</small></span><b>›</b></button>
-          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>PDF para leer e imprimir</small></span><b>›</b></button>
-          <button data-window="about"><span class="mobile-file-icon">P.</span><span><strong>Sobre PIXEL</strong><small>Información del sistema</small></span><b>›</b></button>
+          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Carpeta de archivos</small></span></button>
+          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Carpeta de archivos</small></span></button>
+          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Carpeta de archivos</small></span></button>
+          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>Carpeta de archivos</small></span></button>
+          <button data-window="about"><span class="mobile-file-icon">P.</span><span><strong>Acerca de PixelOS</strong><small>Documento del sistema</small></span></button>
         </div>
+        <div class="pda-status">{posts.length + issues.length} objetos</div>
       </section>
 
       <section class="os-window explorer-window" id="window-explorer" hidden>
@@ -103,23 +106,7 @@ const { posts, issues } = Astro.props;
         <div class="status-bar"><span id="status-count">0 objetos</span><span>PixelOS 95</span></div>
       </section>
 
-      <section class="os-window reader-window" id="window-reader" hidden>
-        <div class="title-bar">
-          <span class="window-icon">▤</span>
-          <strong id="reader-title">Lector de PIXEL</strong>
-          <div class="window-controls">
-            <button data-minimize aria-label="Minimizar">_</button>
-            <button data-maximize aria-label="Maximizar">□</button>
-            <button data-close aria-label="Cerrar">×</button>
-          </div>
-        </div>
-        <div class="reader-toolbar">
-          <button id="reader-back">← Atrás</button>
-          <span id="reader-path">pixel://articulo</span>
-          <a id="reader-new-tab" href="/" target="_blank">Abrir aparte</a>
-        </div>
-        <iframe id="article-frame" title="Artículo de PIXEL"></iframe>
-      </section>
+      <div id="reader-windows"></div>
 
       <section class="os-window about-window" id="window-about" hidden>
         <div class="title-bar">
@@ -151,10 +138,10 @@ const { posts, issues } = Astro.props;
           <fieldset>
             <legend>Fondo del escritorio</legend>
             <div class="wallpaper-options">
+              <button data-wallpaper="green"><span class="wallpaper-preview green"></span>Verde</button>
+              <button data-wallpaper="maze"><span class="wallpaper-preview maze"></span>Maze 3D</button>
               <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
               <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
-              <button data-wallpaper="clouds"><span class="wallpaper-preview clouds"></span>Nubes</button>
-              <button data-wallpaper="red"><span class="wallpaper-preview red"></span>Alerta</button>
             </div>
           </fieldset>
           <label class="setting-check"><input type="checkbox" id="screensaver-toggle" checked /> Activar salvapantallas tras 45 segundos</label>
@@ -211,16 +198,36 @@ const { posts, issues } = Astro.props;
       <strong>Ahora puede apagar su revista.</strong>
       <button id="restart">Reiniciar PixelOS</button>
     </div>
+
+    <template id="reader-template">
+      <section class="os-window reader-window">
+        <div class="title-bar">
+          <span class="window-icon">▤</span>
+          <strong>Lector de PIXEL</strong>
+          <div class="window-controls">
+            <button data-minimize aria-label="Minimizar">_</button>
+            <button data-maximize aria-label="Maximizar">□</button>
+            <button data-close aria-label="Cerrar">×</button>
+          </div>
+        </div>
+        <div class="reader-toolbar">
+          <button data-reader-back>← Atrás</button>
+          <span data-reader-path>pixel://articulo</span>
+          <a data-reader-new-tab href="/" target="_blank">Abrir aparte</a>
+        </div>
+        <iframe title="Artículo de PIXEL"></iframe>
+      </section>
+    </template>
   </div>
 
   <script define:vars={{ posts, issues }}>
     const os = document.getElementById('pixel-os');
-    const windows = [...document.querySelectorAll('.os-window')];
     const explorer = document.getElementById('window-explorer');
     const fileView = document.getElementById('file-view');
     const taskButtons = document.getElementById('task-buttons');
     const startMenu = document.getElementById('start-menu');
-    const articleFrame = document.getElementById('article-frame');
+    const readerWindows = document.getElementById('reader-windows');
+    const readerTemplate = document.getElementById('reader-template');
     const folderTitles = {
       all: ['Artículos', 'C:\\PIXEL\\ARTICULOS'],
       entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
@@ -229,6 +236,11 @@ const { posts, issues } = Astro.props;
     };
     let topZ = 20;
     let currentFolder = 'all';
+    let readerOffset = 0;
+
+    function allWindows() {
+      return [...document.querySelectorAll('.os-window')];
+    }
 
     function showWindow(id) {
       const win = document.getElementById(`window-${id}`);
@@ -243,7 +255,7 @@ const { posts, issues } = Astro.props;
     function focusWindow(win) {
       topZ += 1;
       win.style.zIndex = String(topZ);
-      windows.forEach(item => item.classList.toggle('focused', item === win));
+      allWindows().forEach(item => item.classList.toggle('focused', item === win));
     }
 
     function closeWindow(win) {
@@ -254,7 +266,7 @@ const { posts, issues } = Astro.props;
 
     function syncTasks() {
       taskButtons.innerHTML = '';
-      windows.filter(win => !win.hidden).forEach(win => {
+      allWindows().filter(win => !win.hidden).forEach(win => {
         const button = document.createElement('button');
         button.textContent = win.querySelector('.title-bar strong')?.textContent || 'Ventana';
         button.className = win.classList.contains('minimized') ? '' : 'active';
@@ -335,11 +347,33 @@ const { posts, issues } = Astro.props;
 
     function openArticle(post) {
       const url = `/posts/${post.id}`;
-      articleFrame.src = url;
-      document.getElementById('reader-title').textContent = post.title;
-      document.getElementById('reader-path').textContent = `pixel://${post.id}`;
-      document.getElementById('reader-new-tab').href = url;
-      showWindow('reader');
+      const existing = document.querySelector(`[data-reader-id="${CSS.escape(post.id)}"]`);
+      if (existing) {
+        existing.classList.remove('minimized');
+        focusWindow(existing);
+        syncTasks();
+        return;
+      }
+      const win = readerTemplate.content.firstElementChild.cloneNode(true);
+      win.dataset.readerId = post.id;
+      win.querySelector('.title-bar strong').textContent = post.title;
+      win.querySelector('[data-reader-path]').textContent = `C:\\PIXEL\\ARTICULOS\\${post.id}.HTM`;
+      win.querySelector('[data-reader-new-tab]').href = url;
+      win.querySelector('iframe').src = url;
+      if (!matchMedia('(max-width: 700px)').matches) {
+        win.style.left = `${210 + (readerOffset % 7) * 30}px`;
+        win.style.top = `${55 + (readerOffset % 7) * 24}px`;
+        readerOffset += 1;
+      }
+      readerWindows.appendChild(win);
+      bindWindow(win);
+      win.querySelector('[data-reader-back]').addEventListener('click', () => {
+        closeWindow(win);
+        win.remove();
+        showWindow('explorer');
+      });
+      focusWindow(win);
+      syncTasks();
     }
 
     function formatDate(date) {
@@ -348,37 +382,18 @@ const { posts, issues } = Astro.props;
 
     document.querySelectorAll('[data-folder]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folder)));
     document.querySelectorAll('[data-window]').forEach(button => button.addEventListener('click', () => showWindow(button.dataset.window)));
-    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => closeWindow(button.closest('.os-window'))));
-    document.querySelectorAll('[data-minimize]').forEach(button => button.addEventListener('click', () => {
-      button.closest('.os-window').classList.add('minimized');
-      syncTasks();
-    }));
-    document.querySelectorAll('[data-maximize]').forEach(button => button.addEventListener('click', () => button.closest('.os-window').classList.toggle('maximized')));
-    windows.forEach(win => win.addEventListener('pointerdown', () => focusWindow(win)));
-
-    document.getElementById('reader-back').addEventListener('click', () => {
-      closeWindow(document.getElementById('window-reader'));
-      showWindow('explorer');
-    });
-    document.getElementById('start-button').addEventListener('click', event => {
-      event.stopPropagation();
-      startMenu.hidden = !startMenu.hidden;
-    });
-    document.addEventListener('click', event => {
-      if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true;
-    });
-
-    document.querySelectorAll('[data-wallpaper]').forEach(button => button.addEventListener('click', () => {
-      os.className = `pixel-os wallpaper-${button.dataset.wallpaper}`;
-      localStorage.setItem('pixelos-wallpaper', button.dataset.wallpaper);
-    }));
-    const savedWallpaper = localStorage.getItem('pixelos-wallpaper');
-    if (savedWallpaper) os.className = `pixel-os wallpaper-${savedWallpaper}`;
-
-    windows.forEach((win, index) => {
+    function bindWindow(win) {
+      win.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => {
+        closeWindow(win);
+        if (win.dataset.readerId) win.remove();
+      }));
+      win.querySelectorAll('[data-minimize]').forEach(button => button.addEventListener('click', () => {
+        win.classList.add('minimized');
+        syncTasks();
+      }));
+      win.querySelectorAll('[data-maximize]').forEach(button => button.addEventListener('click', () => win.classList.toggle('maximized')));
+      win.addEventListener('pointerdown', () => focusWindow(win));
       if (matchMedia('(max-width: 700px)').matches) return;
-      win.style.left = `${170 + index * 28}px`;
-      win.style.top = `${70 + index * 24}px`;
       const bar = win.querySelector('.title-bar');
       let dragging = false;
       let offsetX = 0;
@@ -396,6 +411,28 @@ const { posts, issues } = Astro.props;
         win.style.top = `${Math.max(0, event.clientY - offsetY)}px`;
       });
       bar.addEventListener('pointerup', () => dragging = false);
+    }
+
+    allWindows().forEach(bindWindow);
+    document.getElementById('start-button').addEventListener('click', event => {
+      event.stopPropagation();
+      startMenu.hidden = !startMenu.hidden;
+    });
+    document.addEventListener('click', event => {
+      if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true;
+    });
+
+    document.querySelectorAll('[data-wallpaper]').forEach(button => button.addEventListener('click', () => {
+      os.className = `pixel-os wallpaper-${button.dataset.wallpaper}`;
+      localStorage.setItem('pixelos-wallpaper-v2', button.dataset.wallpaper);
+    }));
+    const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v2');
+    if (savedWallpaper) os.className = `pixel-os wallpaper-${savedWallpaper}`;
+
+    allWindows().forEach((win, index) => {
+      if (matchMedia('(max-width: 700px)').matches) return;
+      win.style.left = `${170 + index * 28}px`;
+      win.style.top = `${70 + index * 24}px`;
     });
 
     function updateClock() {
