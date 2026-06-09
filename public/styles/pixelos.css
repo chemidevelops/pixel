@@ -12,7 +12,7 @@ button { cursor: default; }
 .wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
 .desktop { position: absolute; inset: 0 0 31px; }
 .desktop-icons { display: grid; grid-auto-flow: column; grid-template-rows: repeat(6, 84px); grid-auto-columns: 76px; gap: 14px 10px; align-content: start; justify-content: start; padding: 12px 10px; }
-.desktop-icon { width: 72px; min-height: 78px; border: 1px solid transparent; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 2px; }
+.desktop-icon { appearance: none; box-shadow: none; width: 72px; min-height: 78px; border: 1px solid transparent; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 2px; margin: 0; }
 .desktop-icon:hover, .desktop-icon:focus { border: 1px dotted #fff; background: transparent; }
 .desktop-icon-image { width: 32px; height: 32px; image-rendering: pixelated; }
 .desktop-icon span { display: inline-block; max-width: 70px; color: #fff; text-align: center; line-height: 1.1; font-size: 12px; text-shadow: 1px 1px 0 #000; }
@@ -32,7 +32,7 @@ button { cursor: default; }
 .sidebar-heading { margin: 0 0 6px; font: 700 11px Tahoma, Arial, sans-serif; text-transform: uppercase; }
 .folder-tree { flex: 0 0 auto; margin: 0 0 10px; }
 .folder-tree li { margin-bottom: 2px; }
-.tree-button { display: flex; align-items: center; gap: 6px; width: 100%; padding: 2px 3px; border: 0; background: transparent; text-align: left; font: 12px Tahoma, Arial, sans-serif; }
+.tree-button { appearance: none; box-shadow: none; display: flex; align-items: center; gap: 6px; width: 100%; padding: 2px 3px; border: 0; background: transparent; text-align: left; font: 12px Tahoma, Arial, sans-serif; }
 .tree-button img { width: 16px; height: 16px; image-rendering: pixelated; }
 .tree-button.active, .tree-button:hover, .tree-button:focus { background: #000080; color: #fff; }
 .folder-summary { margin-top: auto; padding: 10px 2px 2px; border-top: 1px solid silver; text-align: left; }
@@ -43,21 +43,20 @@ button { cursor: default; }
 .file-panel { height: 100%; overflow: auto; }
 .file-table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 11px Tahoma, Arial, sans-serif; }
 .file-table thead th { position: sticky; top: 0; z-index: 1; background: var(--material); text-align: left; font: 11px Tahoma, Arial, sans-serif; font-weight: 400; }
-.file-table th:nth-child(1) { width: 52%; }
+.file-table th:nth-child(1) { width: 56%; }
 .file-table th:nth-child(2) { width: 14%; }
-.file-table th:nth-child(3) { width: 18%; }
-.file-table th:nth-child(4) { width: 16%; }
-.file-table th, .file-table td { padding: 2px 5px; vertical-align: top; }
+.file-table th:nth-child(3) { width: 16%; }
+.file-table th:nth-child(4) { width: 14%; }
+.file-table th, .file-table td { padding: 2px 5px; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; }
 .file-table td:nth-child(2), .file-table td:nth-child(3), .file-table td:nth-child(4) { white-space: nowrap; }
 .file-item { cursor: default; }
 .file-item.highlighted td { background: #000080; color: #fff; }
-.name-cell { display: flex; align-items: flex-start; gap: 6px; min-width: 0; }
+.name-cell { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .file-type-icon { width: 16px; height: 16px; margin-top: 1px; image-rendering: pixelated; flex: 0 0 auto; }
-.file-main { min-width: 0; display: flex; flex-direction: column; gap: 1px; line-height: 1.15; }
+.file-main { min-width: 0; display: block; line-height: 1.15; }
 .file-main strong, .file-main small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .file-main strong { font-weight: 700; }
-.file-main small { color: #666; font-size: 11px; }
-.file-item.highlighted .file-main small { color: #d7ddff; }
+.file-main small { display: none; }
 .reader-window { width: min(860px, calc(100vw - 200px)); height: min(640px, calc(100vh - 84px)); }
 .reader-body { display: flex; flex-direction: column; gap: 6px; height: calc(100% - 12px); min-height: 0; padding: 6px; background: var(--material); }
 .reader-caption { margin: 0; padding: 3px 6px; border: 2px inset #fff; background: #fff; font: 11px 'Courier New', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -86,7 +85,7 @@ button { cursor: default; }
 .start-brand b { color: #fff; }
 .start-items { padding: 3px; display: flex; flex-direction: column; gap: 1px; }
 .start-items hr { width: 100%; margin: 3px 0; border: 0; border-top: 1px solid #808080; border-bottom: 1px solid #fff; }
-.start-items button { display: grid; grid-template-columns: 24px 1fr; align-items: center; gap: 8px; min-height: 30px; border: 0; background: transparent; text-align: left; padding: 3px 6px; font: 11px Tahoma, Arial, sans-serif; }
+.start-items button { appearance: none; box-shadow: none; display: grid; grid-template-columns: 24px 1fr; align-items: center; gap: 8px; min-height: 30px; border: 0; background: transparent; text-align: left; padding: 3px 6px; font: 11px Tahoma, Arial, sans-serif; }
 .start-items button:hover, .start-items button:focus { background: #000080; color: #fff; }
 .menu-icon { width: 16px; height: 16px; image-rendering: pixelated; }
 .mobile-status, .mobile-launcher { display: none; }

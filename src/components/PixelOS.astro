@@ -290,7 +290,7 @@ const iconUrls = {
       const row = document.createElement('tr');
       row.className = 'file-item';
       row.tabIndex = 0;
-      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong><small>' + (post.excerpt || 'Artículo de PIXEL') + '</small></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'PIXEL') + '</td>';
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'PIXEL') + '</td>';
       row.addEventListener('dblclick', function() { openArticle(post); });
       row.addEventListener('click', function() {
         if (matchMedia('(max-width: 700px)').matches) {
@@ -308,7 +308,7 @@ const iconUrls = {
       const href = print ? issue.pdfPrint : issue.pdf;
       row.className = 'file-item';
       row.tabIndex = 0;
-      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.pdf + '" alt="" /><span class="file-main"><strong>' + issue.title + (print ? ' — Imprimir' : '') + '</strong><small>Edición descargable</small></span></td><td>' + issue.date + '</td><td>Adobe PDF</td><td>Descarga</td>';
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.pdf + '" alt="" /><span class="file-main"><strong>' + issue.title + (print ? ' — Imprimir' : '') + '</strong></span></td><td>' + issue.date + '</td><td>Adobe PDF</td><td>Descarga</td>';
       function triggerDownload() {
         const link = document.createElement('a');
         link.href = href;
