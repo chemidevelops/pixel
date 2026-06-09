@@ -376,22 +376,7 @@ const iconUrls = {
       if (button.dataset.desktopFolder) openFolder(button.dataset.desktopFolder);
       if (button.dataset.desktopWindow) showWindow(button.dataset.desktopWindow);
     }
-    desktopButtons().forEach(function(button) {
-      button.addEventListener('click', function(event) {
-        if (button.dataset.dragMoved === 'true') {
-          button.dataset.dragMoved = 'false';
-          return;
-        }
-        selectDesktopButton(button, event.ctrlKey || event.metaKey);
-      });
-      button.addEventListener('dblclick', function() {
-        if (button.dataset.dragMoved === 'true') {
-          button.dataset.dragMoved = 'false';
-          return;
-        }
-        openDesktopButton(button);
-      });
-    });
+    let lastDesktopClick = { button: null, time: 0 };
 
     function bindWindow(win) {
       win.querySelectorAll('[data-close]').forEach(function(button) { button.addEventListener('click', function() { closeWindow(win); if (win.dataset.readerId) win.remove(); }); });
@@ -431,6 +416,11 @@ const iconUrls = {
     function desktopItems() {
       return Array.from(document.querySelectorAll('.desktop-icon-item'));
     }
+    function selectedDesktopItems() {
+      return desktopItems().filter(function(item) {
+        return item.querySelector('.desktop-icon').classList.contains('selected');
+      });
+    }
     function slotForPosition(left, top) {
       return {
         col: Math.max(0, Math.round(left / desktopGrid.stepX)),
@@ -461,6 +451,31 @@ const iconUrls = {
       }
       return target;
     }
+    function snapItemsToFreeSlots(items) {
+      const selectedSet = new Set(items);
+      const occupied = new Set();
+      desktopItems().forEach(function(node) {
+        if (selectedSet.has(node)) return;
+        const slot = slotForPosition(node.offsetLeft, node.offsetTop);
+        occupied.add(slot.col + ':' + slot.row);
+      });
+      items.slice().sort(function(a, b) {
+        if (a.offsetTop !== b.offsetTop) return a.offsetTop - b.offsetTop;
+        return a.offsetLeft - b.offsetLeft;
+      }).forEach(function(item) {
+        const target = slotForPosition(item.offsetLeft, item.offsetTop);
+        let chosen = target;
+        if (occupied.has(target.col + ':' + target.row)) {
+          chosen = findNearestFreeSlot(item.offsetLeft, item.offsetTop, item);
+          while (occupied.has(chosen.col + ':' + chosen.row)) {
+            chosen = { col: chosen.col + 1, row: chosen.row };
+          }
+        }
+        occupied.add(chosen.col + ':' + chosen.row);
+        item.style.left = String(chosen.col * desktopGrid.stepX) + 'px';
+        item.style.top = String(chosen.row * desktopGrid.stepY) + 'px';
+      });
+    }
     document.querySelectorAll('.desktop-icon-item').forEach(function(item) {
       if (matchMedia('(max-width: 700px)').matches) return;
       const button = item.querySelector('.desktop-icon');
@@ -468,18 +483,22 @@ const iconUrls = {
       let moved = false;
       let startX = 0;
       let startY = 0;
-      let baseLeft = 0;
-      let baseTop = 0;
+      let draggedItems = [];
+      let itemOrigins = new Map();
       item.addEventListener('pointerdown', function(event) {
         if (event.target.closest('.desktop-icon') == null) return;
-        selectDesktopButton(button, event.ctrlKey || event.metaKey);
+        if (!button.classList.contains('selected')) selectDesktopButton(button, event.ctrlKey || event.metaKey);
         dragging = true;
         moved = false;
         startX = event.clientX;
         startY = event.clientY;
-        baseLeft = item.offsetLeft;
-        baseTop = item.offsetTop;
-        item.style.zIndex = '5';
+        draggedItems = selectedDesktopItems();
+        if (!draggedItems.length) draggedItems = [item];
+        itemOrigins = new Map();
+        draggedItems.forEach(function(node) {
+          itemOrigins.set(node, { left: node.offsetLeft, top: node.offsetTop });
+          node.style.zIndex = '5';
+        });
         item.setPointerCapture(event.pointerId);
       });
       item.addEventListener('pointermove', function(event) {
@@ -488,21 +507,33 @@ const iconUrls = {
         const dy = event.clientY - startY;
         if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
         if (!moved) return;
-        button.dataset.dragMoved = 'true';
-        item.style.left = String(Math.max(0, baseLeft + dx)) + 'px';
-        item.style.top = String(Math.max(0, baseTop + dy)) + 'px';
+        draggedItems.forEach(function(node) {
+          const origin = itemOrigins.get(node);
+          node.style.left = String(Math.max(0, origin.left + dx)) + 'px';
+          node.style.top = String(Math.max(0, origin.top + dy)) + 'px';
+        });
       });
       item.addEventListener('pointerup', function(event) {
         dragging = false;
-        const freeSlot = findNearestFreeSlot(item.offsetLeft, item.offsetTop, item);
-        item.style.left = String(freeSlot.col * desktopGrid.stepX) + 'px';
-        item.style.top = String(freeSlot.row * desktopGrid.stepY) + 'px';
-        item.style.zIndex = '';
+        if (moved) {
+          snapItemsToFreeSlots(draggedItems);
+        } else {
+          const clickedButton = item.querySelector('.desktop-icon');
+          const now = Date.now();
+          if (lastDesktopClick.button === clickedButton && now - lastDesktopClick.time < 350) {
+            openDesktopButton(clickedButton);
+            lastDesktopClick = { button: null, time: 0 };
+          } else {
+            selectDesktopButton(clickedButton, event.ctrlKey || event.metaKey);
+            lastDesktopClick = { button: clickedButton, time: now };
+          }
+        }
+        draggedItems.forEach(function(node) { node.style.zIndex = ''; });
         item.releasePointerCapture(event.pointerId);
       });
       item.addEventListener('pointercancel', function() {
         dragging = false;
-        item.style.zIndex = '';
+        draggedItems.forEach(function(node) { node.style.zIndex = ''; });
       });
     });
     if (!matchMedia('(max-width: 700px)').matches) {
