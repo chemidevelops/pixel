@@ -19,7 +19,8 @@
     "98.css": "^0.1.21",
     "astro": "^6.4.2",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",

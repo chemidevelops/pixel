@@ -118,8 +118,8 @@ button { cursor: default; }
 .start-divider { width: 100%; height: 1px; background: rgb(123, 125, 123); border-bottom: white solid 1px; margin: 2px 0; }
 .menu-icon { width: 30px; height: 30px; image-rendering: pixelated; flex: 0 0 auto; }
 .mobile-status, .mobile-launcher { display: none; }
-.screensaver { position: fixed; inset: 0; z-index: 20000; background: #020207; overflow: hidden; color: #fff; }
-.screensaver canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+.screensaver { position: fixed; inset: 0; z-index: 20000; background: #000; overflow: hidden; color: #fff; }
+.screensaver canvas { width: 100%; height: 100%; display: block; }
 .screensaver small { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #777; font: 11px monospace; }
 .shutdown-screen { position: fixed; inset: 0; z-index: 30000; display: grid; place-content: center; gap: 20px; background: #000; color: #f90; text-align: center; font: 22px Georgia, serif; }
 .game-content { background: #111; color: #fff; font: 12px monospace; text-align: center; }

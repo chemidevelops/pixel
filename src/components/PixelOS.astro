@@ -205,7 +205,7 @@ const iconUrls = {
       </div>
     </footer>
 
-    <div class="screensaver" id="screensaver" hidden><canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
+    <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
     <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
 
     <template id="reader-template">
@@ -219,6 +219,143 @@ const iconUrls = {
     </template>
   </div>
 
+  <script>
+    import * as THREE from 'three';
+
+    const PIPE_COLORS = [0xff4444, 0x44aaff, 0x44ff88, 0xffcc00, 0xff44cc, 0x00ffee, 0xff8800, 0xaaaaff];
+    const DIRS = [
+      [1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1],
+    ].map(([x,y,z]) => new THREE.Vector3(x,y,z));
+    const GRID = 9;
+    const RADIUS = 0.13;
+    const MAX_MESHES = 300;
+
+    function randomDir() { return DIRS[Math.floor(Math.random() * DIRS.length)].clone(); }
+    function randomColor() { return PIPE_COLORS[Math.floor(Math.random() * PIPE_COLORS.length)]; }
+
+    function buildPipe() {
+      return {
+        pos: new THREE.Vector3(
+          Math.floor(Math.random() * GRID) - GRID / 2,
+          Math.floor(Math.random() * GRID) - GRID / 2,
+          Math.floor(Math.random() * GRID) - GRID / 2,
+        ),
+        dir: randomDir(),
+        mat: new THREE.MeshPhongMaterial({ color: randomColor(), shininess: 60 }),
+        life: 0,
+        maxLife: 8 + Math.floor(Math.random() * 18),
+      };
+    }
+
+    function addSegment(scene, pipe) {
+      const mid = pipe.pos.clone().addScaledVector(pipe.dir, 0.5);
+
+      const seg = new THREE.Mesh(
+        new THREE.CylinderGeometry(RADIUS, RADIUS, 1, 10, 1),
+        pipe.mat,
+      );
+      seg.position.copy(mid);
+      if (Math.abs(pipe.dir.x) > 0.5) seg.rotation.z = Math.PI / 2;
+      else if (Math.abs(pipe.dir.z) > 0.5) seg.rotation.x = Math.PI / 2;
+      scene.add(seg);
+
+      const joint = new THREE.Mesh(
+        new THREE.SphereGeometry(RADIUS * 1.4, 8, 8),
+        pipe.mat,
+      );
+      joint.position.copy(pipe.pos);
+      scene.add(joint);
+
+      pipe.pos.add(pipe.dir);
+      pipe.life++;
+    }
+
+    let activePipes = null;
+
+    window.startPipesScreensaver = function () {
+      const canvas = document.getElementById('pipes-canvas');
+      if (!canvas) return;
+      if (activePipes) { activePipes.stop(); activePipes = null; }
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 120);
+      camera.position.set(0, 5, 16);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+      const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+      sun.position.set(8, 12, 10);
+      scene.add(sun);
+
+      const pipes = Array.from({ length: 6 }, buildPipe);
+      let tick = 0;
+      let animId = 0;
+
+      function resize() {
+        const el = canvas.parentElement;
+        if (!el) return;
+        const w = el.clientWidth || 400;
+        const h = el.clientHeight || 300;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      function loop() {
+        animId = requestAnimationFrame(loop);
+        tick++;
+
+        if (tick % 4 === 0) {
+          const meshes = scene.children.filter(c => c.isMesh);
+          if (meshes.length > MAX_MESHES) meshes.slice(0, 60).forEach(m => { scene.remove(m); m.geometry.dispose(); });
+
+          pipes.forEach(pipe => {
+            if (pipe.life >= pipe.maxLife) {
+              pipe.mat.dispose();
+              Object.assign(pipe, buildPipe());
+            } else {
+              if (Math.random() < 0.35) {
+                const back = pipe.dir.clone().negate();
+                const candidates = DIRS.filter(d => !d.equals(back));
+                pipe.dir = candidates[Math.floor(Math.random() * candidates.length)].clone();
+              }
+              addSegment(scene, pipe);
+            }
+          });
+        }
+
+        const t = tick * 0.0015;
+        camera.position.x = Math.sin(t) * 16;
+        camera.position.z = Math.cos(t) * 16;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      loop();
+
+      activePipes = {
+        stop() {
+          cancelAnimationFrame(animId);
+          window.removeEventListener('resize', resize);
+          pipes.forEach(p => p.mat.dispose());
+          scene.children.filter(c => c.isMesh).forEach(m => { scene.remove(m); m.geometry.dispose(); });
+          renderer.dispose();
+        },
+      };
+    };
+
+    window.stopPipesScreensaver = function () {
+      if (activePipes) { activePipes.stop(); activePipes = null; }
+    };
+  </script>
+
   <script define:vars={{ posts, issues, iconUrls }}>
     const os = document.getElementById('pixel-os');
     const desktop = document.querySelector('.desktop');
@@ -229,7 +366,6 @@ const iconUrls = {
     const startMenu = document.getElementById('start-menu');
     const readerWindows = document.getElementById('reader-windows');
     const readerTemplate = document.getElementById('reader-template');
-    const mazeCanvas = document.getElementById('maze-screensaver');
     const folderTitles = {
       all: ['Artículos', 'C:\\PIXEL\\ARTICULOS'],
       entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
@@ -705,45 +841,6 @@ const iconUrls = {
     const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
     if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
 
-    const mazeMap = ['111111111111','100000100001','101110101101','101000001001','101011111001','100010000001','111010111101','100010100001','101110101111','100000100001','101111000001','111111111111'];
-    const mazeContext = mazeCanvas.getContext('2d', { alpha: false });
-    mazeContext.imageSmoothingEnabled = false;
-    let mazeFrame = 0;
-    let mazeLastTime = 0;
-    const mazePlayer = { x: 1.5, y: 1.5, angle: 0 };
-    function wallAt(x, y) { const row = mazeMap[Math.floor(y)]; return !row || row[Math.floor(x)] !== '0'; }
-    function renderMaze(time) {
-      if (screensaver.hidden) { mazeFrame = 0; return; }
-      const elapsed = Math.min(0.04, (time - mazeLastTime) / 1000 || 0);
-      mazeLastTime = time;
-      const speed = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.08 : 0.55;
-      const nextX = mazePlayer.x + Math.cos(mazePlayer.angle) * elapsed * speed;
-      const nextY = mazePlayer.y + Math.sin(mazePlayer.angle) * elapsed * speed;
-      if (!wallAt(nextX, nextY)) { mazePlayer.x = nextX; mazePlayer.y = nextY; } else { mazePlayer.angle += Math.PI / 2; }
-      mazePlayer.angle += Math.sin(time / 2800) * 0.0007;
-      const width = mazeCanvas.width;
-      const height = mazeCanvas.height;
-      mazeContext.fillStyle = '#101018'; mazeContext.fillRect(0, 0, width, height / 2);
-      mazeContext.fillStyle = '#4c4c52'; mazeContext.fillRect(0, height / 2, width, height / 2);
-      for (let row = height / 2; row < height; row += 4) { const alpha = Math.max(0.02, 0.2 - (row - height / 2) / height * 0.18); mazeContext.fillStyle = 'rgba(255,255,255,' + alpha + ')'; mazeContext.fillRect(0, row, width, 1); }
-      for (let column = 0; column < width; column += 2) {
-        const rayAngle = mazePlayer.angle - Math.PI / 6 + (column / width) * Math.PI / 3;
-        let distance = 0.04;
-        while (distance < 14 && !wallAt(mazePlayer.x + Math.cos(rayAngle) * distance, mazePlayer.y + Math.sin(rayAngle) * distance)) distance += 0.035;
-        const corrected = distance * Math.cos(rayAngle - mazePlayer.angle);
-        const wallHeight = Math.min(height, height / Math.max(0.2, corrected));
-        const shade = Math.max(38, 185 - corrected * 15);
-        const red = Math.min(220, shade + 35);
-        const green = Math.max(40, shade * 0.46);
-        const blue = Math.max(30, shade * 0.34);
-        mazeContext.fillStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
-        mazeContext.fillRect(column, (height - wallHeight) / 2, 2, wallHeight);
-        mazeContext.fillStyle = 'rgba(0,0,0,' + (0.12 + (column % 8 === 0 ? 0.15 : 0)) + ')';
-        mazeContext.fillRect(column, (height - wallHeight) / 2, 1, wallHeight);
-      }
-      mazeFrame = requestAnimationFrame(renderMaze);
-    }
-    function startMazeScreensaver() { cancelAnimationFrame(mazeFrame); mazeFrame = 0; mazeLastTime = performance.now(); mazeFrame = requestAnimationFrame(renderMaze); }
     allWindows().forEach(function(win, index) { if (matchMedia('(max-width: 700px)').matches) return; win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
     function updateClock() { const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
     updateClock();
@@ -751,7 +848,7 @@ const iconUrls = {
     const screensaver = document.getElementById('screensaver');
     const saverToggle = document.getElementById('screensaver-toggle');
     let saverTimer;
-    function resetSaver() { screensaver.hidden = true; cancelAnimationFrame(mazeFrame); mazeFrame = 0; clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { screensaver.hidden = false; startMazeScreensaver(); }, 45000); }
+    function resetSaver() { screensaver.hidden = true; window.stopPipesScreensaver && window.stopPipesScreensaver(); clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { screensaver.hidden = false; window.startPipesScreensaver && window.startPipesScreensaver(); }, 45000); }
     ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(function(name) { document.addEventListener(name, resetSaver, { passive: true }); });
     saverToggle.addEventListener('change', resetSaver);
     resetSaver();
