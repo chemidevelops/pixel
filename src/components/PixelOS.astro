@@ -159,12 +159,12 @@ const iconUrls = {
     <div class="start-menu" id="start-menu" hidden>
       <div class="start-brand">PixelOS <b>95</b></div>
       <div class="start-items">
-        <button data-folder="all"><span>▣</span> Artículos</button>
-        <button data-folder="fanzines"><span>▤</span> Fanzines</button>
-        <button data-window="settings"><span>⚙</span> Configuración</button>
-        <button data-window="about"><span>ⓘ</span> Acerca de...</button>
+        <button data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
+        <button data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
+        <button data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
+        <button data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
         <hr />
-        <button id="shutdown"><span>◼</span> Apagar...</button>
+        <button id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
       </div>
     </div>
 
@@ -176,8 +176,10 @@ const iconUrls = {
     <template id="reader-template">
       <section class="window os-window reader-window">
         <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de PIXEL</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
-        <div class="reader-caption" data-reader-path>pixel://articulo</div>
-        <iframe title="Artículo de PIXEL"></iframe>
+        <div class="window-body reader-body">
+          <div class="reader-caption" data-reader-path>pixel://articulo</div>
+          <iframe title="Artículo de PIXEL"></iframe>
+        </div>
       </section>
     </template>
   </div>
