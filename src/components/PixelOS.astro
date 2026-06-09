@@ -430,7 +430,7 @@ const iconUrls = {
       focusWindow(win);
       syncTasks();
       startMenu.hidden = true;
-      if (id === 'taisei') win.dispatchEvent(new Event('taisei-open'));
+      if (id === 'taisei') { win.dispatchEvent(new Event('taisei-open')); setTimeout(function() { document.getElementById('taisei-frame').focus(); }, 600); }
     }
 
     function showWindow(id) {
