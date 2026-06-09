@@ -11,6 +11,7 @@ button { cursor: default; }
 .wallpaper-teal { background: #008080; }
 .wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
 .desktop { position: absolute; inset: 0 0 31px; }
+.desktop-selection-box { position: absolute; border: 1px dotted #fff; background: rgba(0, 0, 128, 0.18); pointer-events: none; z-index: 3; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
 .desktop-icon-item { position: absolute; width: 82px; height: 92px; outline: none; }
 .desktop-icon-item:nth-child(1) { left: 0; top: 0; }
@@ -25,9 +26,9 @@ button { cursor: default; }
 .border-box { padding: 1px 3px; }
 .desktop-icon::-moz-focus-inner { border: 0; }
 .desktop-icon:focus, .desktop-icon:focus-visible, .desktop-icon-item:focus, .desktop-icon-item:focus-within { outline: none !important; box-shadow: none !important; }
-.desktop-icon:focus .desktop-icon-image { filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(400%) contrast(0.9); }
-.desktop-icon:focus .desktop-icon-label { background: rgb(0, 0, 118); color: white; margin: 0; text-shadow: none; }
-.desktop-icon:focus .border-box { border: rgb(255, 255, 148) dotted 1px; }
+.desktop-icon:focus .desktop-icon-image, .desktop-icon.selected .desktop-icon-image { filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(400%) contrast(0.9); }
+.desktop-icon:focus .desktop-icon-label, .desktop-icon.selected .desktop-icon-label { background: rgb(0, 0, 118); color: white; margin: 0; text-shadow: none; }
+.desktop-icon:focus .border-box, .desktop-icon.selected .border-box { border: rgb(255, 255, 148) dotted 1px; }
 .wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; }
 .wallpaper-grid .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(820px, calc(100vw - 180px)); min-width: 520px; height: min(560px, calc(100vh - 100px)); min-height: 320px; margin: 0; box-sizing: border-box; overflow: hidden; }

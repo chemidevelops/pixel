@@ -62,6 +62,7 @@ const iconUrls = {
     </header>
 
     <main class="desktop" aria-label="Escritorio PixelOS">
+      <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><div class="border-box"><p class="desktop-icon-label">Arcade</p></div></button></li>
@@ -185,6 +186,8 @@ const iconUrls = {
 
   <script define:vars={{ posts, issues, iconUrls }}>
     const os = document.getElementById('pixel-os');
+    const desktop = document.querySelector('.desktop');
+    const desktopSelectionBox = document.getElementById('desktop-selection-box');
     const explorer = document.getElementById('window-explorer');
     const fileView = document.getElementById('file-view');
     const taskButtons = document.getElementById('task-buttons');
@@ -358,11 +361,35 @@ const iconUrls = {
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
     document.querySelectorAll('[data-folder-nav]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folderNav); }); });
     document.querySelectorAll('[data-window]').forEach(function(button) { button.addEventListener('click', function() { showWindow(button.dataset.window); }); });
-    document.querySelectorAll('.desktop-icon').forEach(function(button) {
-      button.addEventListener('click', function() { button.focus(); });
+    function desktopButtons() {
+      return Array.from(document.querySelectorAll('.desktop-icon'));
+    }
+    function clearDesktopSelection() {
+      desktopButtons().forEach(function(button) { button.classList.remove('selected'); });
+    }
+    function selectDesktopButton(button, additive) {
+      if (!additive) clearDesktopSelection();
+      button.classList.add('selected');
+      button.focus();
+    }
+    function openDesktopButton(button) {
+      if (button.dataset.desktopFolder) openFolder(button.dataset.desktopFolder);
+      if (button.dataset.desktopWindow) showWindow(button.dataset.desktopWindow);
+    }
+    desktopButtons().forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        if (button.dataset.dragMoved === 'true') {
+          button.dataset.dragMoved = 'false';
+          return;
+        }
+        selectDesktopButton(button, event.ctrlKey || event.metaKey);
+      });
       button.addEventListener('dblclick', function() {
-        if (button.dataset.desktopFolder) openFolder(button.dataset.desktopFolder);
-        if (button.dataset.desktopWindow) showWindow(button.dataset.desktopWindow);
+        if (button.dataset.dragMoved === 'true') {
+          button.dataset.dragMoved = 'false';
+          return;
+        }
+        openDesktopButton(button);
       });
     });
 
@@ -445,6 +472,7 @@ const iconUrls = {
       let baseTop = 0;
       item.addEventListener('pointerdown', function(event) {
         if (event.target.closest('.desktop-icon') == null) return;
+        selectDesktopButton(button, event.ctrlKey || event.metaKey);
         dragging = true;
         moved = false;
         startX = event.clientX;
@@ -460,6 +488,7 @@ const iconUrls = {
         const dy = event.clientY - startY;
         if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
         if (!moved) return;
+        button.dataset.dragMoved = 'true';
         item.style.left = String(Math.max(0, baseLeft + dx)) + 'px';
         item.style.top = String(Math.max(0, baseTop + dy)) + 'px';
       });
@@ -475,10 +504,50 @@ const iconUrls = {
         dragging = false;
         item.style.zIndex = '';
       });
-      button.addEventListener('dblclick', function(event) {
-        if (moved) event.preventDefault();
-      });
     });
+    if (!matchMedia('(max-width: 700px)').matches) {
+      let boxSelecting = false;
+      let boxStartX = 0;
+      let boxStartY = 0;
+      desktop.addEventListener('pointerdown', function(event) {
+        if (event.target.closest('.desktop-icon, .window, .taskbar, .start-menu')) return;
+        boxSelecting = true;
+        boxStartX = event.clientX;
+        boxStartY = event.clientY;
+        clearDesktopSelection();
+        desktopSelectionBox.hidden = false;
+        desktopSelectionBox.style.left = event.clientX + 'px';
+        desktopSelectionBox.style.top = event.clientY + 'px';
+        desktopSelectionBox.style.width = '0px';
+        desktopSelectionBox.style.height = '0px';
+      });
+      desktop.addEventListener('pointermove', function(event) {
+        if (!boxSelecting) return;
+        const left = Math.min(boxStartX, event.clientX);
+        const top = Math.min(boxStartY, event.clientY);
+        const width = Math.abs(event.clientX - boxStartX);
+        const height = Math.abs(event.clientY - boxStartY);
+        desktopSelectionBox.style.left = left + 'px';
+        desktopSelectionBox.style.top = top + 'px';
+        desktopSelectionBox.style.width = width + 'px';
+        desktopSelectionBox.style.height = height + 'px';
+        const box = { left: left, top: top, right: left + width, bottom: top + height };
+        desktopButtons().forEach(function(button) {
+          const rect = button.getBoundingClientRect();
+          const intersects = !(rect.right < box.left || rect.left > box.right || rect.bottom < box.top || rect.top > box.bottom);
+          button.classList.toggle('selected', intersects);
+        });
+      });
+      desktop.addEventListener('pointerup', function() {
+        if (!boxSelecting) return;
+        boxSelecting = false;
+        desktopSelectionBox.hidden = true;
+      });
+      desktop.addEventListener('pointercancel', function() {
+        boxSelecting = false;
+        desktopSelectionBox.hidden = true;
+      });
+    }
     document.getElementById('start-button').addEventListener('click', function(event) { event.stopPropagation(); startMenu.hidden = !startMenu.hidden; });
     document.addEventListener('click', function(event) { if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true; });
     document.querySelectorAll('[data-wallpaper]').forEach(function(button) { button.addEventListener('click', function() { os.className = 'pixel-os wallpaper-' + button.dataset.wallpaper; localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper); }); });
