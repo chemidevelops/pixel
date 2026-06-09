@@ -377,7 +377,15 @@ const iconUrls = {
       let offsetX = 0;
       let offsetY = 0;
       bar.addEventListener('pointerdown', function(event) {
-        if (event.target.closest('button') || win.classList.contains('maximized')) return;
+        if (event.target.closest('button')) return;
+        if (win.classList.contains('maximized')) {
+          const width = Math.min(820, window.innerWidth - 180);
+          win.classList.remove('maximized');
+          win.style.width = width + 'px';
+          win.style.height = Math.min(560, window.innerHeight - 100) + 'px';
+          win.style.left = Math.max(0, event.clientX - width / 2) + 'px';
+          win.style.top = '24px';
+        }
         dragging = true;
         offsetX = event.clientX - win.offsetLeft;
         offsetY = event.clientY - win.offsetTop;
@@ -392,7 +400,7 @@ const iconUrls = {
     }
 
     allWindows().forEach(bindWindow);
-    const desktopGrid = { stepX: 80, stepY: 96, minX: 0, minY: 0 };
+    const desktopGrid = { stepX: 84, stepY: 92, minX: 0, minY: 0 };
     function desktopItems() {
       return Array.from(document.querySelectorAll('.desktop-icon-item'));
     }

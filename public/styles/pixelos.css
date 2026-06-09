@@ -12,15 +12,15 @@ button { cursor: default; }
 .wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
 .desktop { position: absolute; inset: 0 0 31px; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
-.desktop-icon-item { position: absolute; width: 76px; height: 88px; outline: none; }
+.desktop-icon-item { position: absolute; width: 82px; height: 92px; outline: none; }
 .desktop-icon-item:nth-child(1) { left: 0; top: 0; }
-.desktop-icon-item:nth-child(2) { left: 0; top: 96px; }
-.desktop-icon-item:nth-child(3) { left: 0; top: 192px; }
-.desktop-icon-item:nth-child(4) { left: 0; top: 288px; }
-.desktop-icon-item:nth-child(5) { left: 0; top: 384px; }
-.desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 76px; background: none; border: none; padding: 0; outline: none !important; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; }
-.desktop-icon-image { width: 32px; height: 32px; image-rendering: pixelated; }
-.desktop-icon-image { margin-bottom: 5px; }
+.desktop-icon-item:nth-child(2) { left: 0; top: 92px; }
+.desktop-icon-item:nth-child(3) { left: 0; top: 184px; }
+.desktop-icon-item:nth-child(4) { left: 0; top: 276px; }
+.desktop-icon-item:nth-child(5) { left: 0; top: 368px; }
+.desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 82px; background: none; border: none; padding: 0; outline: none !important; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; }
+.desktop-icon-image { width: 36px; height: 36px; image-rendering: pixelated; }
+.desktop-icon-image { margin-bottom: 4px; }
 .desktop-icon-label { color: white; margin: 1px 0 0; padding: 0 2px; font-size: 12px; line-height: 1.1; text-shadow: 1px 1px 0 #000; }
 .border-box { padding: 1px 3px; }
 .desktop-icon::-moz-focus-inner { border: 0; }
