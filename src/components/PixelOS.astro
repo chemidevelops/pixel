@@ -28,7 +28,7 @@ const iconUrls = {
     folder: '/icons/react95/folder-32.png',
     interview: '/icons/react95/notepad-32.png',
     arcade: '/icons/react95/exe-32.png',
-    fanzines: '/icons/react95/disk-32.png',
+    fanzines: '/icons/react95/notepad-32.png',
     computer: '/icons/react95/computer-32.png',
     settings: '/icons/react95/settings-32.png',
   },
@@ -64,7 +64,6 @@ const iconUrls = {
     <main class="desktop" aria-label="Escritorio PixelOS">
       <ul class="desktop-icons">
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="entrevista"><img class="desktop-icon-image" src={iconUrls.desktop.interview} alt="" /><div class="border-box"><p class="desktop-icon-label">Entrevistas</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><div class="border-box"><p class="desktop-icon-label">Arcade</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><div class="border-box"><p class="desktop-icon-label">Fanzines</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
@@ -168,7 +167,7 @@ const iconUrls = {
       </div>
     </div>
 
-    <footer class="taskbar"><button class="start-button" id="start-button"><span class="start-flag">P.</span> Inicio</button><div class="task-buttons" id="task-buttons"></div><button class="tray" id="tray-clock">00:00</button></footer>
+    <footer class="taskbar"><button class="start-button" id="start-button">Inicio</button><div class="task-buttons" id="task-buttons"></div><button class="tray" id="tray-clock">00:00</button></footer>
 
     <div class="screensaver" id="screensaver" hidden><canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
     <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
