@@ -92,17 +92,44 @@ const iconUrls = {
           <div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Close" class="close" data-close></button></div>
         </div>
         <div class="window-body explorer-shell">
-          <div class="field-row explorer-toolbar"><label for="explorer-address">Dirección</label><input id="explorer-address" type="text" value="C:\PIXEL\ARTICULOS" readonly /></div>
+          <div class="explorer-menu-bar" role="menubar" aria-label="Menú del explorador">
+            <button type="button">Archivo</button>
+            <button type="button">Edición</button>
+            <button type="button">Ver</button>
+            <button type="button">Ir</button>
+            <button type="button">Favoritos</button>
+            <button type="button">Ayuda</button>
+          </div>
+          <div class="explorer-command-bar">
+            <div class="explorer-nav-buttons">
+              <button type="button" id="explorer-back" aria-label="Atrás">◀</button>
+              <button type="button" id="explorer-up" aria-label="Subir">▲</button>
+            </div>
+            <div class="field-row explorer-toolbar">
+              <label for="explorer-address">Dirección</label>
+              <input id="explorer-address" type="text" value="C:\PIXEL\ARTICULOS" spellcheck="false" />
+              <button type="button" id="explorer-go">Ir</button>
+            </div>
+          </div>
           <div class="explorer-body">
             <aside class="explorer-sidebar">
-              <p class="sidebar-heading">Todas las carpetas</p>
-              <ul class="tree-view folder-tree">
-                <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
-                <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
-                <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
-                <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Fanzines</button></li>
-              </ul>
-              <div class="folder-summary"><img class="folder-summary-icon" src={iconUrls.desktop.folder} alt="" /><h2 id="folder-name">Artículos</h2><p id="folder-count"></p></div>
+              <div class="sunken-panel explorer-tree-panel">
+                <p class="sidebar-heading">Carpetas</p>
+                <ul class="tree-view folder-tree">
+                  <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
+                  <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
+                  <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
+                  <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Fanzines</button></li>
+                </ul>
+              </div>
+              <div class="sunken-panel explorer-details">
+                <img class="folder-summary-icon" src={iconUrls.desktop.folder} alt="" />
+                <div>
+                  <h2 id="folder-name">Artículos</h2>
+                  <p id="folder-count"></p>
+                  <small id="folder-path-hint">C:\PIXEL\ARTICULOS</small>
+                </div>
+              </div>
             </aside>
             <div class="explorer-main">
               <div class="sunken-panel file-panel">
@@ -201,8 +228,21 @@ const iconUrls = {
       arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
     };
+    const folderAliases = {
+      'C:\\PIXEL\\ARTICULOS': 'all',
+      'C:\\PIXEL\\ENTREVISTAS': 'entrevista',
+      'C:\\PIXEL\\ARCADE': 'arcade',
+      'A:\\FANZINES': 'fanzines',
+      'ARTICULOS': 'all',
+      'ENTREVISTAS': 'entrevista',
+      'ARCADE': 'arcade',
+      'FANZINES': 'fanzines',
+    };
     let topZ = 20;
     let readerOffset = 0;
+    let currentFolder = 'all';
+    const folderHistory = ['all'];
+    let historyIndex = 0;
 
     function allWindows() {
       return Array.from(document.querySelectorAll('.os-window'));
@@ -263,16 +303,26 @@ const iconUrls = {
       row.classList.add('highlighted');
     }
 
-    function openFolder(folder) {
+    function resolveFolderPath(value) {
+      const normalized = String(value || '').trim().replace(/\//g, '\\').toUpperCase();
+      return folderAliases[normalized] || null;
+    }
+
+    function openFolder(folder, options) {
+      options = options || {};
       const titleAndPath = folderTitles[folder];
+      if (!titleAndPath) return;
       const title = titleAndPath[0];
       const path = titleAndPath[1];
+      currentFolder = folder;
       document.getElementById('explorer-title').textContent = title;
       document.getElementById('folder-name').textContent = title;
       document.getElementById('explorer-address').value = path;
+      document.getElementById('folder-path-hint').textContent = path;
       document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
       document.querySelectorAll('[data-folder-nav]').forEach(function(item) { item.classList.toggle('active', item.dataset.folderNav === folder); });
+      document.getElementById('explorer-up').disabled = folder === 'all';
       if (folder === 'fanzines') {
         issues.forEach(function(issue) {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
@@ -285,6 +335,12 @@ const iconUrls = {
         document.getElementById('folder-count').textContent = String(files.length) + ' artículos';
       }
       document.getElementById('status-count').textContent = String(fileView.children.length) + ' objetos';
+      if (!options.skipHistory) {
+        folderHistory.splice(historyIndex + 1);
+        folderHistory.push(folder);
+        historyIndex = folderHistory.length - 1;
+      }
+      document.getElementById('explorer-back').disabled = historyIndex === 0;
       showWindow('explorer');
     }
 
@@ -361,6 +417,25 @@ const iconUrls = {
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
     document.querySelectorAll('[data-folder-nav]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folderNav); }); });
     document.querySelectorAll('[data-window]').forEach(function(button) { button.addEventListener('click', function() { showWindow(button.dataset.window); }); });
+    document.getElementById('explorer-go').addEventListener('click', function() {
+      const targetFolder = resolveFolderPath(document.getElementById('explorer-address').value);
+      if (targetFolder) openFolder(targetFolder);
+      else document.getElementById('explorer-address').value = folderTitles[currentFolder][1];
+    });
+    document.getElementById('explorer-address').addEventListener('keydown', function(event) {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      document.getElementById('explorer-go').click();
+    });
+    document.getElementById('explorer-back').addEventListener('click', function() {
+      if (historyIndex === 0) return;
+      historyIndex -= 1;
+      openFolder(folderHistory[historyIndex], { skipHistory: true });
+    });
+    document.getElementById('explorer-up').addEventListener('click', function() {
+      if (currentFolder === 'all') return;
+      openFolder('all');
+    });
     function desktopButtons() {
       return Array.from(document.querySelectorAll('.desktop-icon'));
     }
