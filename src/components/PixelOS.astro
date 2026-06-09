@@ -1,4 +1,5 @@
 ---
+import '98.css/dist/98.css';
 interface PostFile {
   id: string;
   title: string;
@@ -22,6 +23,22 @@ interface Props {
 }
 
 const { posts, issues } = Astro.props;
+const iconUrls = {
+  desktop: {
+    folder: '/icons/react95/folder-32.png',
+    interview: '/icons/react95/notepad-32.png',
+    arcade: '/icons/react95/exe-32.png',
+    fanzines: '/icons/react95/disk-32.png',
+    computer: '/icons/react95/computer-32.png',
+    settings: '/icons/react95/settings-32.png',
+  },
+  files: {
+    article: '/icons/react95/html-16.png',
+    pdf: '/icons/react95/file-32.png',
+    folder: '/icons/react95/folder-16.png',
+    window: '/icons/react95/explorer-16.png',
+  },
+};
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -46,44 +63,17 @@ const { posts, issues } = Astro.props;
 
     <main class="desktop" aria-label="Escritorio PixelOS">
       <div class="desktop-icons">
-        <button class="desktop-icon" data-folder="all">
-          <span class="icon-art folder-icon"></span>
-          <span>Artículos</span>
-        </button>
-        <button class="desktop-icon" data-folder="entrevista">
-          <span class="icon-art interview-icon">i</span>
-          <span>Entrevistas</span>
-        </button>
-        <button class="desktop-icon" data-folder="arcade">
-          <span class="icon-art arcade-icon">+</span>
-          <span>Arcade</span>
-        </button>
-        <button class="desktop-icon" data-folder="fanzines">
-          <span class="icon-art disk-icon"></span>
-          <span>Fanzines</span>
-        </button>
-        <button class="desktop-icon" data-window="about">
-          <span class="icon-art computer-icon"></span>
-          <span>Mi Pixel</span>
-        </button>
-        <button class="desktop-icon" data-window="settings">
-          <span class="icon-art settings-icon">⚙</span>
-          <span>Panel de control</span>
-        </button>
+        <button class="desktop-icon" data-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
+        <button class="desktop-icon" data-folder="entrevista"><img class="desktop-icon-image" src={iconUrls.desktop.interview} alt="" /><span>Entrevistas</span></button>
+        <button class="desktop-icon" data-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><span>Arcade</span></button>
+        <button class="desktop-icon" data-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
+        <button class="desktop-icon" data-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><span>Mi Pixel</span></button>
+        <button class="desktop-icon" data-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><span>Panel de control</span></button>
       </div>
 
       <section class="mobile-launcher" aria-label="Explorador">
-        <div class="mobile-today-header">
-          <strong>Hoy</strong>
-          <span>Mi dispositivo</span>
-        </div>
-        <div class="mobile-welcome">
-          <div>
-            <span class="pixel-logo">PixelOS 95</span>
-            <p>Explorador móvil estilo Pocket PC</p>
-          </div>
-          <span class="mobile-date-badge">PIXEL</span>
-        </div>
+        <div class="mobile-today-header"><strong>Hoy</strong><span>Mi dispositivo</span></div>
+        <div class="mobile-welcome"><div><span class="pixel-logo">PixelOS 95</span><p>Explorador móvil estilo Pocket PC</p></div><span class="mobile-date-badge">PIXEL</span></div>
         <div class="pda-address"><span>\Mi dispositivo\Pixel</span><button type="button">▼</button></div>
         <div class="mobile-folder-list">
           <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Lista de archivos HTML</small></span></button>
@@ -93,80 +83,57 @@ const { posts, issues } = Astro.props;
           <button data-window="about"><span class="mobile-file-icon">TXT</span><span><strong>Acerca de PixelOS</strong><small>Información del sistema</small></span></button>
         </div>
         <div class="pda-status">{posts.length + issues.length} objetos</div>
-        <div class="mobile-softkeys">
-          <button type="button" data-folder="all">Explorar</button>
-          <button type="button" data-window="settings">Menú</button>
-        </div>
+        <div class="mobile-softkeys"><button type="button" data-folder="all">Explorar</button><button type="button" data-window="settings">Menú</button></div>
       </section>
 
-      <section class="os-window explorer-window" id="window-explorer" hidden>
+      <section class="window os-window explorer-window" id="window-explorer" hidden>
         <div class="title-bar">
-          <span class="window-icon">▣</span>
-          <strong id="explorer-title">Artículos</strong>
-          <div class="window-controls">
-            <button data-minimize aria-label="Minimizar">_</button>
-            <button data-close aria-label="Cerrar">×</button>
+          <div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.window} alt="" /><span id="explorer-title">Artículos</span></div>
+          <div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Close" class="close" data-close></button></div>
+        </div>
+        <div class="window-body explorer-shell">
+          <div class="field-row explorer-toolbar"><label for="explorer-address">Dirección</label><input id="explorer-address" type="text" value="C:\PIXEL\ARTICULOS" readonly /></div>
+          <div class="explorer-body">
+            <aside class="explorer-sidebar">
+              <p class="sidebar-heading">Todas las carpetas</p>
+              <ul class="tree-view folder-tree">
+                <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
+                <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
+                <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
+                <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Fanzines</button></li>
+              </ul>
+              <div class="folder-summary"><img class="folder-summary-icon" src={iconUrls.desktop.folder} alt="" /><h2 id="folder-name">Artículos</h2><p id="folder-count"></p></div>
+            </aside>
+            <div class="explorer-main">
+              <div class="sunken-panel file-panel">
+                <table class="interactive file-table">
+                  <thead><tr><th>Nombre</th><th>Fecha</th><th>Tipo</th><th>Notas</th></tr></thead>
+                  <tbody id="file-view"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="menu-bar"><span>Archivo</span><span>Edición</span><span>Ver</span><span>Ayuda</span></div>
-        <div class="address-bar"><span>Dirección</span><div id="explorer-address">C:\PIXEL\ARTICULOS</div></div>
-        <div class="window-body explorer-body">
-          <aside class="explorer-sidebar">
-            <strong class="sidebar-title">Todas las carpetas</strong>
-            <div class="folder-tree" id="folder-tree">
-              <button class="tree-item active" data-folder-nav="all"><span class="tree-glyph">+</span><span class="tree-label">Artículos</span></button>
-              <button class="tree-item" data-folder-nav="entrevista"><span class="tree-glyph">+</span><span class="tree-label">Entrevistas</span></button>
-              <button class="tree-item" data-folder-nav="arcade"><span class="tree-glyph">+</span><span class="tree-label">Arcade</span></button>
-              <button class="tree-item" data-folder-nav="fanzines"><span class="tree-glyph">+</span><span class="tree-label">Fanzines</span></button>
-            </div>
-            <div class="folder-info">
-              <span class="large-folder"></span>
-              <h2 id="folder-name">Artículos</h2>
-              <p id="folder-count"></p>
-            </div>
-          </aside>
-          <div class="explorer-main">
-            <div class="file-header">
-              <span>Nombre</span>
-              <span>Fecha</span>
-              <span>Tipo</span>
-              <span>Notas</span>
-            </div>
-            <div class="file-view" id="file-view"></div>
-          </div>
-        </div>
-        <div class="status-bar"><span id="status-count">0 objetos</span><span id="status-path">C:\PIXEL\ARTICULOS</span><span>PixelOS 95</span></div>
+        <div class="status-bar"><p class="status-bar-field" id="status-count">0 objetos</p><p class="status-bar-field" id="status-path">C:\PIXEL\ARTICULOS</p><p class="status-bar-field">PixelOS 95</p></div>
       </section>
 
       <div id="reader-windows"></div>
 
-      <section class="os-window about-window" id="window-about" hidden>
-        <div class="title-bar">
-          <span class="window-icon">P.</span>
-          <strong>Acerca de PixelOS</strong>
-          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
-        </div>
-        <div class="about-content">
+      <section class="window os-window about-window" id="window-about" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de PixelOS</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="window-body about-content">
           <div class="about-logo">PIXEL<span>.</span></div>
           <h1>PixelOS 95</h1>
           <p>Una revista independiente de videojuegos convertida en sistema operativo.</p>
           <hr />
-          <dl>
-            <dt>Versión</dt><dd>0.1 Experimental</dd>
-            <dt>Memoria</dt><dd>{posts.length} artículos cargados</dd>
-            <dt>Formato</dt><dd>HTML, papel y secretos</dd>
-          </dl>
+          <dl><dt>Versión</dt><dd>0.1 Experimental</dd><dt>Memoria</dt><dd>{posts.length} artículos cargados</dd><dt>Formato</dt><dd>HTML, papel y secretos</dd></dl>
           <p class="about-hint">Consejo: algunos sistemas responden a secuencias de teclado antiguas.</p>
         </div>
       </section>
 
-      <section class="os-window settings-window" id="window-settings" hidden>
-        <div class="title-bar">
-          <span class="window-icon">⚙</span>
-          <strong>Propiedades de pantalla</strong>
-          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
-        </div>
-        <div class="settings-content">
+      <section class="window os-window settings-window" id="window-settings" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.settings} alt="" /><span>Propiedades de pantalla</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="window-body settings-content">
           <fieldset>
             <legend>Fondo del escritorio</legend>
             <div class="wallpaper-options">
@@ -174,24 +141,17 @@ const { posts, issues } = Astro.props;
               <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
             </div>
           </fieldset>
-          <label class="setting-check"><input type="checkbox" id="screensaver-toggle" checked /> Activar salvapantallas tras 45 segundos</label>
+          <div class="field-row setting-check"><input type="checkbox" id="screensaver-toggle" checked /><label for="screensaver-toggle">Activar salvapantallas tras 45 segundos</label></div>
         </div>
       </section>
 
-      <section class="os-window game-window" id="window-game" hidden>
-        <div class="title-bar">
-          <span class="window-icon">?</span>
-          <strong>PIXEL QUEST.EXE</strong>
-          <div class="window-controls"><button data-close aria-label="Cerrar">×</button></div>
-        </div>
-        <div class="game-content">
+      <section class="window os-window game-window" id="window-game" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.arcade} alt="" /><span>PIXEL QUEST.EXE</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="window-body game-content">
           <div class="game-stats">PIXELS: <span id="game-score">0</span>/5</div>
           <div id="game-board" class="game-board" aria-label="Minijuego Pixel Quest"></div>
           <p id="game-message">Recoge los cinco píxeles rojos. Usa las flechas.</p>
-          <div class="touch-dpad">
-            <button data-move="up">▲</button>
-            <div><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div>
-          </div>
+          <div class="touch-dpad"><button data-move="up">▲</button><div><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div></div>
         </div>
       </section>
     </main>
@@ -208,40 +168,21 @@ const { posts, issues } = Astro.props;
       </div>
     </div>
 
-    <footer class="taskbar">
-      <button class="start-button" id="start-button"><span class="start-flag">P.</span> Inicio</button>
-      <div class="task-buttons" id="task-buttons"></div>
-      <button class="tray" id="tray-clock">00:00</button>
-    </footer>
+    <footer class="taskbar"><button class="start-button" id="start-button"><span class="start-flag">P.</span> Inicio</button><div class="task-buttons" id="task-buttons"></div><button class="tray" id="tray-clock">00:00</button></footer>
 
-    <div class="screensaver" id="screensaver" hidden>
-      <canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas>
-      <small>Mueve el ratón o pulsa una tecla</small>
-    </div>
-
-    <div class="shutdown-screen" id="shutdown-screen" hidden>
-      <strong>Ahora puede apagar su revista.</strong>
-      <button id="restart">Reiniciar PixelOS</button>
-    </div>
+    <div class="screensaver" id="screensaver" hidden><canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
+    <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
 
     <template id="reader-template">
-      <section class="os-window reader-window">
-        <div class="title-bar">
-          <span class="window-icon">▤</span>
-          <strong>Lector de PIXEL</strong>
-          <div class="window-controls">
-            <button data-minimize aria-label="Minimizar">_</button>
-            <button data-maximize aria-label="Maximizar">□</button>
-            <button data-close aria-label="Cerrar">×</button>
-          </div>
-        </div>
+      <section class="window os-window reader-window">
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de PIXEL</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
         <div class="reader-caption" data-reader-path>pixel://articulo</div>
         <iframe title="Artículo de PIXEL"></iframe>
       </section>
     </template>
   </div>
 
-  <script define:vars={{ posts, issues }}>
+  <script define:vars={{ posts, issues, iconUrls }}>
     const os = document.getElementById('pixel-os');
     const explorer = document.getElementById('window-explorer');
     const fileView = document.getElementById('file-view');
@@ -257,15 +198,14 @@ const { posts, issues } = Astro.props;
       fanzines: ['Fanzines', 'A:\\FANZINES'],
     };
     let topZ = 20;
-    let currentFolder = 'all';
     let readerOffset = 0;
 
     function allWindows() {
-      return [...document.querySelectorAll('.os-window')];
+      return Array.from(document.querySelectorAll('.os-window'));
     }
 
     function showWindow(id) {
-      const win = document.getElementById(`window-${id}`);
+      const win = document.getElementById('window-' + id);
       if (!win) return;
       win.hidden = false;
       win.classList.remove('minimized');
@@ -277,7 +217,7 @@ const { posts, issues } = Astro.props;
     function focusWindow(win) {
       topZ += 1;
       win.style.zIndex = String(topZ);
-      allWindows().forEach(item => item.classList.toggle('focused', item === win));
+      allWindows().forEach(function(item) { item.classList.toggle('focused', item === win); });
     }
 
     function closeWindow(win) {
@@ -288,11 +228,11 @@ const { posts, issues } = Astro.props;
 
     function syncTasks() {
       taskButtons.innerHTML = '';
-      allWindows().filter(win => !win.hidden).forEach(win => {
+      allWindows().filter(function(win) { return !win.hidden; }).forEach(function(win) {
         const button = document.createElement('button');
-        button.textContent = win.querySelector('.title-bar strong')?.textContent || 'Ventana';
+        button.textContent = (win.querySelector('.title-bar-text span') || {}).textContent || 'Ventana';
         button.className = win.classList.contains('minimized') ? '' : 'active';
-        button.addEventListener('click', () => {
+        button.addEventListener('click', function() {
           if (win.classList.contains('minimized')) {
             win.classList.remove('minimized');
             focusWindow(win);
@@ -309,69 +249,85 @@ const { posts, issues } = Astro.props;
 
     function filesFor(folder) {
       if (folder === 'all') return posts;
-      if (folder === 'entrevista') return posts.filter(post => post.tags.includes('entrevista'));
-      if (folder === 'arcade') return posts.filter(post => post.tags.some(tag => ['arcade', 'acción', 'clásicos'].includes(tag)));
+      if (folder === 'entrevista') return posts.filter(function(post) { return post.tags.includes('entrevista'); });
+      if (folder === 'arcade') return posts.filter(function(post) { return post.tags.some(function(tag) { return ['arcade', 'acción', 'clásicos'].includes(tag); }); });
       return [];
     }
 
+    function selectRow(row) {
+      fileView.querySelectorAll('tr').forEach(function(item) { item.classList.remove('highlighted'); });
+      row.classList.add('highlighted');
+    }
+
     function openFolder(folder) {
-      currentFolder = folder;
-      const [title, path] = folderTitles[folder];
+      const titleAndPath = folderTitles[folder];
+      const title = titleAndPath[0];
+      const path = titleAndPath[1];
       document.getElementById('explorer-title').textContent = title;
       document.getElementById('folder-name').textContent = title;
-      document.getElementById('explorer-address').textContent = path;
+      document.getElementById('explorer-address').value = path;
       document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
-      document.querySelectorAll('[data-folder-nav]').forEach(item => item.classList.toggle('active', item.dataset.folderNav === folder));
-
+      document.querySelectorAll('[data-folder-nav]').forEach(function(item) { item.classList.toggle('active', item.dataset.folderNav === folder); });
       if (folder === 'fanzines') {
-        issues.forEach(issue => {
+        issues.forEach(function(issue) {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
           if (issue.pdfPrint) fileView.appendChild(makeDownloadFile(issue, true));
         });
-        document.getElementById('folder-count').textContent = `${issues.length} números disponibles`;
-        document.getElementById('status-count').textContent = `${fileView.children.length} objetos`;
+        document.getElementById('folder-count').textContent = String(issues.length) + ' números disponibles';
       } else {
         const files = filesFor(folder);
-        files.forEach(post => fileView.appendChild(makeArticleFile(post)));
-        document.getElementById('folder-count').textContent = `${files.length} artículos`;
-        document.getElementById('status-count').textContent = `${files.length} objetos`;
+        files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
+        document.getElementById('folder-count').textContent = String(files.length) + ' artículos';
       }
+      document.getElementById('status-count').textContent = String(fileView.children.length) + ' objetos';
       showWindow('explorer');
     }
 
     function makeArticleFile(post) {
-      const button = document.createElement('button');
-      button.className = 'file-item';
-      button.innerHTML = `<span class="paper-file"><i>HTM</i></span><span class="file-main"><strong>${post.title}</strong><small>${post.excerpt || 'Artículo de PIXEL'}</small></span><span class="file-date">${formatDate(post.date)}</span><span class="file-kind">Documento HTML</span><span class="file-meta">${post.tags.slice(0, 2).join(' · ') || 'PIXEL'}</span>`;
-      button.addEventListener('dblclick', () => openArticle(post));
-      button.addEventListener('click', () => {
+      const row = document.createElement('tr');
+      row.className = 'file-item';
+      row.tabIndex = 0;
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong><small>' + (post.excerpt || 'Artículo de PIXEL') + '</small></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'PIXEL') + '</td>';
+      row.addEventListener('dblclick', function() { openArticle(post); });
+      row.addEventListener('click', function() {
         if (matchMedia('(max-width: 700px)').matches) {
           openArticle(post);
           return;
         }
-        document.querySelectorAll('.file-item').forEach(item => item.classList.remove('selected'));
-        button.classList.add('selected');
+        selectRow(row);
       });
-      button.addEventListener('keydown', event => {
-        if (event.key === 'Enter') openArticle(post);
-      });
-      return button;
+      row.addEventListener('keydown', function(event) { if (event.key === 'Enter') openArticle(post); });
+      return row;
     }
 
     function makeDownloadFile(issue, print) {
-      const link = document.createElement('a');
+      const row = document.createElement('tr');
       const href = print ? issue.pdfPrint : issue.pdf;
-      link.className = 'file-item';
-      link.href = href;
-      link.download = '';
-      link.innerHTML = `<span class="pdf-file">PDF</span><span class="file-main"><strong>${issue.title}${print ? ' — Imprimir' : ''}</strong><small>Edición descargable</small></span><span class="file-date">${issue.date}</span><span class="file-kind">Adobe PDF</span><span class="file-meta">Descarga</span>`;
-      return link;
+      row.className = 'file-item';
+      row.tabIndex = 0;
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.pdf + '" alt="" /><span class="file-main"><strong>' + issue.title + (print ? ' — Imprimir' : '') + '</strong><small>Edición descargable</small></span></td><td>' + issue.date + '</td><td>Adobe PDF</td><td>Descarga</td>';
+      function triggerDownload() {
+        const link = document.createElement('a');
+        link.href = href;
+        link.download = '';
+        link.click();
+      }
+      row.addEventListener('dblclick', triggerDownload);
+      row.addEventListener('click', function() {
+        if (matchMedia('(max-width: 700px)').matches) {
+          triggerDownload();
+          return;
+        }
+        selectRow(row);
+      });
+      row.addEventListener('keydown', function(event) { if (event.key === 'Enter') triggerDownload(); });
+      return row;
     }
 
     function openArticle(post) {
-      const url = `/pixelos/posts/${post.id}`;
-      const existing = document.querySelector(`[data-reader-id="${CSS.escape(post.id)}"]`);
+      const url = '/pixelos/posts/' + post.id;
+      const existing = document.querySelector('[data-reader-id="' + CSS.escape(post.id) + '"]');
       if (existing) {
         existing.classList.remove('minimized');
         focusWindow(existing);
@@ -380,12 +336,12 @@ const { posts, issues } = Astro.props;
       }
       const win = readerTemplate.content.firstElementChild.cloneNode(true);
       win.dataset.readerId = post.id;
-      win.querySelector('.title-bar strong').textContent = post.title;
-      win.querySelector('[data-reader-path]').textContent = `C:\\PIXEL\\ARTICULOS\\${post.id}.HTM`;
+      win.querySelector('.title-bar-text span').textContent = post.title;
+      win.querySelector('[data-reader-path]').textContent = 'C:\\PIXEL\\ARTICULOS\\' + post.id + '.HTM';
       win.querySelector('iframe').src = url;
       if (!matchMedia('(max-width: 700px)').matches) {
-        win.style.left = `${210 + (readerOffset % 7) * 30}px`;
-        win.style.top = `${55 + (readerOffset % 7) * 24}px`;
+        win.style.left = String(210 + (readerOffset % 7) * 30) + 'px';
+        win.style.top = String(55 + (readerOffset % 7) * 24) + 'px';
         readerOffset += 1;
       }
       readerWindows.appendChild(win);
@@ -398,174 +354,94 @@ const { posts, issues } = Astro.props;
       return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
-    document.querySelectorAll('[data-folder]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folder)));
-    document.querySelectorAll('[data-folder-nav]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folderNav)));
-    document.querySelectorAll('[data-window]').forEach(button => button.addEventListener('click', () => showWindow(button.dataset.window)));
+    document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
+    document.querySelectorAll('[data-folder-nav]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folderNav); }); });
+    document.querySelectorAll('[data-window]').forEach(function(button) { button.addEventListener('click', function() { showWindow(button.dataset.window); }); });
+
     function bindWindow(win) {
-      win.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => {
-        closeWindow(win);
-        if (win.dataset.readerId) win.remove();
-      }));
-      win.querySelectorAll('[data-minimize]').forEach(button => button.addEventListener('click', () => {
-        win.classList.add('minimized');
-        syncTasks();
-      }));
-      win.querySelectorAll('[data-maximize]').forEach(button => button.addEventListener('click', () => win.classList.toggle('maximized')));
-      win.addEventListener('pointerdown', () => focusWindow(win));
+      win.querySelectorAll('[data-close]').forEach(function(button) { button.addEventListener('click', function() { closeWindow(win); if (win.dataset.readerId) win.remove(); }); });
+      win.querySelectorAll('[data-minimize]').forEach(function(button) { button.addEventListener('click', function() { win.classList.add('minimized'); syncTasks(); }); });
+      win.querySelectorAll('[data-maximize]').forEach(function(button) { button.addEventListener('click', function() { win.classList.toggle('maximized'); }); });
+      win.addEventListener('pointerdown', function() { focusWindow(win); });
       if (matchMedia('(max-width: 700px)').matches) return;
       const bar = win.querySelector('.title-bar');
       let dragging = false;
       let offsetX = 0;
       let offsetY = 0;
-      bar.addEventListener('pointerdown', event => {
+      bar.addEventListener('pointerdown', function(event) {
         if (event.target.closest('button') || win.classList.contains('maximized')) return;
         dragging = true;
         offsetX = event.clientX - win.offsetLeft;
         offsetY = event.clientY - win.offsetTop;
         bar.setPointerCapture(event.pointerId);
       });
-      bar.addEventListener('pointermove', event => {
+      bar.addEventListener('pointermove', function(event) {
         if (!dragging) return;
-        win.style.left = `${Math.max(0, event.clientX - offsetX)}px`;
-        win.style.top = `${Math.max(0, event.clientY - offsetY)}px`;
+        win.style.left = String(Math.max(0, event.clientX - offsetX)) + 'px';
+        win.style.top = String(Math.max(0, event.clientY - offsetY)) + 'px';
       });
-      bar.addEventListener('pointerup', () => dragging = false);
+      bar.addEventListener('pointerup', function() { dragging = false; });
     }
 
     allWindows().forEach(bindWindow);
-    document.getElementById('start-button').addEventListener('click', event => {
-      event.stopPropagation();
-      startMenu.hidden = !startMenu.hidden;
-    });
-    document.addEventListener('click', event => {
-      if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true;
-    });
-
-    document.querySelectorAll('[data-wallpaper]').forEach(button => button.addEventListener('click', () => {
-      os.className = `pixel-os wallpaper-${button.dataset.wallpaper}`;
-      localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper);
-    }));
+    document.getElementById('start-button').addEventListener('click', function(event) { event.stopPropagation(); startMenu.hidden = !startMenu.hidden; });
+    document.addEventListener('click', function(event) { if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true; });
+    document.querySelectorAll('[data-wallpaper]').forEach(function(button) { button.addEventListener('click', function() { os.className = 'pixel-os wallpaper-' + button.dataset.wallpaper; localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper); }); });
     const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
-    if (savedWallpaper) os.className = `pixel-os wallpaper-${savedWallpaper}`;
+    if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
 
-    const mazeMap = [
-      '111111111111',
-      '100000100001',
-      '101110101101',
-      '101000001001',
-      '101011111001',
-      '100010000001',
-      '111010111101',
-      '100010100001',
-      '101110101111',
-      '100000100001',
-      '101111000001',
-      '111111111111',
-    ];
+    const mazeMap = ['111111111111','100000100001','101110101101','101000001001','101011111001','100010000001','111010111101','100010100001','101110101111','100000100001','101111000001','111111111111'];
     const mazeContext = mazeCanvas.getContext('2d', { alpha: false });
     mazeContext.imageSmoothingEnabled = false;
     let mazeFrame = 0;
     let mazeLastTime = 0;
     const mazePlayer = { x: 1.5, y: 1.5, angle: 0 };
-
-    function wallAt(x, y) {
-      const row = mazeMap[Math.floor(y)];
-      return !row || row[Math.floor(x)] !== '0';
-    }
-
+    function wallAt(x, y) { const row = mazeMap[Math.floor(y)]; return !row || row[Math.floor(x)] !== '0'; }
     function renderMaze(time) {
-      if (screensaver.hidden) {
-        mazeFrame = 0;
-        return;
-      }
+      if (screensaver.hidden) { mazeFrame = 0; return; }
       const elapsed = Math.min(0.04, (time - mazeLastTime) / 1000 || 0);
       mazeLastTime = time;
       const speed = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.08 : 0.55;
       const nextX = mazePlayer.x + Math.cos(mazePlayer.angle) * elapsed * speed;
       const nextY = mazePlayer.y + Math.sin(mazePlayer.angle) * elapsed * speed;
-      if (!wallAt(nextX, nextY)) {
-        mazePlayer.x = nextX;
-        mazePlayer.y = nextY;
-      } else {
-        mazePlayer.angle += Math.PI / 2;
-      }
+      if (!wallAt(nextX, nextY)) { mazePlayer.x = nextX; mazePlayer.y = nextY; } else { mazePlayer.angle += Math.PI / 2; }
       mazePlayer.angle += Math.sin(time / 2800) * 0.0007;
-
       const width = mazeCanvas.width;
       const height = mazeCanvas.height;
-      mazeContext.fillStyle = '#101018';
-      mazeContext.fillRect(0, 0, width, height / 2);
-      mazeContext.fillStyle = '#4c4c52';
-      mazeContext.fillRect(0, height / 2, width, height / 2);
-
-      for (let row = height / 2; row < height; row += 4) {
-        const alpha = Math.max(0.02, 0.2 - (row - height / 2) / height * 0.18);
-        mazeContext.fillStyle = `rgba(255,255,255,${alpha})`;
-        mazeContext.fillRect(0, row, width, 1);
-      }
-
+      mazeContext.fillStyle = '#101018'; mazeContext.fillRect(0, 0, width, height / 2);
+      mazeContext.fillStyle = '#4c4c52'; mazeContext.fillRect(0, height / 2, width, height / 2);
+      for (let row = height / 2; row < height; row += 4) { const alpha = Math.max(0.02, 0.2 - (row - height / 2) / height * 0.18); mazeContext.fillStyle = 'rgba(255,255,255,' + alpha + ')'; mazeContext.fillRect(0, row, width, 1); }
       for (let column = 0; column < width; column += 2) {
         const rayAngle = mazePlayer.angle - Math.PI / 6 + (column / width) * Math.PI / 3;
         let distance = 0.04;
-        while (distance < 14 && !wallAt(
-          mazePlayer.x + Math.cos(rayAngle) * distance,
-          mazePlayer.y + Math.sin(rayAngle) * distance
-        )) distance += 0.035;
+        while (distance < 14 && !wallAt(mazePlayer.x + Math.cos(rayAngle) * distance, mazePlayer.y + Math.sin(rayAngle) * distance)) distance += 0.035;
         const corrected = distance * Math.cos(rayAngle - mazePlayer.angle);
         const wallHeight = Math.min(height, height / Math.max(0.2, corrected));
         const shade = Math.max(38, 185 - corrected * 15);
         const red = Math.min(220, shade + 35);
         const green = Math.max(40, shade * 0.46);
         const blue = Math.max(30, shade * 0.34);
-        mazeContext.fillStyle = `rgb(${red},${green},${blue})`;
+        mazeContext.fillStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
         mazeContext.fillRect(column, (height - wallHeight) / 2, 2, wallHeight);
-        mazeContext.fillStyle = `rgba(0,0,0,${0.12 + (column % 8 === 0 ? 0.15 : 0)})`;
+        mazeContext.fillStyle = 'rgba(0,0,0,' + (0.12 + (column % 8 === 0 ? 0.15 : 0)) + ')';
         mazeContext.fillRect(column, (height - wallHeight) / 2, 1, wallHeight);
       }
       mazeFrame = requestAnimationFrame(renderMaze);
     }
-
-    function startMazeScreensaver() {
-      cancelAnimationFrame(mazeFrame);
-      mazeFrame = 0;
-      mazeLastTime = performance.now();
-      mazeFrame = requestAnimationFrame(renderMaze);
-    }
-
-    allWindows().forEach((win, index) => {
-      if (matchMedia('(max-width: 700px)').matches) return;
-      win.style.left = `${170 + index * 28}px`;
-      win.style.top = `${70 + index * 24}px`;
-    });
-
-    function updateClock() {
-      const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('tray-clock').textContent = value;
-      document.getElementById('mobile-clock').textContent = value;
-    }
+    function startMazeScreensaver() { cancelAnimationFrame(mazeFrame); mazeFrame = 0; mazeLastTime = performance.now(); mazeFrame = requestAnimationFrame(renderMaze); }
+    allWindows().forEach(function(win, index) { if (matchMedia('(max-width: 700px)').matches) return; win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
+    function updateClock() { const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
     updateClock();
     setInterval(updateClock, 15000);
-
     const screensaver = document.getElementById('screensaver');
     const saverToggle = document.getElementById('screensaver-toggle');
     let saverTimer;
-    function resetSaver() {
-      screensaver.hidden = true;
-      cancelAnimationFrame(mazeFrame);
-      mazeFrame = 0;
-      clearTimeout(saverTimer);
-      if (saverToggle.checked) saverTimer = setTimeout(() => {
-        screensaver.hidden = false;
-        startMazeScreensaver();
-      }, 45000);
-    }
-    ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(name => document.addEventListener(name, resetSaver, { passive: true }));
+    function resetSaver() { screensaver.hidden = true; cancelAnimationFrame(mazeFrame); mazeFrame = 0; clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { screensaver.hidden = false; startMazeScreensaver(); }, 45000); }
+    ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(function(name) { document.addEventListener(name, resetSaver, { passive: true }); });
     saverToggle.addEventListener('change', resetSaver);
     resetSaver();
-
-    document.getElementById('shutdown').addEventListener('click', () => document.getElementById('shutdown-screen').hidden = false);
-    document.getElementById('restart').addEventListener('click', () => document.getElementById('shutdown-screen').hidden = true);
-
+    document.getElementById('shutdown').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = false; });
+    document.getElementById('restart').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = true; });
     const gameBoard = document.getElementById('game-board');
     let player = { x: 1, y: 1 };
     let pixels = [{x:7,y:1},{x:3,y:3},{x:8,y:4},{x:2,y:6},{x:6,y:7}];
@@ -575,8 +451,8 @@ const { posts, issues } = Astro.props;
       for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 10; x++) {
           const cell = document.createElement('i');
-          if (walls.has(`${x},${y}`)) cell.className = 'wall';
-          if (pixels.some(pixel => pixel.x === x && pixel.y === y)) cell.className = 'pixel';
+          if (walls.has(String(x) + ',' + String(y))) cell.className = 'wall';
+          if (pixels.some(function(pixel) { return pixel.x === x && pixel.y === y; })) cell.className = 'pixel';
           if (player.x === x && player.y === y) { cell.className = 'player'; cell.textContent = 'P'; }
           gameBoard.appendChild(cell);
         }
@@ -586,33 +462,17 @@ const { posts, issues } = Astro.props;
     }
     function movePlayer(dx, dy) {
       const next = { x: Math.max(0, Math.min(9, player.x + dx)), y: Math.max(0, Math.min(8, player.y + dy)) };
-      if (!walls.has(`${next.x},${next.y}`)) player = next;
-      pixels = pixels.filter(pixel => pixel.x !== player.x || pixel.y !== player.y);
+      if (!walls.has(String(next.x) + ',' + String(next.y))) player = next;
+      pixels = pixels.filter(function(pixel) { return pixel.x !== player.x || pixel.y !== player.y; });
       renderGame();
     }
     const moves = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0] };
-    document.addEventListener('keydown', event => {
-      if (!document.getElementById('window-game').hidden && moves[event.key]) {
-        event.preventDefault();
-        movePlayer(...moves[event.key]);
-      }
-    });
-    document.querySelectorAll('[data-move]').forEach(button => button.addEventListener('click', () => {
-      const map = { up:[0,-1], down:[0,1], left:[-1,0], right:[1,0] };
-      movePlayer(...map[button.dataset.move]);
-    }));
+    document.addEventListener('keydown', function(event) { if (!document.getElementById('window-game').hidden && moves[event.key]) { event.preventDefault(); movePlayer.apply(null, moves[event.key]); } });
+    document.querySelectorAll('[data-move]').forEach(function(button) { button.addEventListener('click', function() { const map = { up:[0,-1], down:[0,1], left:[-1,0], right:[1,0] }; movePlayer.apply(null, map[button.dataset.move]); }); });
     renderGame();
-
     const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     let secretIndex = 0;
-    document.addEventListener('keydown', event => {
-      secretIndex = event.key === konami[secretIndex] ? secretIndex + 1 : 0;
-      if (secretIndex === konami.length) {
-        showWindow('game');
-        secretIndex = 0;
-      }
-    });
-
+    document.addEventListener('keydown', function(event) { secretIndex = event.key === konami[secretIndex] ? secretIndex + 1 : 0; if (secretIndex === konami.length) { showWindow('game'); secretIndex = 0; } });
     openFolder('all');
     if (matchMedia('(max-width: 700px)').matches) closeWindow(explorer);
   </script>

@@ -13,8 +13,13 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.1",
+    "@astrojs/react": "^5.0.7",
     "@astrojs/rss": "^4.0.18",
-    "astro": "^6.4.2"
+    "@react95/icons": "^2.5.0",
+    "98.css": "^0.1.21",
+    "astro": "^6.4.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",
