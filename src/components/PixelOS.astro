@@ -261,7 +261,7 @@ const iconUrls = {
       openingQueue += 1;
       document.body.classList.add('opening-wait');
       try {
-        await pause(140);
+        await pause(220);
         return action();
       } finally {
         openingQueue -= 1;
