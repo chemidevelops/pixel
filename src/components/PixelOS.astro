@@ -111,14 +111,31 @@ const { posts, issues } = Astro.props;
         <div class="menu-bar"><span>Archivo</span><span>Edición</span><span>Ver</span><span>Ayuda</span></div>
         <div class="address-bar"><span>Dirección</span><div id="explorer-address">C:\PIXEL\ARTICULOS</div></div>
         <div class="window-body explorer-body">
-          <aside class="folder-info">
-            <span class="large-folder"></span>
-            <h2 id="folder-name">Artículos</h2>
-            <p id="folder-count"></p>
+          <aside class="explorer-sidebar">
+            <strong class="sidebar-title">Todas las carpetas</strong>
+            <div class="folder-tree" id="folder-tree">
+              <button class="tree-item active" data-folder-nav="all"><span class="tree-glyph">+</span><span class="tree-label">Artículos</span></button>
+              <button class="tree-item" data-folder-nav="entrevista"><span class="tree-glyph">+</span><span class="tree-label">Entrevistas</span></button>
+              <button class="tree-item" data-folder-nav="arcade"><span class="tree-glyph">+</span><span class="tree-label">Arcade</span></button>
+              <button class="tree-item" data-folder-nav="fanzines"><span class="tree-glyph">+</span><span class="tree-label">Fanzines</span></button>
+            </div>
+            <div class="folder-info">
+              <span class="large-folder"></span>
+              <h2 id="folder-name">Artículos</h2>
+              <p id="folder-count"></p>
+            </div>
           </aside>
-          <div class="file-view" id="file-view"></div>
+          <div class="explorer-main">
+            <div class="file-header">
+              <span>Nombre</span>
+              <span>Fecha</span>
+              <span>Tipo</span>
+              <span>Notas</span>
+            </div>
+            <div class="file-view" id="file-view"></div>
+          </div>
         </div>
-        <div class="status-bar"><span id="status-count">0 objetos</span><span>PixelOS 95</span></div>
+        <div class="status-bar"><span id="status-count">0 objetos</span><span id="status-path">C:\PIXEL\ARTICULOS</span><span>PixelOS 95</span></div>
       </section>
 
       <div id="reader-windows"></div>
@@ -303,7 +320,9 @@ const { posts, issues } = Astro.props;
       document.getElementById('explorer-title').textContent = title;
       document.getElementById('folder-name').textContent = title;
       document.getElementById('explorer-address').textContent = path;
+      document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
+      document.querySelectorAll('[data-folder-nav]').forEach(item => item.classList.toggle('active', item.dataset.folderNav === folder));
 
       if (folder === 'fanzines') {
         issues.forEach(issue => {
@@ -324,7 +343,7 @@ const { posts, issues } = Astro.props;
     function makeArticleFile(post) {
       const button = document.createElement('button');
       button.className = 'file-item';
-      button.innerHTML = `<span class="paper-file"><i>HTM</i></span><span class="file-main"><strong>${post.title}</strong><small>${formatDate(post.date)}</small></span><span class="file-kind">Documento HTML</span><span class="file-meta">${post.tags.slice(0, 2).join(', ') || 'PIXEL'}</span>`;
+      button.innerHTML = `<span class="paper-file"><i>HTM</i></span><span class="file-main"><strong>${post.title}</strong><small>${post.excerpt || 'Artículo de PIXEL'}</small></span><span class="file-date">${formatDate(post.date)}</span><span class="file-kind">Documento HTML</span><span class="file-meta">${post.tags.slice(0, 2).join(' · ') || 'PIXEL'}</span>`;
       button.addEventListener('dblclick', () => openArticle(post));
       button.addEventListener('click', () => {
         if (matchMedia('(max-width: 700px)').matches) {
@@ -346,7 +365,7 @@ const { posts, issues } = Astro.props;
       link.className = 'file-item';
       link.href = href;
       link.download = '';
-      link.innerHTML = `<span class="pdf-file">PDF</span><span class="file-main"><strong>${issue.title}${print ? ' — Imprimir' : ''}</strong><small>${issue.date}</small></span><span class="file-kind">Adobe PDF</span><span class="file-meta">Descarga</span>`;
+      link.innerHTML = `<span class="pdf-file">PDF</span><span class="file-main"><strong>${issue.title}${print ? ' — Imprimir' : ''}</strong><small>Edición descargable</small></span><span class="file-date">${issue.date}</span><span class="file-kind">Adobe PDF</span><span class="file-meta">Descarga</span>`;
       return link;
     }
 
@@ -380,6 +399,7 @@ const { posts, issues } = Astro.props;
     }
 
     document.querySelectorAll('[data-folder]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folder)));
+    document.querySelectorAll('[data-folder-nav]').forEach(button => button.addEventListener('click', () => openFolder(button.dataset.folderNav)));
     document.querySelectorAll('[data-window]').forEach(button => button.addEventListener('click', () => showWindow(button.dataset.window)));
     function bindWindow(win) {
       win.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => {
