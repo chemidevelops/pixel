@@ -95,14 +95,14 @@ button { cursor: default; }
 .task-buttons button { flex: 0 1 160px; height: 24px; padding: 0 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; font: 11px Tahoma, Arial, sans-serif; border-top: 2px solid rgb(250,250,250); border-left: 2px solid rgb(250,250,250); border-bottom: 2px solid rgb(90,90,90); border-right: 2px solid rgb(90,90,90); background: rgb(192,192,192); box-shadow: 1px 1px 0 #000; }
 .task-buttons button.active { border-top: 2px solid #000; border-left: 2px solid #000; border-bottom: 2px solid rgb(250,250,250); border-right: 2px solid rgb(250,250,250); box-shadow: none; background: repeating-conic-gradient(rgb(189,190,189) 0% 25%, rgb(255,255,255) 0% 50%) 50% / 2px 2px; }
 .tray { min-width: 74px; height: 24px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; font: 11px Tahoma, Arial, sans-serif; border-right: 2px solid rgb(250,250,250); border-bottom: 2px solid rgb(250,250,250); border-top: 2px solid rgb(90,90,90); border-left: 2px solid rgb(90,90,90); background: rgb(192,192,192); }
-.start-menu { position: absolute; left: 3px; bottom: 31px; width: 208px; display: grid; grid-template-columns: 24px 1fr; border: 2px outset #fff; background: var(--material); z-index: 10001; }
-.start-brand { writing-mode: vertical-rl; transform: rotate(180deg); padding: 8px 2px 6px; background: linear-gradient(#0a4db3, #7c7c7c); color: #dcdcdc; font: 700 18px Arial, sans-serif; letter-spacing: .2px; }
+.start-menu { position: absolute; left: 2px; bottom: 31px; width: 190px; display: flex; flex-direction: row; background: rgb(195, 195, 195); overflow: hidden; border-top: solid rgb(250, 250, 250) 2px; border-left: solid rgb(250, 250, 250) 2px; border-right: solid rgb(90, 90, 90) 1.5px; border-bottom: solid rgb(90, 90, 90) 1.5px; box-shadow: 1.5px 1.5px black; outline: rgb(222, 222, 222) 1px solid; z-index: 10001; }
+.start-brand { width: 25px; background: rgb(123, 125, 123); display: flex; align-items: flex-end; justify-content: center; padding: 6px 0; writing-mode: vertical-rl; transform: rotate(180deg); color: rgb(212,212,212); font: 700 18px Arial, sans-serif; line-height: 1; }
 .start-brand b { color: #fff; }
-.start-items { padding: 3px; display: flex; flex-direction: column; gap: 1px; }
-.start-items hr { width: 100%; margin: 3px 0; border: 0; border-top: 1px solid #808080; border-bottom: 1px solid #fff; }
-.start-items button { appearance: none; box-shadow: none; display: grid; grid-template-columns: 24px 1fr; align-items: center; gap: 8px; min-height: 30px; border: 0; background: transparent; text-align: left; padding: 3px 6px; font: 11px Tahoma, Arial, sans-serif; }
-.start-items button:hover, .start-items button:focus { background: #000080; color: #fff; }
-.menu-icon { width: 16px; height: 16px; image-rendering: pixelated; }
+.start-items { flex: 1; padding: 4px 0; background: rgb(195, 195, 195); }
+.start-entry { appearance: none; box-shadow: none; width: 100%; display: flex; flex-direction: row; align-items: center; gap: 10px; min-height: 40px; border: 0; background: rgb(195, 195, 195); text-align: left; padding: 5px 10px; font: 12px Tahoma, Arial, sans-serif; color: #000; }
+.start-entry:hover, .start-entry:focus { background: rgb(0, 0, 118); color: #fff; outline: none; }
+.start-divider { width: 100%; height: 1px; background: rgb(123, 125, 123); border-bottom: white solid 1px; margin: 2px 0; }
+.menu-icon { width: 30px; height: 30px; image-rendering: pixelated; flex: 0 0 auto; }
 .mobile-status, .mobile-launcher { display: none; }
 .screensaver { position: fixed; inset: 0; z-index: 20000; background: #020207; overflow: hidden; color: #fff; }
 .screensaver canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }

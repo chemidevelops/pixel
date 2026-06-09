@@ -159,12 +159,12 @@ const iconUrls = {
     <div class="start-menu" id="start-menu" hidden>
       <div class="start-brand">PixelOS <b>95</b></div>
       <div class="start-items">
-        <button data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
-        <button data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
-        <button data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
-        <button data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
-        <hr />
-        <button id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
+        <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
+        <button class="start-entry" data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
+        <button class="start-entry" data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
+        <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
+        <div class="start-divider" aria-hidden="true"></div>
+        <button class="start-entry" id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
       </div>
     </div>
 
