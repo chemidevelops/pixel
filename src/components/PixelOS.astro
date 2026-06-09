@@ -114,21 +114,22 @@ const iconUrls = {
           <div class="explorer-body">
             <aside class="explorer-sidebar">
               <div class="sunken-panel explorer-tree-panel">
-                <p class="sidebar-heading">Carpetas</p>
                 <ul class="tree-view folder-tree">
-                  <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
-                  <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
-                  <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
-                  <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Fanzines</button></li>
+                  <li>
+                    <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi Pixel</span>
+                    <ul>
+                      <li>
+                        <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\PIXEL</span>
+                        <ul>
+                          <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
+                          <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
+                          <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
+                        </ul>
+                      </li>
+                      <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Disco de 3½ (A:)</button></li>
+                    </ul>
+                  </li>
                 </ul>
-              </div>
-              <div class="sunken-panel explorer-details">
-                <img class="folder-summary-icon" src={iconUrls.desktop.folder} alt="" />
-                <div>
-                  <h2 id="folder-name">Artículos</h2>
-                  <p id="folder-count"></p>
-                  <small id="folder-path-hint">C:\PIXEL\ARTICULOS</small>
-                </div>
               </div>
             </aside>
             <div class="explorer-main">
@@ -200,7 +201,6 @@ const iconUrls = {
       <div class="task-buttons" id="task-buttons"></div>
       <div class="tray">
         <img src="/icons/speakers.png" alt="" class="tray-icon" />
-        <span class="tray-led" aria-hidden="true"></span>
         <button class="tray-clock" id="tray-clock">00:00</button>
       </div>
     </footer>
@@ -282,7 +282,16 @@ const iconUrls = {
       taskButtons.innerHTML = '';
       allWindows().filter(function(win) { return !win.hidden; }).forEach(function(win) {
         const button = document.createElement('button');
-        button.textContent = (win.querySelector('.title-bar-text span') || {}).textContent || 'Ventana';
+        const sourceIcon = win.querySelector('.window-title-icon');
+        if (sourceIcon) {
+          const icon = document.createElement('img');
+          icon.src = sourceIcon.src;
+          icon.alt = '';
+          button.appendChild(icon);
+        }
+        const label = document.createElement('span');
+        label.textContent = (win.querySelector('.title-bar-text span') || {}).textContent || 'Ventana';
+        button.appendChild(label);
         button.className = win.classList.contains('minimized') ? '' : 'active';
         button.addEventListener('click', function() {
           if (win.classList.contains('minimized')) {
@@ -324,9 +333,7 @@ const iconUrls = {
       const path = titleAndPath[1];
       currentFolder = folder;
       document.getElementById('explorer-title').textContent = title;
-      document.getElementById('folder-name').textContent = title;
       document.getElementById('explorer-address').value = path;
-      document.getElementById('folder-path-hint').textContent = path;
       document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
       document.querySelectorAll('[data-folder-nav]').forEach(function(item) { item.classList.toggle('active', item.dataset.folderNav === folder); });
@@ -336,11 +343,9 @@ const iconUrls = {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
           if (issue.pdfPrint) fileView.appendChild(makeDownloadFile(issue, true));
         });
-        document.getElementById('folder-count').textContent = String(issues.length) + ' números disponibles';
       } else {
         const files = filesFor(folder);
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
-        document.getElementById('folder-count').textContent = String(files.length) + ' artículos';
       }
       document.getElementById('status-count').textContent = String(fileView.children.length) + ' objetos';
       if (!options.skipHistory) {
@@ -474,10 +479,10 @@ const iconUrls = {
       bar.addEventListener('pointerdown', function(event) {
         if (event.target.closest('button')) return;
         if (win.classList.contains('maximized')) {
-          const width = Math.min(820, window.innerWidth - 180);
+          const width = Math.min(980, window.innerWidth - 220);
           win.classList.remove('maximized');
           win.style.width = width + 'px';
-          win.style.height = Math.min(560, window.innerHeight - 100) + 'px';
+          win.style.height = Math.min(650, window.innerHeight - 110) + 'px';
           win.style.left = Math.max(0, event.clientX - width / 2) + 'px';
           win.style.top = '24px';
         }
@@ -495,7 +500,7 @@ const iconUrls = {
     }
 
     allWindows().forEach(bindWindow);
-    const desktopGrid = { stepX: 84, stepY: 88, minX: 0, minY: 0 };
+    const desktopGrid = { stepX: 94, stepY: 96, minX: 0, minY: 0 };
     function desktopItems() {
       return Array.from(document.querySelectorAll('.desktop-icon-item'));
     }
