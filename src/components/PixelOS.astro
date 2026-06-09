@@ -195,7 +195,15 @@ const iconUrls = {
       </div>
     </div>
 
-    <footer class="taskbar"><button class="start-button" id="start-button">Inicio</button><div class="task-buttons" id="task-buttons"></div><button class="tray" id="tray-clock">00:00</button></footer>
+    <footer class="taskbar">
+      <button class="start-button" id="start-button">Inicio</button>
+      <div class="task-buttons" id="task-buttons"></div>
+      <div class="tray">
+        <img src="/icons/speakers.png" alt="" class="tray-icon" />
+        <span class="tray-led" aria-hidden="true"></span>
+        <button class="tray-clock" id="tray-clock">00:00</button>
+      </div>
+    </footer>
 
     <div class="screensaver" id="screensaver" hidden><canvas id="maze-screensaver" width="320" height="200" aria-label="Salvapantallas de laberinto 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
     <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
