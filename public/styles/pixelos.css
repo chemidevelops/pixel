@@ -17,10 +17,11 @@ button { cursor: default; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
 .desktop-icon-item { position: absolute; width: 94px; height: 102px; outline: none; }
 .desktop-icon-item:nth-child(1) { left: 0; top: 0; }
-.desktop-icon-item:nth-child(2) { left: 0; top: 98px; }
-.desktop-icon-item:nth-child(3) { left: 0; top: 196px; }
-.desktop-icon-item:nth-child(4) { left: 0; top: 294px; }
-.desktop-icon-item:nth-child(5) { left: 0; top: 392px; }
+.desktop-icon-item:nth-child(2) { left: 0; top: 106px; }
+.desktop-icon-item:nth-child(3) { left: 0; top: 212px; }
+.desktop-icon-item:nth-child(4) { left: 0; top: 318px; }
+.desktop-icon-item:nth-child(5) { left: 0; top: 424px; }
+.desktop-icon-item:nth-child(6) { left: 0; top: 530px; }
 .desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 94px; background: none; border: none; padding: 0; outline: none !important; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; }
 .desktop-icon-image { width: 50px; height: 50px; image-rendering: pixelated; }
 .desktop-icon-image { margin-bottom: 4px; }
