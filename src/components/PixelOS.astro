@@ -680,6 +680,10 @@ const iconUrls = {
 
     allWindows().forEach(bindWindow);
     const desktopGrid = { stepX: 106, stepY: 106, minX: 0, minY: 0 };
+    desktopItems().forEach(function(item, index) {
+      item.style.left = '0px';
+      item.style.top = String(index * desktopGrid.stepY) + 'px';
+    });
     function desktopItems() {
       return Array.from(document.querySelectorAll('.desktop-icon-item'));
     }
