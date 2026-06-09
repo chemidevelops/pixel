@@ -5,6 +5,8 @@
 }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 body { font-family: 'MS Sans Serif', Arial, sans-serif; }
+body.opening-wait,
+body.opening-wait * { cursor: url('/icons/desktopnostalgia/wait.cur'), wait !important; }
 button { cursor: default; }
 [hidden] { display: none !important; }
 .pixel-os { position: fixed; inset: 0; overflow: hidden; background-color: var(--pixel-bg); }

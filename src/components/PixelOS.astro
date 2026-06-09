@@ -251,12 +251,32 @@ const iconUrls = {
     let currentFolder = 'all';
     const folderHistory = ['all'];
     let historyIndex = 0;
+    let openingQueue = 0;
+
+    function pause(ms) {
+      return new Promise(function(resolve) { setTimeout(resolve, ms); });
+    }
+
+    async function withOpeningFeedback(action) {
+      openingQueue += 1;
+      document.body.classList.add('opening-wait');
+      try {
+        await pause(140);
+        return action();
+      } finally {
+        openingQueue -= 1;
+        if (openingQueue <= 0) {
+          openingQueue = 0;
+          document.body.classList.remove('opening-wait');
+        }
+      }
+    }
 
     function allWindows() {
       return Array.from(document.querySelectorAll('.os-window'));
     }
 
-    function showWindow(id) {
+    function showWindowNow(id) {
       const win = document.getElementById('window-' + id);
       if (!win) return;
       win.hidden = false;
@@ -264,6 +284,10 @@ const iconUrls = {
       focusWindow(win);
       syncTasks();
       startMenu.hidden = true;
+    }
+
+    function showWindow(id) {
+      return withOpeningFeedback(function() { showWindowNow(id); });
     }
 
     function focusWindow(win) {
@@ -325,7 +349,7 @@ const iconUrls = {
       return folderAliases[normalized] || null;
     }
 
-    function openFolder(folder, options) {
+    function openFolderNow(folder, options) {
       options = options || {};
       const titleAndPath = folderTitles[folder];
       if (!titleAndPath) return;
@@ -354,7 +378,11 @@ const iconUrls = {
         historyIndex = folderHistory.length - 1;
       }
       document.getElementById('explorer-back').disabled = historyIndex === 0;
-      showWindow('explorer');
+      showWindowNow('explorer');
+    }
+
+    function openFolder(folder, options) {
+      return withOpeningFeedback(function() { openFolderNow(folder, options); });
     }
 
     function makeArticleFile(post) {
@@ -398,7 +426,7 @@ const iconUrls = {
       return row;
     }
 
-    function openArticle(post) {
+    function openArticleNow(post) {
       const url = '/pixelos/posts/' + post.id;
       const existing = document.querySelector('[data-reader-id="' + CSS.escape(post.id) + '"]');
       if (existing) {
@@ -421,6 +449,10 @@ const iconUrls = {
       bindWindow(win);
       focusWindow(win);
       syncTasks();
+    }
+
+    function openArticle(post) {
+      return withOpeningFeedback(function() { openArticleNow(post); });
     }
 
     function formatDate(date) {
@@ -756,7 +788,7 @@ const iconUrls = {
     const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     let secretIndex = 0;
     document.addEventListener('keydown', function(event) { secretIndex = event.key === konami[secretIndex] ? secretIndex + 1 : 0; if (secretIndex === konami.length) { showWindow('game'); secretIndex = 0; } });
-    openFolder('all');
+    openFolderNow('all');
     if (matchMedia('(max-width: 700px)').matches) closeWindow(explorer);
   </script>
 </body>
