@@ -62,14 +62,14 @@ const iconUrls = {
     </header>
 
     <main class="desktop" aria-label="Escritorio PixelOS">
-      <div class="desktop-icons">
-        <button class="desktop-icon" data-folder="all"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><span class="desktop-icon-label">Artículos</span></span></button>
-        <button class="desktop-icon" data-folder="entrevista"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.interview} alt="" /><span class="desktop-icon-label">Entrevistas</span></span></button>
-        <button class="desktop-icon" data-folder="arcade"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><span class="desktop-icon-label">Arcade</span></span></button>
-        <button class="desktop-icon" data-folder="fanzines"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><span class="desktop-icon-label">Fanzines</span></span></button>
-        <button class="desktop-icon" data-window="about"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><span class="desktop-icon-label">Mi Pixel</span></span></button>
-        <button class="desktop-icon" data-window="settings"><span class="desktop-icon-hitbox"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><span class="desktop-icon-label">Panel de control</span></span></button>
-      </div>
+      <ul class="desktop-icons">
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="entrevista"><img class="desktop-icon-image" src={iconUrls.desktop.interview} alt="" /><div class="border-box"><p class="desktop-icon-label">Entrevistas</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><div class="border-box"><p class="desktop-icon-label">Arcade</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><div class="border-box"><p class="desktop-icon-label">Fanzines</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
+      </ul>
 
       <section class="mobile-launcher" aria-label="Explorador">
         <div class="mobile-today-header"><strong>Hoy</strong><span>Mi dispositivo</span></div>
@@ -359,6 +359,13 @@ const iconUrls = {
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
     document.querySelectorAll('[data-folder-nav]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folderNav); }); });
     document.querySelectorAll('[data-window]').forEach(function(button) { button.addEventListener('click', function() { showWindow(button.dataset.window); }); });
+    document.querySelectorAll('.desktop-icon').forEach(function(button) {
+      button.addEventListener('click', function() { button.focus(); });
+      button.addEventListener('dblclick', function() {
+        if (button.dataset.desktopFolder) openFolder(button.dataset.desktopFolder);
+        if (button.dataset.desktopWindow) showWindow(button.dataset.desktopWindow);
+      });
+    });
 
     function bindWindow(win) {
       win.querySelectorAll('[data-close]').forEach(function(button) { button.addEventListener('click', function() { closeWindow(win); if (win.dataset.readerId) win.remove(); }); });
@@ -386,6 +393,43 @@ const iconUrls = {
     }
 
     allWindows().forEach(bindWindow);
+    document.querySelectorAll('.desktop-icon-item').forEach(function(item) {
+      if (matchMedia('(max-width: 700px)').matches) return;
+      const button = item.querySelector('.desktop-icon');
+      let dragging = false;
+      let moved = false;
+      let startX = 0;
+      let startY = 0;
+      let baseLeft = 0;
+      let baseTop = 0;
+      button.addEventListener('pointerdown', function(event) {
+        dragging = true;
+        moved = false;
+        startX = event.clientX;
+        startY = event.clientY;
+        baseLeft = item.offsetLeft;
+        baseTop = item.offsetTop;
+        item.style.zIndex = '5';
+        button.setPointerCapture(event.pointerId);
+      });
+      button.addEventListener('pointermove', function(event) {
+        if (!dragging) return;
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        if (!moved) return;
+        item.style.left = String(Math.max(0, baseLeft + dx)) + 'px';
+        item.style.top = String(Math.max(0, baseTop + dy)) + 'px';
+      });
+      button.addEventListener('pointerup', function(event) {
+        dragging = false;
+        item.style.zIndex = '';
+        button.releasePointerCapture(event.pointerId);
+      });
+      button.addEventListener('dblclick', function(event) {
+        if (moved) event.preventDefault();
+      });
+    });
     document.getElementById('start-button').addEventListener('click', function(event) { event.stopPropagation(); startMenu.hidden = !startMenu.hidden; });
     document.addEventListener('click', function(event) { if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true; });
     document.querySelectorAll('[data-wallpaper]').forEach(function(button) { button.addEventListener('click', function() { os.className = 'pixel-os wallpaper-' + button.dataset.wallpaper; localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper); }); });

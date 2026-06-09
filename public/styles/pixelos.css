@@ -11,15 +11,24 @@ button { cursor: default; }
 .wallpaper-teal { background: #008080; }
 .wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
 .desktop { position: absolute; inset: 0 0 31px; }
-.desktop-icons { display: grid; grid-auto-flow: column; grid-template-rows: repeat(6, 86px); grid-auto-columns: 80px; gap: 12px 10px; align-content: start; justify-content: start; padding: 12px 10px; }
-.desktop-icon { appearance: none; box-shadow: none; width: 74px; min-height: 82px; border: 0; background: transparent; display: flex; align-items: flex-start; justify-content: center; padding: 0; margin: 0; }
-.desktop-icon-hitbox { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 5px 6px 4px; }
-.desktop-icon:hover { background: transparent; }
-.desktop-icon:focus .desktop-icon-hitbox { outline: 1px dotted #ffff94; outline-offset: 1px; }
+.desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
+.desktop-icon-item { position: absolute; width: 76px; height: 88px; }
+.desktop-icon-item:nth-child(1) { left: 0; top: 0; }
+.desktop-icon-item:nth-child(2) { left: 0; top: 96px; }
+.desktop-icon-item:nth-child(3) { left: 0; top: 192px; }
+.desktop-icon-item:nth-child(4) { left: 0; top: 288px; }
+.desktop-icon-item:nth-child(5) { left: 0; top: 384px; }
+.desktop-icon-item:nth-child(6) { left: 0; top: 480px; }
+.desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 76px; background: none; border: none; padding: 0; }
 .desktop-icon-image { width: 32px; height: 32px; image-rendering: pixelated; }
-.desktop-icon-label { display: inline-block; max-width: 72px; color: #fff; text-align: center; line-height: 1.1; font-size: 12px; text-shadow: 1px 1px 0 #000; }
-.desktop-icon:focus .desktop-icon-label { background: #000080; text-shadow: none; padding: 1px 3px; }
-.wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; background: rgba(255,255,255,.72); padding: 1px 4px; }
+.desktop-icon-image { margin-bottom: 5px; }
+.desktop-icon-label { color: white; margin: 1px 0 0; padding: 0 2px; font-size: 12px; line-height: 1.1; text-shadow: 1px 1px 0 #000; }
+.border-box { padding: 1px 3px; }
+.desktop-icon:focus .desktop-icon-image { filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(400%) contrast(0.9); }
+.desktop-icon:focus .desktop-icon-label { background: rgb(0, 0, 118); color: white; margin: 0; text-shadow: none; }
+.desktop-icon:focus .border-box { border: rgb(255, 255, 148) dotted 1px; }
+.wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; }
+.wallpaper-grid .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(820px, calc(100vw - 180px)); min-width: 520px; height: min(560px, calc(100vh - 100px)); min-height: 320px; margin: 0; box-sizing: border-box; overflow: hidden; }
 .window.os-window.maximized { inset: 0 !important; width: 100% !important; height: calc(100% - 31px) !important; }
 .window.os-window.minimized { display: none; }
