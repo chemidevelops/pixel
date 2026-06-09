@@ -31,6 +31,7 @@ const iconUrls = {
     fanzines: '/icons/react95/notepad-32.png',
     computer: '/icons/react95/computer-32.png',
     settings: '/icons/react95/settings-32.png',
+    taisei: '/icons/react95/exe-32.png',
   },
   files: {
     article: '/icons/react95/html-16.png',
@@ -69,6 +70,7 @@ const iconUrls = {
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><div class="border-box"><p class="desktop-icon-label">Fanzines</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
       </ul>
 
       <section class="mobile-launcher" aria-label="Explorador">
@@ -171,6 +173,14 @@ const iconUrls = {
           </fieldset>
           <div class="field-row setting-check"><input type="checkbox" id="screensaver-toggle" checked /><label for="screensaver-toggle">Activar salvapantallas tras 45 segundos</label></div>
         </div>
+      </section>
+
+      <section class="window os-window taisei-window" id="window-taisei" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="window-body taisei-body">
+          <iframe id="taisei-frame" title="Taisei Project" src="" allowfullscreen></iframe>
+        </div>
+        <div class="taisei-resize-handle" id="taisei-resize"></div>
       </section>
 
       <section class="window os-window game-window" id="window-game" hidden>
@@ -420,6 +430,7 @@ const iconUrls = {
       focusWindow(win);
       syncTasks();
       startMenu.hidden = true;
+      if (id === 'taisei') win.dispatchEvent(new Event('taisei-open'));
     }
 
     function showWindow(id) {
@@ -852,6 +863,39 @@ const iconUrls = {
     ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(function(name) { document.addEventListener(name, resetSaver, { passive: true }); });
     saverToggle.addEventListener('change', resetSaver);
     resetSaver();
+    // Taisei: load iframe only when window opens, unload on close
+    (function() {
+      const win = document.getElementById('window-taisei');
+      const frame = document.getElementById('taisei-frame');
+      const TAISEI_URL = '/taisei/taisei.html';
+      const origClose = win.querySelector('[data-close]');
+      origClose.addEventListener('click', function() { frame.src = ''; });
+      win.addEventListener('taisei-open', function() {
+        if (!frame.src || frame.src === window.location.href) frame.src = TAISEI_URL;
+      });
+
+      // Resize handle
+      const handle = document.getElementById('taisei-resize');
+      let resizing = false, rStartX = 0, rStartY = 0, rStartW = 0, rStartH = 0;
+      handle.addEventListener('pointerdown', function(e) {
+        e.stopPropagation();
+        resizing = true;
+        rStartX = e.clientX; rStartY = e.clientY;
+        rStartW = win.offsetWidth; rStartH = win.offsetHeight;
+        handle.setPointerCapture(e.pointerId);
+        frame.style.pointerEvents = 'none';
+      });
+      handle.addEventListener('pointermove', function(e) {
+        if (!resizing) return;
+        const w = Math.max(480, rStartW + e.clientX - rStartX);
+        const h = Math.max(320, rStartH + e.clientY - rStartY);
+        win.style.width = w + 'px';
+        win.style.height = h + 'px';
+      });
+      handle.addEventListener('pointerup', function() { resizing = false; frame.style.pointerEvents = ''; });
+      handle.addEventListener('pointercancel', function() { resizing = false; frame.style.pointerEvents = ''; });
+    })();
+
     document.getElementById('shutdown').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = false; });
     document.getElementById('restart').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = true; });
     const gameBoard = document.getElementById('game-board');
