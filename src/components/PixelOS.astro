@@ -35,8 +35,13 @@ const { posts, issues } = Astro.props;
 <body>
   <div id="pixel-os" class="pixel-os wallpaper-teal">
     <header class="mobile-status">
-      <strong>Pixel Explorer</strong>
-      <time id="mobile-clock">00:00</time>
+      <button class="mobile-start" type="button">Start</button>
+      <strong>PixelOS Mobile</strong>
+      <div class="mobile-status-meta">
+        <span class="mobile-signal" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="mobile-battery" aria-hidden="true"></span>
+        <time id="mobile-clock">00:00</time>
+      </div>
     </header>
 
     <main class="desktop" aria-label="Escritorio PixelOS">
@@ -68,20 +73,30 @@ const { posts, issues } = Astro.props;
       </div>
 
       <section class="mobile-launcher" aria-label="Explorador">
-        <div class="pda-menu"><span>Archivo</span><span>Ver</span><span>Ayuda</span></div>
-        <div class="pda-address"><span>Mi dispositivo</span><button>▼</button></div>
-        <div class="mobile-welcome">
-          <span class="pixel-logo">Mi Pixel</span>
-          <p>Contenido de \PIXEL</p>
+        <div class="mobile-today-header">
+          <strong>Hoy</strong>
+          <span>Mi dispositivo</span>
         </div>
+        <div class="mobile-welcome">
+          <div>
+            <span class="pixel-logo">PixelOS 95</span>
+            <p>Explorador móvil estilo Pocket PC</p>
+          </div>
+          <span class="mobile-date-badge">PIXEL</span>
+        </div>
+        <div class="pda-address"><span>\Mi dispositivo\Pixel</span><button type="button">▼</button></div>
         <div class="mobile-folder-list">
-          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Carpeta de archivos</small></span></button>
-          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Carpeta de archivos</small></span></button>
-          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Carpeta de archivos</small></span></button>
-          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>Carpeta de archivos</small></span></button>
-          <button data-window="about"><span class="mobile-file-icon">P.</span><span><strong>Acerca de PixelOS</strong><small>Documento del sistema</small></span></button>
+          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Lista de archivos HTML</small></span></button>
+          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Conversaciones y perfiles</small></span></button>
+          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Críticas, acción y clásicos</small></span></button>
+          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>PDF descargable</small></span></button>
+          <button data-window="about"><span class="mobile-file-icon">TXT</span><span><strong>Acerca de PixelOS</strong><small>Información del sistema</small></span></button>
         </div>
         <div class="pda-status">{posts.length + issues.length} objetos</div>
+        <div class="mobile-softkeys">
+          <button type="button" data-folder="all">Explorar</button>
+          <button type="button" data-window="settings">Menú</button>
+        </div>
       </section>
 
       <section class="os-window explorer-window" id="window-explorer" hidden>
@@ -203,11 +218,7 @@ const { posts, issues } = Astro.props;
             <button data-close aria-label="Cerrar">×</button>
           </div>
         </div>
-        <div class="reader-toolbar">
-          <button data-reader-back>← Atrás</button>
-          <span data-reader-path>pixel://articulo</span>
-          <a data-reader-new-tab href="/" target="_blank">Abrir aparte</a>
-        </div>
+        <div class="reader-caption" data-reader-path>pixel://articulo</div>
         <iframe title="Artículo de PIXEL"></iframe>
       </section>
     </template>
@@ -313,7 +324,7 @@ const { posts, issues } = Astro.props;
     function makeArticleFile(post) {
       const button = document.createElement('button');
       button.className = 'file-item';
-      button.innerHTML = `<span class="paper-file"><i>PX</i></span><span>${post.title}</span><small>${formatDate(post.date)}</small>`;
+      button.innerHTML = `<span class="paper-file"><i>HTM</i></span><span class="file-main"><strong>${post.title}</strong><small>${formatDate(post.date)}</small></span><span class="file-kind">Documento HTML</span><span class="file-meta">${post.tags.slice(0, 2).join(', ') || 'PIXEL'}</span>`;
       button.addEventListener('dblclick', () => openArticle(post));
       button.addEventListener('click', () => {
         if (matchMedia('(max-width: 700px)').matches) {
@@ -335,12 +346,12 @@ const { posts, issues } = Astro.props;
       link.className = 'file-item';
       link.href = href;
       link.download = '';
-      link.innerHTML = `<span class="pdf-file">PDF</span><span>${issue.title}${print ? ' — Imprimir' : ''}</span><small>${issue.date}</small>`;
+      link.innerHTML = `<span class="pdf-file">PDF</span><span class="file-main"><strong>${issue.title}${print ? ' — Imprimir' : ''}</strong><small>${issue.date}</small></span><span class="file-kind">Adobe PDF</span><span class="file-meta">Descarga</span>`;
       return link;
     }
 
     function openArticle(post) {
-      const url = `/posts/${post.id}`;
+      const url = `/pixelos/posts/${post.id}`;
       const existing = document.querySelector(`[data-reader-id="${CSS.escape(post.id)}"]`);
       if (existing) {
         existing.classList.remove('minimized');
@@ -352,7 +363,6 @@ const { posts, issues } = Astro.props;
       win.dataset.readerId = post.id;
       win.querySelector('.title-bar strong').textContent = post.title;
       win.querySelector('[data-reader-path]').textContent = `C:\\PIXEL\\ARTICULOS\\${post.id}.HTM`;
-      win.querySelector('[data-reader-new-tab]').href = url;
       win.querySelector('iframe').src = url;
       if (!matchMedia('(max-width: 700px)').matches) {
         win.style.left = `${210 + (readerOffset % 7) * 30}px`;
@@ -361,11 +371,6 @@ const { posts, issues } = Astro.props;
       }
       readerWindows.appendChild(win);
       bindWindow(win);
-      win.querySelector('[data-reader-back]').addEventListener('click', () => {
-        closeWindow(win);
-        win.remove();
-        showWindow('explorer');
-      });
       focusWindow(win);
       syncTasks();
     }
@@ -468,10 +473,16 @@ const { posts, issues } = Astro.props;
 
       const width = mazeCanvas.width;
       const height = mazeCanvas.height;
-      mazeContext.fillStyle = '#080b08';
+      mazeContext.fillStyle = '#101018';
       mazeContext.fillRect(0, 0, width, height / 2);
-      mazeContext.fillStyle = '#181c17';
+      mazeContext.fillStyle = '#4c4c52';
       mazeContext.fillRect(0, height / 2, width, height / 2);
+
+      for (let row = height / 2; row < height; row += 4) {
+        const alpha = Math.max(0.02, 0.2 - (row - height / 2) / height * 0.18);
+        mazeContext.fillStyle = `rgba(255,255,255,${alpha})`;
+        mazeContext.fillRect(0, row, width, 1);
+      }
 
       for (let column = 0; column < width; column += 2) {
         const rayAngle = mazePlayer.angle - Math.PI / 6 + (column / width) * Math.PI / 3;
@@ -482,8 +493,11 @@ const { posts, issues } = Astro.props;
         )) distance += 0.035;
         const corrected = distance * Math.cos(rayAngle - mazePlayer.angle);
         const wallHeight = Math.min(height, height / Math.max(0.2, corrected));
-        const shade = Math.max(28, 155 - corrected * 13);
-        mazeContext.fillStyle = `rgb(${shade * 0.72},${shade * 0.82},${shade * 0.69})`;
+        const shade = Math.max(38, 185 - corrected * 15);
+        const red = Math.min(220, shade + 35);
+        const green = Math.max(40, shade * 0.46);
+        const blue = Math.max(30, shade * 0.34);
+        mazeContext.fillStyle = `rgb(${red},${green},${blue})`;
         mazeContext.fillRect(column, (height - wallHeight) / 2, 2, wallHeight);
         mazeContext.fillStyle = `rgba(0,0,0,${0.12 + (column % 8 === 0 ? 0.15 : 0)})`;
         mazeContext.fillRect(column, (height - wallHeight) / 2, 1, wallHeight);
