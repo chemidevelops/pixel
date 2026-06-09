@@ -402,7 +402,8 @@ const iconUrls = {
       let startY = 0;
       let baseLeft = 0;
       let baseTop = 0;
-      button.addEventListener('pointerdown', function(event) {
+      item.addEventListener('pointerdown', function(event) {
+        if (event.target.closest('.desktop-icon') == null) return;
         dragging = true;
         moved = false;
         startX = event.clientX;
@@ -410,9 +411,9 @@ const iconUrls = {
         baseLeft = item.offsetLeft;
         baseTop = item.offsetTop;
         item.style.zIndex = '5';
-        button.setPointerCapture(event.pointerId);
+        item.setPointerCapture(event.pointerId);
       });
-      button.addEventListener('pointermove', function(event) {
+      item.addEventListener('pointermove', function(event) {
         if (!dragging) return;
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
@@ -421,10 +422,14 @@ const iconUrls = {
         item.style.left = String(Math.max(0, baseLeft + dx)) + 'px';
         item.style.top = String(Math.max(0, baseTop + dy)) + 'px';
       });
-      button.addEventListener('pointerup', function(event) {
+      item.addEventListener('pointerup', function(event) {
         dragging = false;
         item.style.zIndex = '';
-        button.releasePointerCapture(event.pointerId);
+        item.releasePointerCapture(event.pointerId);
+      });
+      item.addEventListener('pointercancel', function() {
+        dragging = false;
+        item.style.zIndex = '';
       });
       button.addEventListener('dblclick', function(event) {
         if (moved) event.preventDefault();
