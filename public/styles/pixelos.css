@@ -10,7 +10,7 @@ button { cursor: default; }
 .pixel-os { position: fixed; inset: 0; overflow: hidden; background-color: var(--pixel-bg); }
 .wallpaper-teal { background: #008080; }
 .wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
-.desktop { position: absolute; inset: 0 0 38px; }
+.desktop { position: absolute; inset: 0 0 48px; }
 .desktop-selection-box { position: absolute; border: 1px dotted #fff; background: rgba(0, 0, 128, 0.18); pointer-events: none; z-index: 3; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
 .desktop-icon-item { position: absolute; width: 92px; height: 100px; outline: none; }
@@ -32,7 +32,7 @@ button { cursor: default; }
 .wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; }
 .wallpaper-grid .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(980px, calc(100vw - 220px)); min-width: 640px; height: min(650px, calc(100vh - 110px)); min-height: 380px; margin: 0; box-sizing: border-box; overflow: hidden; }
-.window.os-window.maximized { inset: 0 !important; width: 100% !important; height: calc(100% - 38px) !important; }
+.window.os-window.maximized { inset: 0 !important; width: 100% !important; height: calc(100% - 48px) !important; }
 .window.os-window.minimized { display: none; }
 .window.os-window:not(.focused) .title-bar { filter: grayscale(0.2) brightness(0.95); }
 .title-bar-text { display: flex; align-items: center; gap: 6px; min-width: 0; }
@@ -96,18 +96,18 @@ button { cursor: default; }
 .wallpaper-preview.teal { background: #008080; }
 .setting-check { margin-top: 16px; }
 .status-bar { width: 100%; box-sizing: border-box; flex: 0 0 auto; }
-.taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 38px; display: flex; align-items: center; gap: 4px; padding: 3px 4px; background: #c0c0c0; border-top: 2px solid #fff; z-index: 10000; box-sizing: border-box; }
-.start-button { display: flex; align-items: center; justify-content: center; min-width: 86px; height: 30px; padding: 0 10px; font: 700 14px Tahoma, Arial, sans-serif; border-top: 2px solid #fff; border-left: 2px solid #fff; border-bottom: 2px solid #404040; border-right: 2px solid #404040; background: #c0c0c0; box-shadow: 1px 1px 0 #000; }
+.taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 48px; display: flex; align-items: center; gap: 5px; padding: 4px 5px; background: #c0c0c0; border-top: 2px solid #fff; z-index: 10000; box-sizing: border-box; }
+.start-button { display: flex; align-items: center; justify-content: center; min-width: 112px; height: 40px; padding: 0 14px; font-family: "Pixelated MS Sans Serif", "MS Sans Serif", sans-serif; font-size: 18px; font-weight: 700; line-height: 1; border-top: 2px solid #fff; border-left: 2px solid #fff; border-bottom: 2px solid #404040; border-right: 2px solid #404040; background: #c0c0c0; box-shadow: 1px 1px 0 #000; }
 .start-button:active, .start-button.open { border-top: 2px solid #000; border-left: 2px solid #000; border-bottom: 2px solid rgb(250,250,250); border-right: 2px solid rgb(250,250,250); box-shadow: none; background: repeating-conic-gradient(rgb(189,190,189) 0% 25%, rgb(255,255,255) 0% 50%) 50% / 2px 2px; }
 .task-buttons { flex: 1; display: flex; gap: 4px; min-width: 0; overflow: auto hidden; }
-.task-buttons button { flex: 0 1 190px; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; font: 13px Tahoma, Arial, sans-serif; border-top: 2px solid #fff; border-left: 2px solid #fff; border-bottom: 2px solid #404040; border-right: 2px solid #404040; background: #c0c0c0; box-shadow: 1px 1px 0 #000; }
-.task-buttons button img { width: 18px; height: 18px; image-rendering: pixelated; flex: 0 0 auto; }
+.task-buttons button { flex: 0 1 220px; height: 40px; display: flex; align-items: center; gap: 7px; padding: 0 9px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; font-family: "Pixelated MS Sans Serif", "MS Sans Serif", sans-serif; font-size: 15px; border-top: 2px solid #fff; border-left: 2px solid #fff; border-bottom: 2px solid #404040; border-right: 2px solid #404040; background: #c0c0c0; box-shadow: 1px 1px 0 #000; }
+.task-buttons button img { width: 22px; height: 22px; image-rendering: pixelated; flex: 0 0 auto; }
 .task-buttons button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .task-buttons button.active { border-top: 2px solid #000; border-left: 2px solid #000; border-bottom: 2px solid rgb(250,250,250); border-right: 2px solid rgb(250,250,250); box-shadow: none; background: repeating-conic-gradient(rgb(189,190,189) 0% 25%, rgb(255,255,255) 0% 50%) 50% / 2px 2px; }
-.tray { min-width: 112px; height: 30px; padding: 0 7px; display: inline-flex; align-items: center; justify-content: flex-end; gap: 7px; font: 13px Tahoma, Arial, sans-serif; border-right: 2px solid #fff; border-bottom: 2px solid #fff; border-top: 2px solid #808080; border-left: 2px solid #808080; background: #c0c0c0; box-sizing: border-box; }
-.tray-icon { width: 20px; height: 20px; object-fit: contain; image-rendering: pixelated; flex: 0 0 auto; }
-.tray-clock { min-width: 0; height: auto; padding: 0; border: 0; background: transparent; box-shadow: none; font: 13px Tahoma, Arial, sans-serif; white-space: nowrap; }
-.start-menu { position: absolute; left: 2px; bottom: 38px; width: 190px; display: flex; flex-direction: row; background: rgb(195, 195, 195); overflow: hidden; border-top: solid rgb(250, 250, 250) 2px; border-left: solid rgb(250, 250, 250) 2px; border-right: solid rgb(90, 90, 90) 1.5px; border-bottom: solid rgb(90, 90, 90) 1.5px; box-shadow: 1.5px 1.5px black; outline: rgb(222, 222, 222) 1px solid; z-index: 10001; }
+.tray { min-width: 142px; height: 40px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: flex-end; gap: 9px; font-family: "Pixelated MS Sans Serif", "MS Sans Serif", sans-serif; font-size: 15px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; border-top: 2px solid #808080; border-left: 2px solid #808080; background: #c0c0c0; box-sizing: border-box; }
+.tray-icon { width: 24px; height: 24px; object-fit: contain; image-rendering: pixelated; flex: 0 0 auto; }
+.tray-clock { min-width: 0; height: auto; padding: 0; border: 0; background: transparent; box-shadow: none; font-family: "Pixelated MS Sans Serif", "MS Sans Serif", sans-serif; font-size: 15px; white-space: nowrap; }
+.start-menu { position: absolute; left: 2px; bottom: 48px; width: 190px; display: flex; flex-direction: row; background: rgb(195, 195, 195); overflow: hidden; border-top: solid rgb(250, 250, 250) 2px; border-left: solid rgb(250, 250, 250) 2px; border-right: solid rgb(90, 90, 90) 1.5px; border-bottom: solid rgb(90, 90, 90) 1.5px; box-shadow: 1.5px 1.5px black; outline: rgb(222, 222, 222) 1px solid; z-index: 10001; }
 .start-brand { width: 25px; background: rgb(123, 125, 123); display: flex; align-items: flex-end; justify-content: center; padding: 6px 0; writing-mode: vertical-rl; transform: rotate(180deg); color: rgb(212,212,212); font: 700 18px Arial, sans-serif; line-height: 1; }
 .start-brand b { color: #fff; }
 .start-items { flex: 1; padding: 4px 0; background: rgb(195, 195, 195); }
