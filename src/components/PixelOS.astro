@@ -393,6 +393,40 @@ const iconUrls = {
     }
 
     allWindows().forEach(bindWindow);
+    const desktopGrid = { stepX: 80, stepY: 96, minX: 0, minY: 0 };
+    function desktopItems() {
+      return Array.from(document.querySelectorAll('.desktop-icon-item'));
+    }
+    function slotForPosition(left, top) {
+      return {
+        col: Math.max(0, Math.round(left / desktopGrid.stepX)),
+        row: Math.max(0, Math.round(top / desktopGrid.stepY)),
+      };
+    }
+    function occupiedSlots(exceptItem) {
+      const used = new Set();
+      desktopItems().forEach(function(node) {
+        if (node === exceptItem) return;
+        const slot = slotForPosition(node.offsetLeft, node.offsetTop);
+        used.add(slot.col + ':' + slot.row);
+      });
+      return used;
+    }
+    function findNearestFreeSlot(left, top, exceptItem) {
+      const target = slotForPosition(left, top);
+      const used = occupiedSlots(exceptItem);
+      if (!used.has(target.col + ':' + target.row)) return target;
+      for (let radius = 1; radius < 20; radius += 1) {
+        for (let row = target.row - radius; row <= target.row + radius; row += 1) {
+          for (let col = target.col - radius; col <= target.col + radius; col += 1) {
+            if (row < 0 || col < 0) continue;
+            const key = col + ':' + row;
+            if (!used.has(key)) return { col: col, row: row };
+          }
+        }
+      }
+      return target;
+    }
     document.querySelectorAll('.desktop-icon-item').forEach(function(item) {
       if (matchMedia('(max-width: 700px)').matches) return;
       const button = item.querySelector('.desktop-icon');
@@ -424,6 +458,9 @@ const iconUrls = {
       });
       item.addEventListener('pointerup', function(event) {
         dragging = false;
+        const freeSlot = findNearestFreeSlot(item.offsetLeft, item.offsetTop, item);
+        item.style.left = String(freeSlot.col * desktopGrid.stepX) + 'px';
+        item.style.top = String(freeSlot.row * desktopGrid.stepY) + 'px';
         item.style.zIndex = '';
         item.releasePointerCapture(event.pointerId);
       });
