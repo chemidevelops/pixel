@@ -15,14 +15,14 @@ button { cursor: default; }
 .desktop { position: absolute; inset: 0 0 42px; }
 .desktop-selection-box { position: absolute; border: 1px dotted #fff; background: rgba(0, 0, 128, 0.18); pointer-events: none; z-index: 3; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
-.desktop-icon-item { position: absolute; width: 92px; height: 100px; outline: none; }
+.desktop-icon-item { position: absolute; width: 94px; height: 102px; outline: none; }
 .desktop-icon-item:nth-child(1) { left: 0; top: 0; }
-.desktop-icon-item:nth-child(2) { left: 0; top: 96px; }
-.desktop-icon-item:nth-child(3) { left: 0; top: 192px; }
-.desktop-icon-item:nth-child(4) { left: 0; top: 288px; }
-.desktop-icon-item:nth-child(5) { left: 0; top: 384px; }
-.desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 92px; background: none; border: none; padding: 0; outline: none !important; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; }
-.desktop-icon-image { width: 48px; height: 48px; image-rendering: pixelated; }
+.desktop-icon-item:nth-child(2) { left: 0; top: 98px; }
+.desktop-icon-item:nth-child(3) { left: 0; top: 196px; }
+.desktop-icon-item:nth-child(4) { left: 0; top: 294px; }
+.desktop-icon-item:nth-child(5) { left: 0; top: 392px; }
+.desktop-icon { appearance: none; box-shadow: none; color: black; display: flex; flex-direction: column; margin: 0; align-items: center; text-align: center; width: 94px; background: none; border: none; padding: 0; outline: none !important; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; }
+.desktop-icon-image { width: 50px; height: 50px; image-rendering: pixelated; }
 .desktop-icon-image { margin-bottom: 4px; }
 .desktop-icon-label { color: white; margin: 1px 0 0; padding: 0 2px; font-size: 14px; line-height: 1.1; text-shadow: 1px 1px 0 #000; }
 .border-box { padding: 1px 3px; }
