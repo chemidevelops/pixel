@@ -120,7 +120,7 @@ button { cursor: default; }
 .taisei-window { width: min(900px, calc(100vw - 180px)); height: min(660px, calc(100vh - 100px)); min-width: 480px; min-height: 320px; }
 .taisei-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; }
 .taisei-body iframe { flex: 1; width: 100%; border: none; display: block; }
-.taisei-resize-handle { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; cursor: se-resize; z-index: 1; background: linear-gradient(135deg, transparent 50%, #808080 50%, transparent 62%, #808080 62%, transparent 74%, #808080 74%); }
+.window-resize-handle { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; cursor: se-resize; z-index: 1; background: linear-gradient(135deg, transparent 50%, #808080 50%, transparent 62%, #808080 62%, transparent 74%, #808080 74%); }
 .game-content { background: #111; color: #fff; font: 12px monospace; text-align: center; }
 .game-stats { margin-bottom: 8px; color: #f33; }
 .game-board { display: grid; grid-template-columns: repeat(10,24px); justify-content: center; border: 2px inset #fff; background: #222; }

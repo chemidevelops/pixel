@@ -180,7 +180,6 @@ const iconUrls = {
         <div class="window-body taisei-body">
           <iframe id="taisei-frame" title="Taisei Project" src="" allowfullscreen></iframe>
         </div>
-        <div class="taisei-resize-handle" id="taisei-resize"></div>
       </section>
 
       <section class="window os-window game-window" id="window-game" hidden>
@@ -676,6 +675,37 @@ const iconUrls = {
         win.style.top = String(Math.max(0, event.clientY - offsetY)) + 'px';
       });
       bar.addEventListener('pointerup', function() { dragging = false; });
+
+      // Resize handle
+      const handle = document.createElement('div');
+      handle.className = 'window-resize-handle';
+      win.appendChild(handle);
+      let resizing = false, rStartX = 0, rStartY = 0, rStartW = 0, rStartH = 0;
+      handle.addEventListener('pointerdown', function(e) {
+        e.stopPropagation();
+        if (win.classList.contains('maximized')) return;
+        resizing = true;
+        rStartX = e.clientX; rStartY = e.clientY;
+        rStartW = win.offsetWidth; rStartH = win.offsetHeight;
+        handle.setPointerCapture(e.pointerId);
+        const iframe = win.querySelector('iframe');
+        if (iframe) iframe.style.pointerEvents = 'none';
+      });
+      handle.addEventListener('pointermove', function(e) {
+        if (!resizing) return;
+        win.style.width = Math.max(400, rStartW + e.clientX - rStartX) + 'px';
+        win.style.height = Math.max(280, rStartH + e.clientY - rStartY) + 'px';
+      });
+      handle.addEventListener('pointerup', function() {
+        resizing = false;
+        const iframe = win.querySelector('iframe');
+        if (iframe) iframe.style.pointerEvents = '';
+      });
+      handle.addEventListener('pointercancel', function() {
+        resizing = false;
+        const iframe = win.querySelector('iframe');
+        if (iframe) iframe.style.pointerEvents = '';
+      });
     }
 
     allWindows().forEach(bindWindow);
@@ -878,26 +908,6 @@ const iconUrls = {
         if (!frame.src || frame.src === window.location.href) frame.src = TAISEI_URL;
       });
 
-      // Resize handle
-      const handle = document.getElementById('taisei-resize');
-      let resizing = false, rStartX = 0, rStartY = 0, rStartW = 0, rStartH = 0;
-      handle.addEventListener('pointerdown', function(e) {
-        e.stopPropagation();
-        resizing = true;
-        rStartX = e.clientX; rStartY = e.clientY;
-        rStartW = win.offsetWidth; rStartH = win.offsetHeight;
-        handle.setPointerCapture(e.pointerId);
-        frame.style.pointerEvents = 'none';
-      });
-      handle.addEventListener('pointermove', function(e) {
-        if (!resizing) return;
-        const w = Math.max(480, rStartW + e.clientX - rStartX);
-        const h = Math.max(320, rStartH + e.clientY - rStartY);
-        win.style.width = w + 'px';
-        win.style.height = h + 'px';
-      });
-      handle.addEventListener('pointerup', function() { resizing = false; frame.style.pointerEvents = ''; });
-      handle.addEventListener('pointercancel', function() { resizing = false; frame.style.pointerEvents = ''; });
     })();
 
     document.getElementById('shutdown').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = false; });
