@@ -242,11 +242,11 @@ const iconUrls = {
     </footer>
 
     <div class="volume-popup" id="volume-popup" hidden>
-      <div class="volume-popup-inner">
-        <div class="volume-label">Volumen</div>
-        <input type="range" id="volume-slider" min="0" max="100" value="80" orient="vertical" class="volume-slider" />
-        <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
+      <div class="volume-label">Volumen</div>
+      <div class="volume-track-wrap">
+        <input type="range" id="volume-slider" min="0" max="100" value="80" class="volume-slider" />
       </div>
+      <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
     </div>
 
     <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
