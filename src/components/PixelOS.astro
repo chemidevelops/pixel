@@ -213,37 +213,40 @@ const iconUrls = {
       </section>
 
       <section class="window os-window mplayer-window" id="window-mplayer" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.mplayer} alt="" /><span id="mplayer-title">Reproductor de Windows Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/mplayer2-16.png" alt="" /><span id="mplayer-title">Reproductor de Windows Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
         <div class="window-body mplayer-body">
           <div class="mplayer-menu-bar">
             <button type="button">Archivo</button>
             <button type="button">Ver</button>
             <button type="button">Reproducción</button>
+            <button type="button">Favoritos</button>
             <button type="button">Ayuda</button>
           </div>
           <div class="mplayer-viewport">
             <video id="mplayer-video" preload="metadata"></video>
           </div>
-          <div class="mplayer-seek-row">
+          <div class="mplayer-bottom">
             <input type="range" id="mplayer-seek" min="0" max="1000" value="0" class="mplayer-seek" />
-          </div>
-          <div class="mplayer-controls">
-            <div class="mplayer-transport">
-              <button id="mp-prev" class="mp-btn" title="Anterior">⏮</button>
-              <button id="mp-rew" class="mp-btn" title="Retroceder">⏪</button>
-              <button id="mp-play" class="mp-btn mp-play-btn" title="Reproducir">▶</button>
-              <button id="mp-fwd" class="mp-btn" title="Avanzar">⏩</button>
-              <button id="mp-next" class="mp-btn" title="Siguiente">⏭</button>
-              <button id="mp-stop" class="mp-btn" title="Detener">⏹</button>
-              <button id="mp-mute" class="mp-btn" title="Silencio">🔊</button>
+            <div class="mplayer-controls">
+              <div class="mplayer-transport">
+                <button id="mp-play" class="mp-btn mp-play-btn" title="Reproducir">▶</button>
+                <button id="mp-pause" class="mp-btn" title="Pausa">⏸</button>
+                <button id="mp-stop" class="mp-btn" title="Detener">⏹</button>
+                <span class="mplayer-sep"></span>
+                <button id="mp-prev" class="mp-btn" title="Inicio">⏮</button>
+                <button id="mp-rew" class="mp-btn" title="Retroceder">◀◀</button>
+                <button id="mp-fwd" class="mp-btn" title="Avanzar">▶▶</button>
+                <button id="mp-next" class="mp-btn" title="Final">⏭</button>
+              </div>
+              <div class="mplayer-vol-row">
+                <img src="/icons/speaker-16.png" alt="" />
+                <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+              </div>
             </div>
-            <div class="mplayer-vol-wrap">
-              <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+            <div class="mplayer-status">
+              <span id="mp-time">0:00 / 0:00</span>
+              <span id="mp-status">Listo</span>
             </div>
-          </div>
-          <div class="mplayer-status">
-            <span id="mp-time">0:00 / 0:00</span>
-            <span id="mp-status">Listo</span>
           </div>
         </div>
       </section>
@@ -712,7 +715,7 @@ const iconUrls = {
       const vid = document.getElementById('mplayer-video');
       const seek = document.getElementById('mplayer-seek');
       const playBtn = document.getElementById('mp-play');
-      const muteBtn = document.getElementById('mp-mute');
+      const pauseBtn = document.getElementById('mp-pause');
       const volSlider = document.getElementById('mp-volume');
       const timeEl = document.getElementById('mp-time');
       const statusEl = document.getElementById('mp-status');
@@ -731,13 +734,13 @@ const iconUrls = {
       vid.addEventListener('waiting', function() { statusEl.textContent = 'Cargando...'; });
       vid.addEventListener('canplay', function() { if (vid.paused) statusEl.textContent = 'Listo'; });
 
-      playBtn.addEventListener('click', function() { vid.paused ? vid.play() : vid.pause(); });
+      playBtn.addEventListener('click', function() { vid.play(); });
+      pauseBtn.addEventListener('click', function() { vid.pause(); });
       document.getElementById('mp-stop').addEventListener('click', function() { vid.pause(); vid.currentTime = 0; statusEl.textContent = 'Detenido'; });
       document.getElementById('mp-rew').addEventListener('click', function() { vid.currentTime = Math.max(0, vid.currentTime - 10); });
       document.getElementById('mp-fwd').addEventListener('click', function() { vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 10); });
       document.getElementById('mp-prev').addEventListener('click', function() { vid.currentTime = 0; });
       document.getElementById('mp-next').addEventListener('click', function() { vid.currentTime = vid.duration || 0; });
-      muteBtn.addEventListener('click', function() { vid.muted = !vid.muted; muteBtn.textContent = vid.muted ? '🔇' : '🔊'; });
       volSlider.addEventListener('input', function() { vid.volume = parseInt(volSlider.value, 10) / 100; });
 
       seek.addEventListener('pointerdown', function() { seek._seeking = true; });
