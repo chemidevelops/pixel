@@ -985,7 +985,7 @@ const iconUrls = {
       volumeSlider.addEventListener('input', function() { applyVolume(); updateVolumeIcon(); });
       volumeMute.addEventListener('change', function() { applyVolume(); updateVolumeIcon(); });
     })();
-    function updateClock() { const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
+    function updateClock() { const value = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
     updateClock();
     setInterval(updateClock, 15000);
     const screensaver = document.getElementById('screensaver');
