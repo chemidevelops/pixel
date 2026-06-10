@@ -952,17 +952,22 @@ const iconUrls = {
       function applyVolume() {
         var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10) / 100;
         document.querySelectorAll('video, audio').forEach(function(el) { el.volume = v; });
+        var frame = document.getElementById('taisei-frame');
+        if (!frame || !frame.src || frame.src === window.location.href) return;
         try {
-          var frame = document.getElementById('taisei-frame');
-          if (frame && frame.contentWindow && frame.contentWindow.setGameVolume) {
+          if (frame.contentWindow && frame.contentWindow.setGameVolume) {
             frame.contentWindow.setGameVolume(v);
+          } else {
+            frame.contentWindow.postMessage({ type: 'setVolume', value: v }, '*');
           }
-        } catch(e) {}
+        } catch(e) {
+          try { frame.contentWindow.postMessage({ type: 'setVolume', value: v }, '*'); } catch(e2) {}
+        }
       }
       function updateVolumeIcon() {
-        var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10);
-        volumeIcon.src = v === 0 ? '/icons/speaker-16.png' : '/icons/speaker-16.png';
-        volumeIcon.style.opacity = v === 0 ? '0.4' : '1';
+        var muted = volumeMute.checked || parseInt(volumeSlider.value, 10) === 0;
+        volumeIcon.src = muted ? '/icons/speaker-muted-16.png' : '/icons/speaker-16.png';
+        volumeIcon.style.opacity = '1';
       }
       function positionPopup() {
         var r = volumeBtn.getBoundingClientRect();
