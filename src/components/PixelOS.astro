@@ -1000,7 +1000,7 @@ const iconUrls = {
     (function() {
       const win = document.getElementById('window-taisei');
       const frame = document.getElementById('taisei-frame');
-      const TAISEI_URL = '/taisei/taisei.html';
+      const TAISEI_URL = '/taisei/taisei.html?v=4';
       const origClose = win.querySelector('[data-close]');
       origClose.addEventListener('click', function() { frame.src = ''; });
       win.addEventListener('taisei-open', function() {
