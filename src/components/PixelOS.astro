@@ -220,32 +220,51 @@ const iconUrls = {
             <button type="button">Ver</button>
             <button type="button">Reproducción</button>
             <button type="button">Favoritos</button>
+            <button type="button">Ir</button>
             <button type="button">Ayuda</button>
+          </div>
+          <div class="mplayer-nav-bar">
+            <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled><span class="mp-arrow-left"></span></button>
+            <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled><span class="mp-arrow-right"></span></button>
+            <div class="mp-nav-sep"></div>
+            <button class="mp-nav-link"><img src="/icons/speaker-16.png" alt="" /> Radio</button>
+            <button class="mp-nav-link"><img src="/icons/mplayer2-16.png" alt="" /> Music</button>
+            <button class="mp-nav-link"><img src="/icons/react95/explorer-16.png" alt="" /> Media Guide</button>
           </div>
           <div class="mplayer-viewport">
             <video id="mplayer-video" preload="metadata"></video>
           </div>
           <div class="mplayer-bottom">
-            <input type="range" id="mplayer-seek" min="0" max="1000" value="0" class="mplayer-seek" />
+            <div class="mplayer-seek-row">
+              <input type="range" id="mplayer-seek" min="0" max="1000" value="0" class="mplayer-seek" />
+            </div>
             <div class="mplayer-controls">
               <div class="mplayer-transport">
-                <button id="mp-play" class="mp-btn mp-play-btn" title="Reproducir">▶</button>
-                <button id="mp-pause" class="mp-btn" title="Pausa">⏸</button>
-                <button id="mp-stop" class="mp-btn" title="Detener">⏹</button>
+                <button id="mp-play" class="mp-btn" title="Reproducir"><span class="mpi mpi-play"></span></button>
+                <button id="mp-pause" class="mp-btn" title="Pausa"><span class="mpi mpi-pause"></span></button>
+                <button id="mp-stop" class="mp-btn mp-stop-btn" title="Detener"><span class="mpi mpi-stop"></span></button>
                 <span class="mplayer-sep"></span>
-                <button id="mp-prev" class="mp-btn" title="Inicio">⏮</button>
-                <button id="mp-rew" class="mp-btn" title="Retroceder">◀◀</button>
-                <button id="mp-fwd" class="mp-btn" title="Avanzar">▶▶</button>
-                <button id="mp-next" class="mp-btn" title="Final">⏭</button>
+                <button id="mp-prev" class="mp-btn" title="Inicio"><span class="mpi mpi-prev"></span></button>
+                <button id="mp-rew" class="mp-btn" title="Retroceder"><span class="mpi mpi-rew"></span></button>
+                <button id="mp-fwd" class="mp-btn" title="Avanzar"><span class="mpi mpi-fwd"></span></button>
+                <button id="mp-next" class="mp-btn" title="Final"><span class="mpi mpi-next"></span></button>
+                <span class="mplayer-sep"></span>
+                <button id="mp-mute" class="mp-btn" title="Silencio"><span class="mpi mpi-eject"></span></button>
               </div>
               <div class="mplayer-vol-row">
-                <img src="/icons/speaker-16.png" alt="" />
+                <img src="/icons/speaker-16.png" alt="" class="mp-speaker-icon" />
                 <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
               </div>
             </div>
-            <div class="mplayer-status">
-              <span id="mp-time">0:00 / 0:00</span>
+            <div class="mplayer-info">
+              <div><span class="mp-info-label">Mostrar:</span> <span id="mp-info-show"></span></div>
+              <div><span class="mp-info-label">Clip:</span> <span id="mp-info-clip"></span></div>
+              <div><span class="mp-info-label">Autor:</span> <span id="mp-info-author"></span></div>
+              <div><span class="mp-info-label">Copyright:</span> <span id="mp-info-copy"></span></div>
+            </div>
+            <div class="mplayer-status-bar">
               <span id="mp-status">Listo</span>
+              <span id="mp-time">0:00 / 0:00</span>
             </div>
           </div>
         </div>
@@ -702,11 +721,14 @@ const iconUrls = {
 
     function openVideo(video) {
       withOpeningFeedback(function() {
+        showWindowNow('mplayer');
         const vid = document.getElementById('mplayer-video');
         vid.src = '/videos/' + video.file;
+        vid.volume = parseInt(document.getElementById('mp-volume').value, 10) / 100;
         document.getElementById('mplayer-title').textContent = video.title + ' — Reproductor de Windows Media';
         document.getElementById('mp-status').textContent = 'Cargando...';
-        showWindowNow('mplayer');
+        document.getElementById('mp-info-clip').textContent = video.title;
+        document.getElementById('mp-info-show').textContent = video.tags || '';
         vid.play().catch(function() {});
       });
     }
@@ -728,13 +750,13 @@ const iconUrls = {
         if (!seek._seeking) seek.value = Math.round((vid.currentTime / (vid.duration || 1)) * 1000);
         timeEl.textContent = fmt(vid.currentTime) + ' / ' + fmt(vid.duration);
       });
-      vid.addEventListener('playing', function() { playBtn.textContent = '⏸'; statusEl.textContent = 'Reproduciendo'; });
-      vid.addEventListener('pause', function() { playBtn.textContent = '▶'; statusEl.textContent = 'En pausa'; });
-      vid.addEventListener('ended', function() { playBtn.textContent = '▶'; statusEl.textContent = 'Listo'; seek.value = 0; });
+      vid.addEventListener('playing', function() { statusEl.textContent = 'Reproduciendo'; });
+      vid.addEventListener('pause', function() { statusEl.textContent = 'En pausa'; });
+      vid.addEventListener('ended', function() { statusEl.textContent = 'Listo'; seek.value = 0; });
       vid.addEventListener('waiting', function() { statusEl.textContent = 'Cargando...'; });
       vid.addEventListener('canplay', function() { if (vid.paused) statusEl.textContent = 'Listo'; });
 
-      playBtn.addEventListener('click', function() { vid.play(); });
+      playBtn.addEventListener('click', function() { if (vid.paused) vid.play(); else vid.pause(); });
       pauseBtn.addEventListener('click', function() { vid.pause(); });
       document.getElementById('mp-stop').addEventListener('click', function() { vid.pause(); vid.currentTime = 0; statusEl.textContent = 'Detenido'; });
       document.getElementById('mp-rew').addEventListener('click', function() { vid.currentTime = Math.max(0, vid.currentTime - 10); });
