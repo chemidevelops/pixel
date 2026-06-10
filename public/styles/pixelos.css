@@ -35,7 +35,7 @@ button { cursor: default; }
 .title-bar-text { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .title-bar-text span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .window-title-icon { width: 16px; height: 16px; image-rendering: pixelated; flex: 0 0 auto; }
-.explorer-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; box-sizing: border-box; padding: 3px !important; margin: 0 !important; }
+.explorer-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; box-sizing: border-box; padding: 0 2px 2px !important; margin: 0 !important; }
 .explorer-menu-bar { display: flex; gap: 2px; margin-bottom: 2px; padding: 0 2px; }
 .explorer-menu-bar button { min-width: 0; margin: 0; padding: 2px 8px; border: 0; background: transparent; box-shadow: none; font: 13px Tahoma, Arial, sans-serif; }
 .explorer-menu-bar button:hover, .explorer-menu-bar button:focus { outline: 1px dotted #000; outline-offset: -2px; }
@@ -45,7 +45,7 @@ button { cursor: default; }
 .explorer-toolbar { margin: 0; flex: 1; }
 .explorer-toolbar label { font: 13px Tahoma, Arial, sans-serif; }
 .explorer-toolbar input { flex: 1; height: 26px; box-sizing: border-box; font: 13px Tahoma, Arial, sans-serif; }
-.explorer-body { display: grid; grid-template-columns: 220px 1fr; gap: 4px; min-height: 0; flex: 1; }
+.explorer-body { display: grid; grid-template-columns: 220px 1fr; gap: 2px; min-height: 0; flex: 1; }
 .explorer-sidebar { display: flex; flex-direction: column; min-height: 0; }
 .explorer-tree-panel { height: 100%; padding: 5px; margin: 0; overflow: auto; background: #fff; }
 .folder-tree, .folder-tree ul { margin: 0; padding-left: 16px; list-style: none; }

@@ -893,7 +893,8 @@ const iconUrls = {
     const screensaver = document.getElementById('screensaver');
     const saverToggle = document.getElementById('screensaver-toggle');
     let saverTimer;
-    function resetSaver() { screensaver.hidden = true; window.stopPipesScreensaver && window.stopPipesScreensaver(); clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { screensaver.hidden = false; window.startPipesScreensaver && window.startPipesScreensaver(); }, 45000); }
+    function gameIsActive() { var w = document.getElementById('window-taisei'); return w && !w.hidden && !w.classList.contains('minimized'); }
+    function resetSaver() { screensaver.hidden = true; window.stopPipesScreensaver && window.stopPipesScreensaver(); clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { if (gameIsActive()) { resetSaver(); return; } screensaver.hidden = false; window.startPipesScreensaver && window.startPipesScreensaver(); }, 45000); }
     ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(function(name) { document.addEventListener(name, resetSaver, { passive: true }); });
     saverToggle.addEventListener('change', resetSaver);
     resetSaver();
