@@ -213,7 +213,7 @@ const iconUrls = {
       </section>
 
       <section class="window os-window mplayer-window" id="window-mplayer" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/mplayer2-16.png" alt="" /><span id="mplayer-title">Reproductor de Windows Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/mplayer2-16.png" alt="" /><span id="mplayer-title">Reproductor de Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
         <div class="window-body mplayer-body">
           <div class="mplayer-menu-bar">
             <button type="button">Archivo</button>
@@ -227,34 +227,43 @@ const iconUrls = {
             <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled><span class="mp-arrow-left"></span></button>
             <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled><span class="mp-arrow-right"></span></button>
             <div class="mp-nav-sep"></div>
-            <button class="mp-nav-link"><img src="/icons/speaker-16.png" alt="" /> Radio</button>
-            <button class="mp-nav-link"><img src="/icons/mplayer2-16.png" alt="" /> Music</button>
-            <button class="mp-nav-link"><img src="/icons/react95/explorer-16.png" alt="" /> Media Guide</button>
+            <button class="mp-nav-link"><img src="/icons/radio-16.png" alt="" /> Radio</button>
+            <button class="mp-nav-link"><img src="/icons/cdmusic-16.png" alt="" /> Music</button>
+            <button class="mp-nav-link"><img src="/icons/globe-16.png" alt="" /> Media Guide</button>
           </div>
           <div class="mplayer-viewport">
             <video id="mplayer-video" preload="metadata"></video>
           </div>
           <div class="mplayer-bottom">
             <div class="mplayer-seek-row">
+              <button class="mp-minibtn" title="Miniplayer"><span class="mpi mpi-mini"></span></button>
               <input type="range" id="mplayer-seek" min="0" max="1000" value="0" class="mplayer-seek" />
             </div>
             <div class="mplayer-controls">
               <div class="mplayer-transport">
                 <button id="mp-play" class="mp-btn" title="Reproducir"><span class="mpi mpi-play"></span></button>
                 <button id="mp-pause" class="mp-btn" title="Pausa"><span class="mpi mpi-pause"></span></button>
-                <button id="mp-stop" class="mp-btn mp-stop-btn" title="Detener"><span class="mpi mpi-stop"></span></button>
+                <button id="mp-stop" class="mp-btn" title="Detener"><span class="mpi mpi-stop"></span></button>
                 <span class="mplayer-sep"></span>
                 <button id="mp-prev" class="mp-btn" title="Inicio"><span class="mpi mpi-prev"></span></button>
                 <button id="mp-rew" class="mp-btn" title="Retroceder"><span class="mpi mpi-rew"></span></button>
                 <button id="mp-fwd" class="mp-btn" title="Avanzar"><span class="mpi mpi-fwd"></span></button>
                 <button id="mp-next" class="mp-btn" title="Final"><span class="mpi mpi-next"></span></button>
                 <span class="mplayer-sep"></span>
-                <button id="mp-mute" class="mp-btn" title="Silencio"><span class="mpi mpi-eject"></span></button>
+                <button class="mp-btn" title="Ecualizador"><span class="mpi mpi-eq"></span></button>
               </div>
               <div class="mplayer-vol-row">
-                <img src="/icons/speaker-16.png" alt="" class="mp-speaker-icon" />
-                <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+                <span class="mplayer-sep"></span>
+                <button id="mp-mute" class="mp-btn mp-vol-icon-btn" title="Silencio"><img id="mp-vol-icon" src="/icons/speaker-16.png" alt="" /></button>
+                <div class="mp-vol-wedge-wrap">
+                  <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+                </div>
               </div>
+            </div>
+            <div class="mplayer-clip-row">
+              <select class="mp-clip-select" id="mp-clip-select">
+                <option id="mp-clip-option">—</option>
+              </select>
             </div>
             <div class="mplayer-info">
               <div><span class="mp-info-label">Mostrar:</span> <span id="mp-info-show"></span></div>
@@ -720,17 +729,24 @@ const iconUrls = {
     }
 
     function openVideo(video) {
-      withOpeningFeedback(function() {
-        showWindowNow('mplayer');
-        const vid = document.getElementById('mplayer-video');
-        vid.src = '/videos/' + video.file;
-        vid.volume = parseInt(document.getElementById('mp-volume').value, 10) / 100;
-        document.getElementById('mplayer-title').textContent = video.title + ' — Reproductor de Windows Media';
-        document.getElementById('mp-status').textContent = 'Cargando...';
-        document.getElementById('mp-info-clip').textContent = video.title;
-        document.getElementById('mp-info-show').textContent = video.tags || '';
-        vid.play().catch(function() {});
-      });
+      // vid.play() MUST run synchronously inside the click handler — no async delay or the browser blocks audio
+      openingQueue += 1;
+      document.body.classList.add('opening-wait');
+      showWindowNow('mplayer');
+      var vid = document.getElementById('mplayer-video');
+      vid.src = '/videos/' + video.file;
+      vid.volume = parseInt(document.getElementById('mp-volume').value, 10) / 100;
+      document.getElementById('mplayer-title').textContent = video.title + ' — Reproductor de Media';
+      document.getElementById('mp-status').textContent = 'Cargando...';
+      document.getElementById('mp-info-clip').textContent = video.title;
+      document.getElementById('mp-info-show').textContent = '';
+      var opt = document.getElementById('mp-clip-option');
+      if (opt) opt.textContent = video.title;
+      vid.play().catch(function() {});
+      setTimeout(function() {
+        openingQueue -= 1;
+        if (openingQueue <= 0) { openingQueue = 0; document.body.classList.remove('opening-wait'); }
+      }, 500);
     }
 
     (function() {
