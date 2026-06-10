@@ -101,15 +101,15 @@ button { cursor: default; }
 .setting-check { margin-top: 16px; }
 /* ── Windows Media Player ─────────────────────────────────── */
 .mplayer-window { width: min(540px, calc(100vw - 60px)); height: min(560px, calc(100vh - 80px)); min-width: 340px; min-height: 380px; }
-.mplayer-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; }
+.mplayer-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; margin: -3px; width: calc(100% + 6px); }
 /* menu bar */
 .mplayer-menu-bar { display: flex; gap: 0; padding: 0 2px; flex: 0 0 auto; }
 .mplayer-menu-bar button { min-width: 0; margin: 0; height: 20px; padding: 0 8px; border: 0; background: transparent; box-shadow: none; font: 12px "MS Sans Serif", Tahoma, sans-serif; line-height: 20px; }
 .mplayer-menu-bar button:hover { background: #000080; color: #fff; }
 /* nav toolbar */
 .mplayer-nav-bar { display: flex; align-items: center; gap: 0; padding: 1px 6px; flex: 0 0 auto; border-top: 1px solid #808080; border-bottom: 1px solid #808080; background: #c0c0c0; min-height: 24px; }
-.mp-nav-arrow { min-width: 0; width: 20px; height: 20px; padding: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; font: bold 14px "MS Sans Serif", Arial, sans-serif; color: #404040; cursor: default; display: flex; align-items: center; justify-content: center; }
-.mp-nav-arrow:disabled { color: #808080; }
+.mp-nav-arrow { min-width: 0; width: 22px; height: 22px; padding: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; cursor: default; display: flex; align-items: center; justify-content: center; color: #404040; }
+.mp-nav-arrow:disabled { color: #a0a0a0; }
 .mp-nav-sep { width: 1px; height: 20px; background: #808080; border-right: 1px solid #fff; margin: 0 6px; }
 .mp-nav-link { min-width: 0; height: 22px; padding: 1px 5px; border: 0 !important; box-shadow: none !important; background: transparent !important; display: flex; align-items: center; gap: 4px; font: 12px "MS Sans Serif", Tahoma, sans-serif; white-space: nowrap; cursor: default; }
 .mp-nav-link img { width: 16px; height: 16px; image-rendering: pixelated; }
