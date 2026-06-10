@@ -952,22 +952,12 @@ const iconUrls = {
       function applyVolume() {
         var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10) / 100;
         document.querySelectorAll('video, audio').forEach(function(el) { el.volume = v; });
-        var frame = document.getElementById('taisei-frame');
-        if (frame && frame.contentWindow) {
-          try {
-            var iwin = frame.contentWindow;
-            if (iwin.Module && iwin.Module.SDL2 && iwin.Module.SDL2.audioContext) {
-              var ctx = iwin.Module.SDL2.audioContext;
-              if (!iwin._osGain) {
-                iwin._osGain = ctx.createGain();
-                var dest = ctx.destination;
-                ctx.destination = iwin._osGain;
-                iwin._osGain.connect(dest);
-              }
-              iwin._osGain.gain.setTargetAtTime(v, ctx.currentTime, 0.01);
-            }
-          } catch(e) {}
-        }
+        try {
+          var frame = document.getElementById('taisei-frame');
+          if (frame && frame.contentWindow && frame.contentWindow.setGameVolume) {
+            frame.contentWindow.setGameVolume(v);
+          }
+        } catch(e) {}
       }
       function updateVolumeIcon() {
         var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10);
