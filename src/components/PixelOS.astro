@@ -32,12 +32,15 @@ const iconUrls = {
     computer: '/icons/react95/computer-32.png',
     settings: '/icons/react95/settings-32.png',
     taisei: '/icons/taisei-32.png',
+    video: '/icons/video-32.png',
+    mplayer: '/icons/mplayer-32.png',
   },
   files: {
     article: '/icons/react95/html-16.png',
     pdf: '/icons/react95/file-32.png',
     folder: '/icons/react95/folder-16.png',
     window: '/icons/react95/explorer-16.png',
+    video: '/icons/video-16.png',
   },
 };
 ---
@@ -71,6 +74,7 @@ const iconUrls = {
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
       </ul>
 
       <section class="mobile-launcher" aria-label="Explorador">
@@ -151,6 +155,7 @@ const iconUrls = {
                           <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
                           <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
                           <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
+                          <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button></li>
                         </ul>
                       </li>
                       <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Disco de 3½ (A:)</button></li>
@@ -204,6 +209,42 @@ const iconUrls = {
         <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
         <div class="window-body taisei-body">
           <iframe id="taisei-frame" title="Taisei Project" src="" allowfullscreen></iframe>
+        </div>
+      </section>
+
+      <section class="window os-window mplayer-window" id="window-mplayer" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.mplayer} alt="" /><span id="mplayer-title">Reproductor de Windows Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="window-body mplayer-body">
+          <div class="mplayer-menu-bar">
+            <button type="button">Archivo</button>
+            <button type="button">Ver</button>
+            <button type="button">Reproducción</button>
+            <button type="button">Ayuda</button>
+          </div>
+          <div class="mplayer-viewport">
+            <video id="mplayer-video" preload="metadata"></video>
+          </div>
+          <div class="mplayer-seek-row">
+            <input type="range" id="mplayer-seek" min="0" max="1000" value="0" class="mplayer-seek" />
+          </div>
+          <div class="mplayer-controls">
+            <div class="mplayer-transport">
+              <button id="mp-prev" class="mp-btn" title="Anterior">⏮</button>
+              <button id="mp-rew" class="mp-btn" title="Retroceder">⏪</button>
+              <button id="mp-play" class="mp-btn mp-play-btn" title="Reproducir">▶</button>
+              <button id="mp-fwd" class="mp-btn" title="Avanzar">⏩</button>
+              <button id="mp-next" class="mp-btn" title="Siguiente">⏭</button>
+              <button id="mp-stop" class="mp-btn" title="Detener">⏹</button>
+              <button id="mp-mute" class="mp-btn" title="Silencio">🔊</button>
+            </div>
+            <div class="mplayer-vol-wrap">
+              <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+            </div>
+          </div>
+          <div class="mplayer-status">
+            <span id="mp-time">0:00 / 0:00</span>
+            <span id="mp-status">Listo</span>
+          </div>
         </div>
       </section>
 
@@ -415,16 +456,22 @@ const iconUrls = {
       entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
       arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
+      videos: ['Vídeos', 'C:\\PIXEL\\VIDEOS'],
     };
+    const videoFiles = [
+      { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
+    ];
     const folderAliases = {
       'C:\\PIXEL\\ARTICULOS': 'all',
       'C:\\PIXEL\\ENTREVISTAS': 'entrevista',
       'C:\\PIXEL\\ARCADE': 'arcade',
       'A:\\FANZINES': 'fanzines',
+      'C:\\PIXEL\\VIDEOS': 'videos',
       'ARTICULOS': 'all',
       'ENTREVISTAS': 'entrevista',
       'ARCADE': 'arcade',
       'FANZINES': 'fanzines',
+      'VIDEOS': 'videos',
     };
     let topZ = 20;
     let readerOffset = 0;
@@ -548,6 +595,8 @@ const iconUrls = {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
           if (issue.pdfPrint) fileView.appendChild(makeDownloadFile(issue, true));
         });
+      } else if (folder === 'videos') {
+        videoFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
       } else {
         const files = filesFor(folder);
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
@@ -580,6 +629,18 @@ const iconUrls = {
         selectRow(row);
       });
       row.addEventListener('keydown', function(event) { if (event.key === 'Enter') openArticle(post); });
+      return row;
+    }
+
+    function makeVideoFile(video) {
+      const row = document.createElement('tr');
+      row.className = 'file-item';
+      row.tabIndex = 0;
+      const date = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric' });
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.video + '" alt="" /><span class="file-main"><strong>' + video.title + '</strong></span></td><td>' + date + '</td><td>Vídeo MP4</td><td>' + (video.tags || '') + '</td>';
+      row.addEventListener('dblclick', function() { openVideo(video); });
+      row.addEventListener('click', function() { selectRow(row); });
+      row.addEventListener('keydown', function(e) { if (e.key === 'Enter') openVideo(video); });
       return row;
     }
 
@@ -635,6 +696,56 @@ const iconUrls = {
     function openArticle(post) {
       return withOpeningFeedback(function() { openArticleNow(post); });
     }
+
+    function openVideo(video) {
+      withOpeningFeedback(function() {
+        const vid = document.getElementById('mplayer-video');
+        vid.src = '/videos/' + video.file;
+        document.getElementById('mplayer-title').textContent = video.title + ' — Reproductor de Windows Media';
+        document.getElementById('mp-status').textContent = 'Cargando...';
+        showWindowNow('mplayer');
+        vid.play().catch(function() {});
+      });
+    }
+
+    (function() {
+      const vid = document.getElementById('mplayer-video');
+      const seek = document.getElementById('mplayer-seek');
+      const playBtn = document.getElementById('mp-play');
+      const muteBtn = document.getElementById('mp-mute');
+      const volSlider = document.getElementById('mp-volume');
+      const timeEl = document.getElementById('mp-time');
+      const statusEl = document.getElementById('mp-status');
+
+      function fmt(s) {
+        s = Math.floor(s || 0);
+        return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+      }
+      vid.addEventListener('timeupdate', function() {
+        if (!seek._seeking) seek.value = Math.round((vid.currentTime / (vid.duration || 1)) * 1000);
+        timeEl.textContent = fmt(vid.currentTime) + ' / ' + fmt(vid.duration);
+      });
+      vid.addEventListener('playing', function() { playBtn.textContent = '⏸'; statusEl.textContent = 'Reproduciendo'; });
+      vid.addEventListener('pause', function() { playBtn.textContent = '▶'; statusEl.textContent = 'En pausa'; });
+      vid.addEventListener('ended', function() { playBtn.textContent = '▶'; statusEl.textContent = 'Listo'; seek.value = 0; });
+      vid.addEventListener('waiting', function() { statusEl.textContent = 'Cargando...'; });
+      vid.addEventListener('canplay', function() { if (vid.paused) statusEl.textContent = 'Listo'; });
+
+      playBtn.addEventListener('click', function() { vid.paused ? vid.play() : vid.pause(); });
+      document.getElementById('mp-stop').addEventListener('click', function() { vid.pause(); vid.currentTime = 0; statusEl.textContent = 'Detenido'; });
+      document.getElementById('mp-rew').addEventListener('click', function() { vid.currentTime = Math.max(0, vid.currentTime - 10); });
+      document.getElementById('mp-fwd').addEventListener('click', function() { vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 10); });
+      document.getElementById('mp-prev').addEventListener('click', function() { vid.currentTime = 0; });
+      document.getElementById('mp-next').addEventListener('click', function() { vid.currentTime = vid.duration || 0; });
+      muteBtn.addEventListener('click', function() { vid.muted = !vid.muted; muteBtn.textContent = vid.muted ? '🔇' : '🔊'; });
+      volSlider.addEventListener('input', function() { vid.volume = parseInt(volSlider.value, 10) / 100; });
+
+      seek.addEventListener('pointerdown', function() { seek._seeking = true; });
+      seek.addEventListener('input', function() { if (vid.duration) vid.currentTime = (parseInt(seek.value, 10) / 1000) * vid.duration; });
+      seek.addEventListener('pointerup', function() { seek._seeking = false; });
+
+      document.getElementById('window-mplayer').addEventListener('close-window', function() { vid.pause(); vid.src = ''; });
+    })();
 
     function formatDate(date) {
       return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
