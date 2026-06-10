@@ -104,31 +104,31 @@ const iconUrls = {
           </div>
           <div class="explorer-icon-toolbar">
             <button type="button" id="explorer-back" class="toolbar-btn" aria-label="Atrás" title="Atrás">
-              <img src="/icons/toolbar/back.svg" alt="" /><span>Atrás</span>
+              <img src="/icons/toolbar/back.png" alt="" /><span>Atrás</span>
             </button>
             <button type="button" id="explorer-up" class="toolbar-btn" aria-label="Subir" title="Subir un nivel">
-              <img src="/icons/toolbar/up.svg" alt="" /><span>Subir</span>
+              <img src="/icons/toolbar/up.png" alt="" /><span>Subir</span>
             </button>
             <span class="toolbar-sep"></span>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Cortar" title="Cortar">
-              <img src="/icons/toolbar/cut.svg" alt="" /><span>Cortar</span>
+              <img src="/icons/toolbar/cut.png" alt="" /><span>Cortar</span>
             </button>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Copiar" title="Copiar">
-              <img src="/icons/toolbar/copy.svg" alt="" /><span>Copiar</span>
+              <img src="/icons/toolbar/copy.png" alt="" /><span>Copiar</span>
             </button>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Pegar" title="Pegar">
-              <img src="/icons/toolbar/paste.svg" alt="" /><span>Pegar</span>
+              <img src="/icons/toolbar/paste.png" alt="" /><span>Pegar</span>
             </button>
             <span class="toolbar-sep"></span>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Eliminar" title="Eliminar">
-              <img src="/icons/toolbar/delete.svg" alt="" /><span>Eliminar</span>
+              <img src="/icons/toolbar/delete.png" alt="" /><span>Eliminar</span>
             </button>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Propiedades" title="Propiedades">
-              <img src="/icons/toolbar/properties.svg" alt="" /><span>Propiedades</span>
+              <img src="/icons/toolbar/properties.png" alt="" /><span>Propiedades</span>
             </button>
             <span class="toolbar-sep"></span>
             <button type="button" class="toolbar-btn tb-disabled" aria-label="Vistas" title="Vistas">
-              <img src="/icons/toolbar/views.svg" alt="" /><span>Vistas</span>
+              <img src="/icons/toolbar/views.png" alt="" /><span>Vistas</span>
             </button>
           </div>
           <div class="explorer-command-bar">
@@ -234,10 +234,20 @@ const iconUrls = {
       <button class="start-button" id="start-button">Inicio</button>
       <div class="task-buttons" id="task-buttons"></div>
       <div class="tray">
-        <img src="/icons/volume-2.ico" alt="" class="tray-icon" />
+        <button class="tray-icon-btn" id="volume-btn" title="Control de volumen" aria-label="Volumen">
+          <img src="/icons/speaker-16.png" alt="" class="tray-icon" />
+        </button>
         <button class="tray-clock" id="tray-clock">00:00</button>
       </div>
     </footer>
+
+    <div class="volume-popup" id="volume-popup" hidden>
+      <div class="volume-popup-inner">
+        <div class="volume-label">Volumen</div>
+        <input type="range" id="volume-slider" min="0" max="100" value="80" orient="vertical" class="volume-slider" />
+        <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
+      </div>
+    </div>
 
     <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
     <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
@@ -913,6 +923,41 @@ const iconUrls = {
     if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
 
     allWindows().forEach(function(win, index) { if (matchMedia('(max-width: 700px)').matches) return; win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
+    (function() {
+      var volumeBtn = document.getElementById('volume-btn');
+      var volumePopup = document.getElementById('volume-popup');
+      var volumeSlider = document.getElementById('volume-slider');
+      var volumeMute = document.getElementById('volume-mute');
+      var volumeIcon = volumeBtn.querySelector('img');
+      function updateVolumeIcon() {
+        var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10);
+        if (v === 0) volumeIcon.src = '/icons/toolbar/delete.png'; // muted placeholder
+        else volumeIcon.src = '/icons/speaker-16.png';
+      }
+      function positionPopup() {
+        var r = volumeBtn.getBoundingClientRect();
+        volumePopup.style.left = Math.round(r.left - 20) + 'px';
+        volumePopup.style.bottom = (window.innerHeight - r.top + 4) + 'px';
+      }
+      volumeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        volumePopup.hidden = !volumePopup.hidden;
+        if (!volumePopup.hidden) positionPopup();
+      });
+      document.addEventListener('click', function(e) {
+        if (!volumePopup.contains(e.target) && e.target !== volumeBtn) volumePopup.hidden = true;
+      });
+      volumeSlider.addEventListener('input', function() {
+        var v = parseInt(volumeSlider.value, 10) / 100;
+        document.querySelectorAll('video, audio').forEach(function(el) { el.volume = v; });
+        updateVolumeIcon();
+      });
+      volumeMute.addEventListener('change', function() {
+        var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10) / 100;
+        document.querySelectorAll('video, audio').forEach(function(el) { el.volume = v; });
+        updateVolumeIcon();
+      });
+    })();
     function updateClock() { const value = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
     updateClock();
     setInterval(updateClock, 15000);
