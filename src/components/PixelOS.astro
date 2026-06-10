@@ -490,6 +490,7 @@ const iconUrls = {
       videos: ['Vídeos', 'C:\\PIXEL\\VIDEOS'],
     };
     const videoFiles = [
+      { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
       { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
     ];
     const folderAliases = {
@@ -742,7 +743,16 @@ const iconUrls = {
       document.getElementById('mp-info-show').textContent = '';
       var opt = document.getElementById('mp-clip-option');
       if (opt) opt.textContent = video.title;
-      vid.play().catch(function() {});
+      vid.muted = false;
+      var volVal = parseFloat(document.getElementById('mp-volume').value) / 100;
+      vid.volume = isNaN(volVal) ? 0.8 : volVal;
+      console.log('[mplayer] play() vol=' + vid.volume + ' muted=' + vid.muted + ' src=' + vid.src);
+      vid.play().then(function() {
+        console.log('[mplayer] play() resolved OK');
+      }).catch(function(err) {
+        console.error('[mplayer] play() failed:', err);
+        document.getElementById('mp-status').textContent = 'Error: ' + (err && err.name ? err.name : err);
+      });
       setTimeout(function() {
         openingQueue -= 1;
         if (openingQueue <= 0) { openingQueue = 0; document.body.classList.remove('opening-wait'); }
