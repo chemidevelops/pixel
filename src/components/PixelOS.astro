@@ -224,12 +224,12 @@ const iconUrls = {
             <button type="button">Ayuda</button>
           </div>
           <div class="mplayer-nav-bar">
-            <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled><span class="mp-arrow-left"></span></button>
-            <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled><span class="mp-arrow-right"></span></button>
+            <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled>&#x2190;</button>
+            <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled>&#x2192;</button>
             <div class="mp-nav-sep"></div>
-            <button class="mp-nav-link"><img src="/icons/radio-16.png" alt="" /> Radio</button>
-            <button class="mp-nav-link"><img src="/icons/cdmusic-16.png" alt="" /> Music</button>
-            <button class="mp-nav-link"><img src="/icons/globe-16.png" alt="" /> Media Guide</button>
+            <button class="mp-nav-link"><img src="/icons/wmp-radio-16.png" alt="" /> Radio</button>
+            <button class="mp-nav-link"><img src="/icons/wmp-music-16.png" alt="" /> Music</button>
+            <button class="mp-nav-link"><img src="/icons/wmp-mediaguide-16.png" alt="" /> Media Guide</button>
           </div>
           <div class="mplayer-viewport">
             <video id="mplayer-video" preload="metadata"></video>
@@ -256,6 +256,7 @@ const iconUrls = {
                 <span class="mplayer-sep"></span>
                 <button id="mp-mute" class="mp-btn mp-vol-icon-btn" title="Silencio"><img id="mp-vol-icon" src="/icons/speaker-16.png" alt="" /></button>
                 <div class="mp-vol-wedge-wrap">
+                  <div class="mp-vol-wedge"></div>
                   <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
                 </div>
               </div>
