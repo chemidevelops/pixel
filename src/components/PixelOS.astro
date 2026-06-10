@@ -102,11 +102,36 @@ const iconUrls = {
             <button type="button">Favoritos</button>
             <button type="button">Ayuda</button>
           </div>
+          <div class="explorer-icon-toolbar">
+            <button type="button" id="explorer-back" class="toolbar-btn" aria-label="Atrás" title="Atrás">
+              <img src="/icons/toolbar/back.svg" alt="" /><span>Atrás</span>
+            </button>
+            <button type="button" id="explorer-up" class="toolbar-btn" aria-label="Subir" title="Subir un nivel">
+              <img src="/icons/toolbar/up.svg" alt="" /><span>Subir</span>
+            </button>
+            <span class="toolbar-sep"></span>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Cortar" title="Cortar">
+              <img src="/icons/toolbar/cut.svg" alt="" /><span>Cortar</span>
+            </button>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Copiar" title="Copiar">
+              <img src="/icons/toolbar/copy.svg" alt="" /><span>Copiar</span>
+            </button>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Pegar" title="Pegar">
+              <img src="/icons/toolbar/paste.svg" alt="" /><span>Pegar</span>
+            </button>
+            <span class="toolbar-sep"></span>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Eliminar" title="Eliminar">
+              <img src="/icons/toolbar/delete.svg" alt="" /><span>Eliminar</span>
+            </button>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Propiedades" title="Propiedades">
+              <img src="/icons/toolbar/properties.svg" alt="" /><span>Propiedades</span>
+            </button>
+            <span class="toolbar-sep"></span>
+            <button type="button" class="toolbar-btn tb-disabled" aria-label="Vistas" title="Vistas">
+              <img src="/icons/toolbar/views.svg" alt="" /><span>Vistas</span>
+            </button>
+          </div>
           <div class="explorer-command-bar">
-            <div class="explorer-nav-buttons">
-              <button type="button" id="explorer-back" aria-label="Atrás">◀</button>
-              <button type="button" id="explorer-up" aria-label="Subir">▲</button>
-            </div>
             <div class="field-row explorer-toolbar">
               <label for="explorer-address">Dirección</label>
               <input id="explorer-address" type="text" value="C:\PIXEL\ARTICULOS" spellcheck="false" />
@@ -507,7 +532,7 @@ const iconUrls = {
       document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
       document.querySelectorAll('[data-folder-nav]').forEach(function(item) { item.classList.toggle('active', item.dataset.folderNav === folder); });
-      document.getElementById('explorer-up').disabled = folder === 'all';
+      document.getElementById('explorer-up').classList.toggle('tb-disabled', folder === 'all');
       if (folder === 'fanzines') {
         issues.forEach(function(issue) {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
@@ -523,7 +548,7 @@ const iconUrls = {
         folderHistory.push(folder);
         historyIndex = folderHistory.length - 1;
       }
-      document.getElementById('explorer-back').disabled = historyIndex === 0;
+      document.getElementById('explorer-back').classList.toggle('tb-disabled', historyIndex === 0);
       showWindowNow('explorer');
     }
 
@@ -618,6 +643,7 @@ const iconUrls = {
       event.preventDefault();
       document.getElementById('explorer-go').click();
     });
+    document.getElementById('explorer-back').classList.add('tb-disabled');
     document.getElementById('explorer-back').addEventListener('click', function() {
       if (historyIndex === 0) return;
       historyIndex -= 1;
