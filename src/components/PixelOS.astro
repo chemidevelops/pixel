@@ -48,23 +48,14 @@ const iconUrls = {
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=1024" />
   <meta name="description" content="PIXEL — revista independiente de videojuegos" />
   <title>PixelOS — PIXEL</title>
   <link rel="stylesheet" href="/styles/pixelos.css" />
+  <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
 </head>
 <body>
   <div id="pixel-os" class="pixel-os wallpaper-teal">
-    <header class="mobile-status">
-      <button class="mobile-start" type="button">Start</button>
-      <strong>PixelOS Mobile</strong>
-      <div class="mobile-status-meta">
-        <span class="mobile-signal" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="mobile-battery" aria-hidden="true"></span>
-        <time id="mobile-clock">00:00</time>
-      </div>
-    </header>
-
     <main class="desktop" aria-label="Escritorio PixelOS">
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
@@ -75,22 +66,9 @@ const iconUrls = {
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" id="winamp-icon" data-desktop-window="winamp"><img class="desktop-icon-image" src="/icons/winamp-32.png" alt="" /><div class="border-box"><p class="desktop-icon-label">Winamp</p></div></button></li>
       </ul>
 
-      <section class="mobile-launcher" aria-label="Explorador">
-        <div class="mobile-today-header"><strong>Hoy</strong><span>Mi dispositivo</span></div>
-        <div class="mobile-welcome"><div><span class="pixel-logo">PixelOS 95</span><p>Explorador móvil estilo Pocket PC</p></div><span class="mobile-date-badge">PIXEL</span></div>
-        <div class="pda-address"><span>\Mi dispositivo\Pixel</span><button type="button">▼</button></div>
-        <div class="mobile-folder-list">
-          <button data-folder="all"><span class="mini-folder"></span><span><strong>Artículos</strong><small>Lista de archivos HTML</small></span></button>
-          <button data-folder="entrevista"><span class="mini-folder"></span><span><strong>Entrevistas</strong><small>Conversaciones y perfiles</small></span></button>
-          <button data-folder="arcade"><span class="mini-folder"></span><span><strong>Arcade</strong><small>Críticas, acción y clásicos</small></span></button>
-          <button data-folder="fanzines"><span class="mini-folder"></span><span><strong>Fanzines</strong><small>PDF descargable</small></span></button>
-          <button data-window="about"><span class="mobile-file-icon">TXT</span><span><strong>Acerca de PixelOS</strong><small>Información del sistema</small></span></button>
-        </div>
-        <div class="pda-status">{posts.length + issues.length} objetos</div>
-        <div class="mobile-softkeys"><button type="button" data-folder="all">Explorar</button><button type="button" data-window="settings">Menú</button></div>
-      </section>
 
       <section class="window os-window explorer-window" id="window-explorer" hidden>
         <div class="title-bar">
@@ -144,7 +122,11 @@ const iconUrls = {
           </div>
           <div class="explorer-body">
             <aside class="explorer-sidebar">
-              <div class="sunken-panel explorer-tree-panel">
+              <div class="explorer-sidebar-header">
+                <span>Carpetas</span>
+                <button class="sidebar-close-btn" aria-label="Cerrar">×</button>
+              </div>
+              <div class="explorer-tree-panel">
                 <ul class="tree-view folder-tree">
                   <li>
                     <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi Pixel</span>
@@ -164,6 +146,7 @@ const iconUrls = {
                 </ul>
               </div>
             </aside>
+            <div class="explorer-vsplit"></div>
             <div class="explorer-main">
               <div class="sunken-panel file-panel">
                 <table class="interactive file-table">
@@ -224,8 +207,8 @@ const iconUrls = {
             <button type="button">Ayuda</button>
           </div>
           <div class="mplayer-nav-bar">
-            <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled><svg width="14" height="12" viewBox="0 0 14 12"><path d="M6 0 L0 6 L6 12 L6 8.5 L14 8.5 L14 3.5 L6 3.5 Z" fill="currentColor"/></svg></button>
-            <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled><svg width="14" height="12" viewBox="0 0 14 12"><path d="M8 0 L14 6 L8 12 L8 8.5 L0 8.5 L0 3.5 L8 3.5 Z" fill="currentColor"/></svg></button>
+            <button class="mp-nav-arrow" id="mp-back" title="Atrás" disabled><svg width="15" height="13" viewBox="0 0 15 13"><path d="M7 0 L0 6.5 L7 13 L7 9 L15 9 L15 4 L7 4 Z" fill="currentColor"/></svg></button>
+            <button class="mp-nav-arrow" id="mp-forward" title="Adelante" disabled><svg width="15" height="13" viewBox="0 0 15 13"><path d="M8 0 L15 6.5 L8 13 L8 9 L0 9 L0 4 L8 4 Z" fill="currentColor"/></svg></button>
             <div class="mp-nav-sep"></div>
             <button class="mp-nav-link"><img src="/icons/wmp-radio-16.png" alt="" /> Radio</button>
             <button class="mp-nav-link"><img src="/icons/wmp-music-16.png" alt="" /> Music</button>
@@ -289,7 +272,10 @@ const iconUrls = {
           <div class="touch-dpad"><button data-move="up">▲</button><div><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div></div>
         </div>
       </section>
+
     </main>
+
+    <div id="webamp-container"></div>
 
     <div class="start-menu" id="start-menu" hidden>
       <div class="start-brand">PixelOS <b>95</b></div>
@@ -537,6 +523,11 @@ const iconUrls = {
     }
 
     function showWindowNow(id) {
+      if (id === 'winamp') {
+        launchWebamp();
+        startMenu.hidden = true;
+        return;
+      }
       const win = document.getElementById('window-' + id);
       if (!win) return;
       win.hidden = false;
@@ -558,6 +549,10 @@ const iconUrls = {
     }
 
     function closeWindow(win) {
+      if (win.id === 'window-mplayer') {
+        var vid = document.getElementById('mplayer-video');
+        if (vid) { vid.pause(); }
+      }
       win.hidden = true;
       win.classList.remove('maximized', 'minimized');
       syncTasks();
@@ -826,6 +821,38 @@ const iconUrls = {
       if (currentFolder === 'all') return;
       openFolder('all');
     });
+    /* ── Webamp / Winamp ──────────────────────────────────────── */
+    var webampInstance = null;
+    function focusWebamp() {
+      var webampEl = document.getElementById('webamp');
+      if (!webampEl) return;
+      topZ += 1;
+      webampEl.style.zIndex = String(topZ);
+      allWindows().forEach(function(w) { w.classList.remove('focused'); });
+    }
+    function launchWebamp() {
+      if (webampInstance) {
+        focusWebamp();
+        return;
+      }
+      // @ts-ignore
+      var wa = new Webamp({
+        initialTracks: [
+          { metaData: { artist: 'Konami', title: 'Vampire Killer (Block 1)' }, url: '/music/vampire_killer.mp3' }
+        ]
+      });
+      webampInstance = wa;
+      wa.onClose(function() { webampInstance = null; });
+      const host = document.getElementById('webamp-container');
+      wa.renderWhenReady(host).then(function() {
+        var webampEl = document.getElementById('webamp');
+        if (!webampEl) return;
+        topZ += 1;
+        webampEl.style.zIndex = String(topZ);
+        webampEl.addEventListener('pointerdown', focusWebamp);
+      });
+    }
+
     function desktopButtons() {
       return Array.from(document.querySelectorAll('.desktop-icon'));
     }
@@ -908,11 +935,16 @@ const iconUrls = {
     }
 
     allWindows().forEach(bindWindow);
-    const desktopGrid = { stepX: 106, stepY: 106, minX: 0, minY: 0 };
+    const desktopGrid = { stepX: 106, stepY: 106, rowsPerColumn: 7, minX: 0, minY: 0 };
     desktopItems().forEach(function(item, index) {
-      item.style.left = '0px';
-      item.style.top = String(index * desktopGrid.stepY) + 'px';
+      const col = Math.floor(index / desktopGrid.rowsPerColumn);
+      const row = index % desktopGrid.rowsPerColumn;
+      item.style.left = String(col * desktopGrid.stepX) + 'px';
+      item.style.top = String(row * desktopGrid.stepY) + 'px';
     });
+    function clampRow(row) {
+      return Math.max(0, Math.min(desktopGrid.rowsPerColumn - 1, row));
+    }
     function desktopItems() {
       return Array.from(document.querySelectorAll('.desktop-icon-item'));
     }
@@ -924,7 +956,16 @@ const iconUrls = {
     function slotForPosition(left, top) {
       return {
         col: Math.max(0, Math.round(left / desktopGrid.stepX)),
-        row: Math.max(0, Math.round(top / desktopGrid.stepY)),
+        row: clampRow(Math.round((top + 51) / desktopGrid.stepY)),
+      };
+    }
+    function slotForPointer(clientX, clientY) {
+      const desktopRect = desktop.getBoundingClientRect();
+      const localX = clientX - desktopRect.left;
+      const localY = clientY - desktopRect.top;
+      return {
+        col: Math.max(0, Math.round(localX / desktopGrid.stepX)),
+        row: clampRow(Math.round(localY / desktopGrid.stepY)),
       };
     }
     function occupiedSlots(exceptItem) {
@@ -940,12 +981,27 @@ const iconUrls = {
       const target = slotForPosition(left, top);
       const used = occupiedSlots(exceptItem);
       if (!used.has(target.col + ':' + target.row)) return target;
+      for (let rowOffset = 1; rowOffset < 20; rowOffset += 1) {
+        const above = target.row - rowOffset;
+        const below = target.row + rowOffset;
+        if (above >= 0 && !used.has(target.col + ':' + above)) return { col: target.col, row: above };
+        if (below < desktopGrid.rowsPerColumn && !used.has(target.col + ':' + below)) return { col: target.col, row: below };
+      }
       for (let radius = 1; radius < 20; radius += 1) {
-        for (let row = target.row - radius; row <= target.row + radius; row += 1) {
-          for (let col = target.col - radius; col <= target.col + radius; col += 1) {
-            if (row < 0 || col < 0) continue;
-            const key = col + ':' + row;
-            if (!used.has(key)) return { col: col, row: row };
+        for (let colOffset = 1; colOffset <= radius; colOffset += 1) {
+          const candidateCols = [target.col + colOffset, target.col - colOffset];
+          for (const col of candidateCols) {
+            if (col < 0) continue;
+            for (let rowOffset = 0; rowOffset <= radius; rowOffset += 1) {
+              const rows = rowOffset === 0
+                ? [target.row]
+                : [target.row - rowOffset, target.row + rowOffset];
+              for (const row of rows) {
+                if (row < 0 || row >= desktopGrid.rowsPerColumn) continue;
+                const key = col + ':' + row;
+                if (!used.has(key)) return { col: col, row: row };
+              }
+            }
           }
         }
       }
@@ -983,6 +1039,8 @@ const iconUrls = {
       let moved = false;
       let startX = 0;
       let startY = 0;
+      let lastPointerX = 0;
+      let lastPointerY = 0;
       let draggedItems = [];
       let itemOrigins = new Map();
       item.addEventListener('pointerdown', function(event) {
@@ -992,6 +1050,8 @@ const iconUrls = {
         moved = false;
         startX = event.clientX;
         startY = event.clientY;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
         draggedItems = selectedDesktopItems();
         if (!draggedItems.length) draggedItems = [item];
         itemOrigins = new Map();
@@ -1005,6 +1065,8 @@ const iconUrls = {
         if (!dragging) return;
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
         if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
         if (!moved) return;
         draggedItems.forEach(function(node) {
@@ -1016,6 +1078,17 @@ const iconUrls = {
       item.addEventListener('pointerup', function(event) {
         dragging = false;
         if (moved) {
+          const pointerSlot = slotForPointer(lastPointerX, lastPointerY);
+          const primaryOrigin = itemOrigins.get(item) || { left: item.offsetLeft, top: item.offsetTop };
+          const primaryOriginSlot = slotForPosition(primaryOrigin.left, primaryOrigin.top);
+          const colShift = pointerSlot.col - primaryOriginSlot.col;
+          const rowShift = pointerSlot.row - primaryOriginSlot.row;
+          draggedItems.forEach(function(node) {
+            const origin = itemOrigins.get(node) || { left: node.offsetLeft, top: node.offsetTop };
+            const originSlot = slotForPosition(origin.left, origin.top);
+            node.style.left = String(Math.max(0, (originSlot.col + colShift) * desktopGrid.stepX)) + 'px';
+            node.style.top = String(clampRow(originSlot.row + rowShift) * desktopGrid.stepY) + 'px';
+          });
           snapItemsToFreeSlots(draggedItems);
         } else {
           const clickedButton = item.querySelector('.desktop-icon');
@@ -1148,7 +1221,7 @@ const iconUrls = {
       volumeSlider.addEventListener('input', function() { applyVolume(); updateVolumeIcon(); });
       volumeMute.addEventListener('change', function() { applyVolume(); updateVolumeIcon(); });
     })();
-    function updateClock() { const value = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); document.getElementById('tray-clock').textContent = value; document.getElementById('mobile-clock').textContent = value; }
+    function updateClock() { const value = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); document.getElementById('tray-clock').textContent = value; }
     updateClock();
     setInterval(updateClock, 15000);
     const screensaver = document.getElementById('screensaver');
