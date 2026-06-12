@@ -1,0 +1,288 @@
+---
+const { frontmatter } = Astro.props;
+const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — PIXEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <article>
+    <header>
+      <div class="meta">
+        {issue && <span class="issue">nº{issue}</span>}
+        {tags.map((t: string) => <span class="tag">{t}</span>)}
+      </div>
+
+      <h1>{title}</h1>
+
+      {excerpt && <p class="excerpt">{excerpt}</p>}
+    </header>
+
+    <div class="body">
+      <slot />
+    </div>
+  </article>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #f8f4ec;
+    --ivory:    #f8f4ec;
+    --ink:      #1a1814;
+    --ink-soft: #5a554d;
+    --ink-faint:#a09890;
+    --accent:   #8b1a1a;
+    --col:      540px;
+    --f:        'EB Garamond', Georgia, serif;
+  }
+
+  html { font-size: 20px; }
+
+  body {
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: var(--f);
+    line-height: 1.65;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  article {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 4rem 1.5rem 8rem;
+  }
+
+  /* ── Meta ── */
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    font-family: var(--f);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .issue {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tag { color: var(--ink-faint); }
+  .tag::before { content: '·'; margin-right: 0.4rem; }
+
+
+  /* ── Title ── */
+  h1 {
+    font-family: var(--f);
+    font-size: clamp(2.8rem, 8vw, 4.4rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    /* bleed past column for drama */
+    margin-left: -0.04em;
+  }
+
+  /* ── Excerpt / standfirst ── */
+  .excerpt {
+    font-family: var(--f);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #d6cfc4;
+  }
+
+  /* ── Body ── */
+  .body {
+    font-family: var(--f);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .body p {
+    margin-bottom: 0;
+    text-align: left;
+    hyphens: auto;
+  }
+
+  /* Book-style: first paragraph no indent, rest with indent, no margin between */
+  .body p + p { text-indent: 1.4em; }
+
+  /* Drop cap on first paragraph */
+  .body > p:first-of-type::first-letter {
+    font-size: 4.2em;
+    font-weight: 500;
+    float: left;
+    line-height: 0.82;
+    margin: 0.06em 0.1em 0 0;
+    color: var(--accent);
+  }
+
+  .body h2 {
+    font-family: var(--f);
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink);
+    margin: 3rem 0 0.8rem;
+    letter-spacing: 0;
+  }
+
+  .body h3 {
+    font-family: var(--f);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 2rem 0 0.6rem;
+  }
+
+  .body strong { font-weight: 600; }
+  .body em { font-style: italic; }
+
+  .body a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--ink-faint);
+  }
+
+  .body a:hover { text-decoration-color: var(--accent); }
+
+  /* Block quote — centered, no border, italic, classic */
+  .body blockquote {
+    margin: 2.5rem auto;
+    max-width: 420px;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .body blockquote::before { content: '\2018'; }
+  .body blockquote::after  { content: '\2019'; }
+
+  .body ul, .body ol {
+    margin: 0.8rem 0 0.8rem 1.4rem;
+  }
+
+  .body li { margin-bottom: 0.2rem; }
+
+  /* ── Gallery / images ── */
+  /* Full-bleed images — break out of column */
+  .body .gallery-wrap {
+    position: relative !important;
+    width: calc(100% + 3rem) !important;
+    left: -1.5rem !important;
+    transform: none !important;
+    height: 400px !important;
+    background: #e8e2d8 !important;
+    background-color: #e8e2d8 !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 3rem 0 !important;
+    overflow: hidden !important;
+  }
+
+  .body .gallery-track {
+    height: 400px !important;
+    position: relative !important;
+  }
+
+  .body .gallery-slide img {
+    width: auto !important;
+    height: 380px !important;
+    object-fit: cover !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    filter: sepia(8%) contrast(1.02) !important;
+  }
+
+  .body .gallery-btn {
+    background: rgba(248,244,236,0.7) !important;
+    border: none !important;
+    color: var(--ink) !important;
+    font-size: 1rem !important;
+    width: 36px !important;
+    height: 36px !important;
+    backdrop-filter: blur(4px) !important;
+  }
+
+  .body .gallery-btn:hover { background: rgba(248,244,236,0.95) !important; }
+
+  .body .gallery-caption-bar {
+    font-size: 0.65rem !important;
+    color: var(--ink-faint) !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    margin: 0.5rem 0 0 0 !important;
+    text-align: center !important;
+  }
+
+  .body img {
+    display: block;
+    max-width: calc(100% + 3rem);
+    margin: 2.5rem -1.5rem;
+    filter: sepia(8%) contrast(1.02);
+  }
+
+  .body figure {
+    margin: 2.5rem -1.5rem;
+  }
+
+  .body figcaption {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0 1.5rem;
+  }
+
+  /* Ornamental separator between sections */
+  .body hr {
+    border: none;
+    text-align: center;
+    margin: 2.5rem 0;
+    color: var(--ink-faint);
+  }
+
+  .body hr::before { content: '· · ·'; letter-spacing: 0.8em; font-size: 0.8rem; }
+
+  @media (max-width: 600px) {
+    html { font-size: 18px; }
+    article { padding: 2.5rem 1.25rem 5rem; }
+    h1 { font-size: 2.4rem; }
+    .body .gallery-wrap { width: calc(100% + 2.5rem) !important; left: -1.25rem !important; height: 260px !important; }
+    .body .gallery-track { height: 260px !important; }
+    .body .gallery-slide img { height: 240px !important; }
+  }
+</style>
+</body>
+</html>

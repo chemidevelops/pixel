@@ -39,7 +39,7 @@ const iconUrls = {
     article: '/icons/react95/html-16.png',
     pdf: '/icons/react95/file-32.png',
     folder: '/icons/react95/folder-16.png',
-    window: '/icons/react95/explorer-16.png',
+    window: '/icons/react95/folder-16.png',
     video: '/icons/video-16.png',
   },
 };
@@ -51,6 +51,7 @@ const iconUrls = {
   <meta name="viewport" content="width=1024" />
   <meta name="description" content="PIXEL — revista independiente de videojuegos" />
   <title>PixelOS — PIXEL</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="/styles/pixelos.css" />
   <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
 </head>
@@ -73,7 +74,7 @@ const iconUrls = {
       <section class="window os-window explorer-window" id="window-explorer" hidden>
         <div class="title-bar">
           <div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.window} alt="" /><span id="explorer-title">Artículos</span></div>
-          <div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Close" class="close" data-close></button></div>
+          <div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div>
         </div>
         <div class="window-body explorer-shell">
           <div class="explorer-menu-bar" role="menubar" aria-label="Menú del explorador">
@@ -163,7 +164,7 @@ const iconUrls = {
       <div id="reader-windows"></div>
 
       <section class="window os-window about-window" id="window-about" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de PixelOS</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de PixelOS</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body about-content">
           <div class="about-logo">PIXEL<span>.</span></div>
           <h1>PixelOS 95</h1>
@@ -175,7 +176,7 @@ const iconUrls = {
       </section>
 
       <section class="window os-window settings-window" id="window-settings" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.settings} alt="" /><span>Propiedades de pantalla</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.settings} alt="" /><span>Propiedades de pantalla</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body settings-content">
           <fieldset>
             <legend>Fondo del escritorio</legend>
@@ -189,14 +190,14 @@ const iconUrls = {
       </section>
 
       <section class="window os-window taisei-window" id="window-taisei" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body taisei-body">
           <iframe id="taisei-frame" title="Taisei Project" src="" allowfullscreen></iframe>
         </div>
       </section>
 
       <section class="window os-window mplayer-window" id="window-mplayer" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/mplayer2-16.png" alt="" /><span id="mplayer-title">Reproductor de Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/mplayer2-16.png" alt="" /><span id="mplayer-title">Reproductor de Media</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body mplayer-body">
           <div class="mplayer-menu-bar">
             <button type="button">Archivo</button>
@@ -264,7 +265,7 @@ const iconUrls = {
       </section>
 
       <section class="window os-window game-window" id="window-game" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.arcade} alt="" /><span>PIXEL QUEST.EXE</span></div><div class="title-bar-controls"><button aria-label="Close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.arcade} alt="" /><span>PIXEL QUEST.EXE</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body game-content">
           <div class="game-stats">PIXELS: <span id="game-score">0</span>/5</div>
           <div id="game-board" class="game-board" aria-label="Minijuego Pixel Quest"></div>
@@ -277,50 +278,139 @@ const iconUrls = {
 
     <div id="webamp-container"></div>
 
-    <div class="start-menu" id="start-menu" hidden>
-      <div class="start-brand">PixelOS <b>95</b></div>
-      <div class="start-items">
-        <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
-        <button class="start-entry" data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
-        <button class="start-entry" data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
-        <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
-        <div class="start-divider" aria-hidden="true"></div>
-        <button class="start-entry" id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
-      </div>
-    </div>
-
-    <footer class="taskbar">
-      <button class="start-button" id="start-button">Inicio</button>
-      <div class="task-buttons" id="task-buttons"></div>
-      <div class="tray">
-        <button class="tray-icon-btn" id="volume-btn" title="Control de volumen" aria-label="Volumen">
-          <img src="/icons/speaker-16.png" alt="" class="tray-icon" />
-        </button>
-        <button class="tray-clock" id="tray-clock">00:00</button>
-      </div>
-    </footer>
-
-    <div class="volume-popup" id="volume-popup" hidden>
-      <div class="volume-label">Volumen</div>
-      <div class="volume-track-wrap">
-        <input type="range" id="volume-slider" min="0" max="100" value="80" class="volume-slider" />
-      </div>
-      <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
-    </div>
-
-    <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
-    <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
-
     <template id="reader-template">
       <section class="window os-window reader-window">
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de PIXEL</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-minimize></button><button aria-label="Maximize" data-maximize></button><button aria-label="Close" class="close" data-close></button></div></div>
-        <div class="window-body reader-body">
-          <div class="reader-caption" data-reader-path>pixel://articulo</div>
-          <iframe title="Artículo de PIXEL"></iframe>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de PIXEL</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
+        <div class="window-body ie3-body">
+          <div class="ie3-menubar" role="menubar">
+            <button class="ie3-menubar-button" type="button"><u>A</u>rchivo</button>
+            <button class="ie3-menubar-button" type="button"><u>E</u>dición</button>
+            <button class="ie3-menubar-button" type="button"><u>V</u>er</button>
+            <button class="ie3-menubar-button" type="button">I<u>r</u></button>
+            <button class="ie3-menubar-button" type="button">Fa<u>v</u>oritos</button>
+            <button class="ie3-menubar-button" type="button">A<u>y</u>uda</button>
+          </div>
+          <div class="ie3-commandbar">
+            <div class="ie3-commandbar-main">
+              <div class="ie3-tool-group">
+                <button class="ie3-tool ie-back is-disabled" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--back" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Atrás</span>
+                </button>
+                <button class="ie3-tool ie-fwd is-disabled" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--forward" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Adelante</span>
+                </button>
+                <button class="ie3-tool ie-stop is-disabled" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--stop" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Detener</span>
+                </button>
+                <button class="ie3-tool ie-refresh" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--refresh" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Actualizar</span>
+                </button>
+                <button class="ie3-tool ie-home" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--home" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Inicio</span>
+                </button>
+              </div>
+              <div class="ie3-tool-group">
+                <button class="ie3-tool" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--search" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Buscar</span>
+                </button>
+                <button class="ie3-tool" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--favorites" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Favoritos</span>
+                </button>
+                <button class="ie3-tool" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--print" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Imprimir</span>
+                </button>
+                <button class="ie3-tool" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--font" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Fuente</span>
+                </button>
+                <button class="ie3-tool" type="button">
+                  <span class="ie3-tool-icon ie3-tool-icon--mail" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Correo</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ie3-addressbar">
+            <label class="ie3-address-label" for="ie3-address-input">Dirección</label>
+            <div class="ie3-address-field">
+              <input class="ie3-address-input" id="ie3-address-input" type="text" value="C:\PIXEL\ARTICULOS\articulo.HTM" spellcheck="false" data-reader-path />
+              <button class="ie3-address-drop" type="button" aria-label="Historial de direcciones"></button>
+            </div>
+          </div>
+          <div class="ie3-linksbar">
+            <div class="ie3-linksbar-label">Vínculos</div>
+            <button class="ie3-linksbar-item" type="button">
+              <span class="ie3-linksbar-icon" aria-hidden="true"></span>
+              <span class="ie3-linksbar-text">Vínculos de hoy</span>
+            </button>
+            <button class="ie3-linksbar-item" type="button">
+              <span class="ie3-linksbar-icon" aria-hidden="true"></span>
+              <span class="ie3-linksbar-text">PIXEL</span>
+            </button>
+            <button class="ie3-linksbar-item" type="button">
+              <span class="ie3-linksbar-icon" aria-hidden="true"></span>
+              <span class="ie3-linksbar-text">Tutorial Web</span>
+            </button>
+          </div>
+          <div class="ie3-main">
+            <iframe title="Artículo de PIXEL"></iframe>
+          </div>
+          <div class="ie3-statusbar">
+            <div class="ie3-status-panel">
+              <span data-ie-status>Listo</span>
+            </div>
+            <div class="ie3-status-spacer"></div>
+            <div class="ie3-status-logo">
+              <span class="ie3-status-icon" aria-hidden="true"></span>
+            </div>
+          </div>
         </div>
       </section>
     </template>
+
+  <div class="start-menu" id="start-menu" hidden>
+    <div class="start-brand">PixelOS <b>95</b></div>
+    <div class="start-items">
+      <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
+      <button class="start-entry" data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
+      <button class="start-entry" data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
+      <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
+      <div class="start-divider" aria-hidden="true"></div>
+      <button class="start-entry" id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
+    </div>
   </div>
+
+  <footer class="taskbar">
+    <button class="start-button" id="start-button"><span class="start-logo" aria-hidden="true"></span>Inicio</button>
+    <div class="task-buttons" id="task-buttons"></div>
+    <div class="tray">
+      <button class="tray-icon-btn" id="volume-btn" title="Control de volumen" aria-label="Volumen">
+        <img src="/icons/speaker-16.png" alt="" class="tray-icon" />
+      </button>
+      <button class="tray-clock" id="tray-clock">00:00</button>
+    </div>
+  </footer>
+
+  <div class="volume-popup" id="volume-popup" hidden>
+    <div class="volume-label">Volumen</div>
+    <div class="volume-track-wrap">
+      <input type="range" id="volume-slider" min="0" max="100" value="80" class="volume-slider" />
+    </div>
+    <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
+  </div>
+
+  <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
+  <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
+
+  </div>{/* end #pixel-os */}
 
   <script>
     import * as THREE from 'three';
@@ -708,8 +798,58 @@ const iconUrls = {
       const win = readerTemplate.content.firstElementChild.cloneNode(true);
       win.dataset.readerId = post.id;
       win.querySelector('.title-bar-text span').textContent = post.title;
-      win.querySelector('[data-reader-path]').textContent = 'C:\\PIXEL\\ARTICULOS\\' + post.id + '.HTM';
-      win.querySelector('iframe').src = url;
+      win.querySelectorAll('[data-reader-path]').forEach(function(el) {
+        var path = 'C:\\PIXEL\\ARTICULOS\\' + post.id + '.HTM';
+        if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
+      });
+      const iframe = win.querySelector('iframe');
+      const btnBack    = win.querySelector('.ie-back');
+      const btnFwd     = win.querySelector('.ie-fwd');
+      const btnStop    = win.querySelector('.ie-stop');
+      const btnRefresh = win.querySelector('.ie-refresh');
+      const btnHome    = win.querySelector('.ie-home');
+      const statusText = win.querySelector('[data-ie-status]');
+
+      function ieSetDisabled(btn, val) {
+        if (!btn) return;
+        btn.classList.toggle('is-disabled', val);
+      }
+
+      function ieUpdateNav() {
+        try {
+          var canBack = iframe.contentWindow && iframe.contentWindow.history && iframe.contentWindow.history.length > 1;
+          ieSetDisabled(btnBack, !canBack);
+          ieSetDisabled(btnFwd, true);
+        } catch(e) {}
+      }
+
+      iframe.addEventListener('loadstart', function() {
+        if (statusText) statusText.textContent = 'Abriendo página...';
+        ieSetDisabled(btnStop, false);
+      });
+      iframe.addEventListener('load', function() {
+        if (statusText) statusText.textContent = 'Listo';
+        ieSetDisabled(btnStop, true);
+        ieUpdateNav();
+      });
+
+      btnBack.addEventListener('click',    function() { try { iframe.contentWindow.history.back(); } catch(e) {} });
+      btnFwd.addEventListener('click',     function() { try { iframe.contentWindow.history.forward(); } catch(e) {} });
+      btnStop.addEventListener('click',    function() { iframe.contentWindow.stop(); if (statusText) statusText.textContent = 'Detenido'; });
+      btnRefresh.addEventListener('click', function() { iframe.contentWindow.location.reload(); });
+      btnHome.addEventListener('click',    function() { iframe.src = url; });
+
+      var addrInput = win.querySelector('.ie3-address-input');
+      function navigateAddr() {
+        var raw = addrInput.value.trim();
+        var slug = raw.replace(/\\/g, '/').replace(/.*ARTICULOS\//i, '').replace(/\.HTM$/i, '');
+        if (slug) iframe.src = '/pixelos/posts/' + slug;
+      }
+      if (addrInput) {
+        addrInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') navigateAddr(); });
+      }
+
+      iframe.src = url;
       if (!matchMedia('(max-width: 700px)').matches) {
         win.style.left = String(210 + (readerOffset % 7) * 30) + 'px';
         win.style.top = String(55 + (readerOffset % 7) * 24) + 'px';
@@ -824,10 +964,10 @@ const iconUrls = {
     /* ── Webamp / Winamp ──────────────────────────────────────── */
     var webampInstance = null;
     function focusWebamp() {
-      var webampEl = document.getElementById('webamp');
-      if (!webampEl) return;
+      var wa = document.getElementById('webamp');
+      if (!wa) return;
       topZ += 1;
-      webampEl.style.zIndex = String(topZ);
+      wa.style.zIndex = String(topZ);
       allWindows().forEach(function(w) { w.classList.remove('focused'); });
     }
     function launchWebamp() {
@@ -843,13 +983,15 @@ const iconUrls = {
       });
       webampInstance = wa;
       wa.onClose(function() { webampInstance = null; });
-      const host = document.getElementById('webamp-container');
+      var host = document.getElementById('webamp-container');
       wa.renderWhenReady(host).then(function() {
-        var webampEl = document.getElementById('webamp');
-        if (!webampEl) return;
-        topZ += 1;
-        webampEl.style.zIndex = String(topZ);
-        webampEl.addEventListener('pointerdown', focusWebamp);
+        var waEl = document.getElementById('webamp');
+        if (waEl) {
+          document.getElementById('pixel-os').appendChild(waEl);
+          topZ += 1;
+          waEl.style.zIndex = String(topZ);
+          waEl.addEventListener('pointerdown', focusWebamp);
+        }
       });
     }
 
@@ -880,6 +1022,7 @@ const iconUrls = {
       let dragging = false;
       let offsetX = 0;
       let offsetY = 0;
+      let ghostEl = null;
       bar.addEventListener('pointerdown', function(event) {
         if (event.target.closest('button')) return;
         if (win.classList.contains('maximized')) {
@@ -894,13 +1037,30 @@ const iconUrls = {
         offsetX = event.clientX - win.offsetLeft;
         offsetY = event.clientY - win.offsetTop;
         bar.setPointerCapture(event.pointerId);
+        ghostEl = document.createElement('div');
+        ghostEl.className = 'window-drag-outline';
+        ghostEl.style.left = win.offsetLeft + 'px';
+        ghostEl.style.top = win.offsetTop + 'px';
+        ghostEl.style.width = win.offsetWidth + 'px';
+        ghostEl.style.height = win.offsetHeight + 'px';
+        document.querySelector('.desktop').appendChild(ghostEl);
       });
       bar.addEventListener('pointermove', function(event) {
-        if (!dragging) return;
-        win.style.left = String(Math.max(0, event.clientX - offsetX)) + 'px';
-        win.style.top = String(Math.max(0, event.clientY - offsetY)) + 'px';
+        if (!dragging || !ghostEl) return;
+        ghostEl.style.left = String(Math.max(0, event.clientX - offsetX)) + 'px';
+        ghostEl.style.top = String(Math.max(0, event.clientY - offsetY)) + 'px';
       });
-      bar.addEventListener('pointerup', function() { dragging = false; });
+      function endDrag() {
+        if (ghostEl) {
+          win.style.left = ghostEl.style.left;
+          win.style.top = ghostEl.style.top;
+          ghostEl.remove();
+          ghostEl = null;
+        }
+        dragging = false;
+      }
+      bar.addEventListener('pointerup', endDrag);
+      bar.addEventListener('pointercancel', endDrag);
 
       // Resize handle
       const handle = document.createElement('div');
@@ -1187,17 +1347,26 @@ const iconUrls = {
       }
       function applyVolume() {
         var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10) / 100;
-        document.querySelectorAll('video, audio').forEach(function(el) { el.volume = v; });
+        // media elements in the page
+        document.querySelectorAll('video, audio').forEach(function(el) {
+          el.volume = v;
+          el.muted = volumeMute.checked;
+        });
+        // sync mplayer slider
+        var mpVol = document.getElementById('mp-volume');
+        if (mpVol && !volumeMute.checked) mpVol.value = volumeSlider.value;
+        // webamp internal volume slider (React controlled input needs native setter)
+        var waVol = document.querySelector('#webamp #volume input');
+        if (waVol) {
+          var nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+          nativeSetter.call(waVol, String(Math.round(v * 100)));
+          waVol.dispatchEvent(new Event('input', { bubbles: true }));
+          waVol.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        // taisei iframe (same-origin: call setVolume directly)
         var frame = document.getElementById('taisei-frame');
-        if (!frame || !frame.src || frame.src === window.location.href) return;
-        try {
-          if (frame.contentWindow && frame.contentWindow.setGameVolume) {
-            frame.contentWindow.setGameVolume(v);
-          } else {
-            frame.contentWindow.postMessage({ type: 'setVolume', value: v }, '*');
-          }
-        } catch(e) {
-          try { frame.contentWindow.postMessage({ type: 'setVolume', value: v }, '*'); } catch(e2) {}
+        if (frame && frame.src && frame.src !== window.location.href) {
+          try { if (frame.contentWindow.setVolume) frame.contentWindow.setVolume(v); } catch(e) {}
         }
       }
       function updateVolumeIcon() {
@@ -1220,6 +1389,17 @@ const iconUrls = {
       });
       volumeSlider.addEventListener('input', function() { applyVolume(); updateVolumeIcon(); });
       volumeMute.addEventListener('change', function() { applyVolume(); updateVolumeIcon(); });
+      // apply volume to any audio/video added dynamically
+      new MutationObserver(function(mutations) {
+        var v = volumeMute.checked ? 0 : parseInt(volumeSlider.value, 10) / 100;
+        mutations.forEach(function(m) {
+          m.addedNodes.forEach(function(node) {
+            if (node.nodeType !== 1) return;
+            var els = node.matches('video,audio') ? [node] : Array.from(node.querySelectorAll('video,audio'));
+            els.forEach(function(el) { el.volume = v; el.muted = volumeMute.checked; });
+          });
+        });
+      }).observe(document.body, { childList: true, subtree: true });
     })();
     function updateClock() { const value = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); document.getElementById('tray-clock').textContent = value; }
     updateClock();
@@ -1239,6 +1419,26 @@ const iconUrls = {
       const TAISEI_URL = '/taisei/taisei.html?v=4';
       const origClose = win.querySelector('[data-close]');
       origClose.addEventListener('click', function() { frame.src = ''; });
+      function patchTaiseiAudio(win) {
+        try {
+          var Orig = win.AudioContext || win.webkitAudioContext;
+          if (!Orig || win.__volumePatched) return;
+          win.__volumePatched = true;
+          var gainNodes = [];
+          function PatchedAC(opts) {
+            var ctx = new Orig(opts);
+            var gain = ctx.createGain();
+            gain.connect(ctx.destination);
+            gainNodes.push(gain);
+            Object.defineProperty(ctx, 'destination', { get: function() { return gain; }, configurable: true });
+            return ctx;
+          }
+          PatchedAC.prototype = Orig.prototype;
+          win.AudioContext = win.webkitAudioContext = PatchedAC;
+          win.setVolume = function(v) { gainNodes.forEach(function(g) { g.gain.value = v; }); };
+        } catch(e) {}
+      }
+      frame.addEventListener('load', function() { patchTaiseiAudio(frame.contentWindow); });
       win.addEventListener('taisei-open', function() {
         if (!frame.src || frame.src === window.location.href) frame.src = TAISEI_URL;
       });
@@ -1278,6 +1478,19 @@ const iconUrls = {
     const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     let secretIndex = 0;
     document.addEventListener('keydown', function(event) { secretIndex = event.key === konami[secretIndex] ? secretIndex + 1 : 0; if (secretIndex === konami.length) { showWindow('game'); secretIndex = 0; } });
+
+    document.addEventListener('keydown', function(event) {
+      if ((event.key === 'f' || event.key === 'F') && (event.ctrlKey || event.metaKey) && event.shiftKey) {
+        event.preventDefault();
+        var el = document.getElementById('pixel-os');
+        if (!document.fullscreenElement) {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        } else {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        }
+      }
+    });
+
     openFolderNow('all');
     if (matchMedia('(max-width: 700px)').matches) closeWindow(explorer);
   </script>

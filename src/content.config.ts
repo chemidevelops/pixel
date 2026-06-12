@@ -10,6 +10,7 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     issue: z.number().optional(),
     lang: z.enum(['es', 'en']).default('es'),
+    embedStyle: z.enum(['default', 'wordpad', 'geocities', 'book']).optional(),
     gallery: z.array(z.union([
       z.string(),
       z.object({ src: z.string(), caption: z.string().optional() })

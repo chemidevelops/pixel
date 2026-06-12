@@ -1,0 +1,609 @@
+---
+const { frontmatter } = Astro.props;
+const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const visitorBase = 4000 + Math.floor(Math.random() * 900);
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content="Netscape Composer 4.0" />
+  <title>{title} — PIXEL ZINE</title>
+  <!-- Best viewed in Netscape Navigator 4.0 at 800x600 -->
+</head>
+<body>
+
+<div id="page-wrapper">
+<table id="main-table" cellpadding="0" cellspacing="0">
+
+  <!-- HEADER -->
+  <tr>
+    <td colspan="2" id="header-cell">
+      <div class="marquee-wrapper">
+        <span class="marquee-inner">
+          ★ PIXEL ZINE ★ &nbsp;&nbsp;&nbsp;
+          {tags.join(' · ')} &nbsp;&nbsp;&nbsp;
+          ★ {dateFormatted} ★ &nbsp;&nbsp;&nbsp;
+          Este sitio está optimizado para Netscape Navigator 4.0 a 800×600 &nbsp;&nbsp;&nbsp;
+          ★ PIXEL ZINE ★ &nbsp;&nbsp;&nbsp;
+          {tags.join(' · ')} &nbsp;&nbsp;&nbsp;
+        </span>
+      </div>
+      <h1 class="rainbow">{title}</h1>
+      {excerpt && <p class="header-excerpt"><span class="blink">★</span> {excerpt} <span class="blink">★</span></p>}
+    </td>
+  </tr>
+
+  <!-- CONTENT ROW -->
+  <tr id="content-row">
+
+    <!-- SIDEBAR -->
+    <td id="sidebar">
+
+      <div class="panel">
+        <div class="panel-title">📡 Navegación</div>
+        <a href="#articulo" class="nav-link nav-active">📄 Artículo</a>
+        <a href="#fotos" class="nav-link">📸 Fotos</a>
+        <a href="#tags" class="nav-link">🏷️ Temas</a>
+      </div>
+
+      <div class="panel" style="text-align:center;">
+        <div class="panel-title">🌐 Info</div>
+        <span class="spinning-globe">🌍</span>
+        <div style="font-size:0.7rem;margin-top:4px;">Tema: Space</div>
+        <span id="page-clock">00:00:00</span>
+      </div>
+
+      <div class="panel" style="text-align:center;">
+        <div class="panel-title">📊 Visitas</div>
+        <div id="visitor-counter-box">
+          <div class="counter-label">Eres el visitante nº</div>
+          <div class="counter-digits" id="counter-display">
+            {String(visitorBase).split('').map(d => <span class="digit-box">{d}</span>)}
+          </div>
+        </div>
+      </div>
+
+      <div id="tags" class="panel">
+        <div class="panel-title">🏷️ Temas</div>
+        {tags.map((tag: string) => (
+          <div class="link-item">
+            <span class="link-bullet">»</span>
+            <span>{tag}</span>
+          </div>
+        ))}
+        {issue && <p style="font-size:0.75rem;margin-top:6px;">Número: <strong>nº{issue}</strong></p>}
+        <p style="font-size:0.75rem;">Fecha: <strong>{dateFormatted}</strong></p>
+      </div>
+
+      <div class="under-construction">
+        <div class="uc-inner">
+          <span class="uc-icon">🚧</span>
+          EN OBRAS
+          <span class="uc-icon">🚧</span>
+        </div>
+      </div>
+
+      <div class="panel" style="text-align:center;font-size:0.7rem;">
+        <span class="netscape-badge">Best viewed in<br />Netscape Navigator 4.0<br />at 800×600</span>
+      </div>
+
+      <div class="webring">
+        <div class="webring-title">⚡ PIXEL Web Ring ⚡</div>
+        <div class="webring-nav">
+          <a href="#" class="webring-btn">◀ Ant</a>
+          <a href="#" class="webring-btn">🏠</a>
+          <a href="#" class="webring-btn">Sig ▶</a>
+        </div>
+      </div>
+
+    </td>
+
+    <!-- MAIN CONTENT -->
+    <td id="main-content">
+
+      <div id="articulo" class="panel">
+        <div class="panel-title">📄 {title} <span class="new-badge">NEW</span></div>
+        <div class="article-body">
+          <slot />
+        </div>
+      </div>
+
+    </td>
+  </tr>
+
+  <!-- FOOTER -->
+  <tr>
+    <td colspan="2" id="footer-cell">
+      <div class="star-divider">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
+      <p style="font-size:0.75rem;margin:4px 0;">
+        © 1999–{new Date().getFullYear()} <strong>PIXEL ZINE</strong>
+        &nbsp;|&nbsp; Hecho con ♥ y mucho HTML
+        &nbsp;|&nbsp; <a href="#">Volver arriba ↑</a>
+      </p>
+      <p style="font-size:0.7rem;margin:4px 0;">
+        <span class="netscape-badge">Best viewed in Netscape Navigator 4.0<br>at 800×600 resolution</span>
+      </p>
+    </td>
+  </tr>
+
+</table>
+</div>
+
+<style>
+  /* ================================================
+     PIXEL ZINE — Space Theme
+     Best viewed in Netscape Navigator 4.0 at 800x600
+     ================================================ */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #000020;
+    --text:         #ccccff;
+    --heading:      #00ffff;
+    --link:         #ff99ff;
+    --link-hover:   #ffff00;
+    --accent:       #ff66ff;
+    --border-light: #6666ff;
+    --border-dark:  #000055;
+    --panel-bg:     #000044;
+    --counter-bg:   #000000;
+    --counter-text: #00ff00;
+    --table-hdr:    #000066;
+    --glow:         #00ccff;
+    --nav-active-bg:   #3333ff;
+    --nav-active-text: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(1px 1px at 8%  12%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 38%, #aaf 0%, transparent 100%),
+      radial-gradient(1px 1px at 38%  7%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 54% 54%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 68% 19%, #aaf 0%, transparent 100%),
+      radial-gradient(1px 1px at 79% 71%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 91% 33%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 14% 82%, #aaf 0%, transparent 100%),
+      radial-gradient(1px 1px at 33% 63%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 61% 87%, #aaf 0%, transparent 100%),
+      radial-gradient(1px 1px at 74% 48%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at  4% 51%, #fff 0%, transparent 100%),
+      radial-gradient(2px 2px at 47% 29%, #fff 0%, transparent 100%),
+      radial-gradient(2px 2px at 87% 11%, #ffd 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 19% 94%, #aff 0%, transparent 100%),
+      radial-gradient(1px 1px at 44% 66%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 96% 78%, #aaf 0%, transparent 100%),
+      radial-gradient(1px 1px at 57% 3%,  #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 28% 57%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 83% 44%, #ffd 0%, transparent 100%);
+    color: var(--text);
+    font-family: 'Verdana', 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Layout */
+  #page-wrapper {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 8px;
+  }
+
+  #main-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  #header-cell {
+    background: var(--panel-bg);
+    border: 3px outset var(--border-light);
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  #content-row { vertical-align: top; }
+
+  #sidebar {
+    width: 170px;
+    min-width: 170px;
+    padding-right: 8px;
+    vertical-align: top;
+  }
+
+  #main-content {
+    vertical-align: top;
+    padding-left: 6px;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  #footer-cell {
+    background: var(--panel-bg);
+    border: 3px inset var(--border-dark);
+    padding: 10px;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 1.8rem;
+    color: var(--heading);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 var(--border-dark), 0 0 12px var(--glow);
+    animation: neonPulse 2s ease-in-out infinite;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    margin: 8px 0 4px;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    color: var(--heading);
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 var(--border-dark), 0 0 8px var(--glow);
+    margin: 12px 0 6px;
+  }
+
+  .header-excerpt {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  a { color: var(--link); text-decoration: underline; }
+  a:hover { color: var(--link-hover); text-decoration: none; }
+  a:visited { color: var(--accent); }
+
+  /* Panels */
+  .panel {
+    background: var(--panel-bg);
+    border: 3px outset var(--border-light);
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .panel-title {
+    background: var(--table-hdr);
+    color: var(--heading);
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: -8px -8px 8px -8px;
+    border-bottom: 2px solid var(--border-light);
+  }
+
+  /* Nav */
+  .nav-link {
+    display: block;
+    color: var(--link);
+    text-decoration: none;
+    padding: 4px 6px;
+    border: 2px outset var(--border-light);
+    background: var(--panel-bg);
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .nav-link:hover { background: var(--border-light); color: var(--bg); border-style: inset; }
+  .nav-active, .nav-active:visited, .nav-active:hover {
+    border-style: inset;
+    background: var(--nav-active-bg);
+    color: var(--nav-active-text);
+  }
+
+  /* Counter */
+  #visitor-counter-box {
+    background: var(--counter-bg);
+    border: 3px inset var(--border-dark);
+    padding: 8px 12px;
+    display: inline-block;
+    margin: 4px auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: var(--counter-text);
+    text-align: center;
+  }
+  .counter-label { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; opacity: 0.8; }
+  .counter-digits { display: flex; justify-content: center; gap: 2px; margin-top: 4px; }
+  .digit-box {
+    background: #000;
+    color: var(--counter-text);
+    border: 2px inset #333;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 22px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 6px var(--counter-text);
+  }
+
+  /* Marquee */
+  .marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+    background: var(--panel-bg);
+    border: 2px inset var(--border-dark);
+    padding: 4px 0;
+    margin-bottom: 6px;
+  }
+  .marquee-inner {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marqueeScroll 22s linear infinite;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+
+  /* Blink */
+  .blink { animation: blink 1s step-start infinite; }
+
+  /* Rainbow */
+  .rainbow { animation: rainbow 4s linear infinite; }
+
+  /* Spinning globe */
+  .spinning-globe {
+    font-size: 2rem;
+    text-align: center;
+    margin: 6px 0;
+    animation: spin 4s linear infinite;
+    display: block;
+    filter: drop-shadow(0 0 8px var(--glow));
+  }
+
+  /* Clock */
+  #page-clock {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: var(--counter-text);
+    text-align: center;
+    background: var(--counter-bg);
+    border: 2px inset var(--border-dark);
+    padding: 2px 5px;
+    letter-spacing: 2px;
+    margin: 3px 0;
+    display: block;
+  }
+
+  /* Star divider */
+  .star-divider {
+    text-align: center;
+    color: var(--accent);
+    font-size: 1rem;
+    letter-spacing: 4px;
+    margin: 8px 0;
+    animation: rainbow 3s linear infinite;
+  }
+
+  /* Under construction */
+  .under-construction {
+    background: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 10px, #000000 10px, #000000 20px);
+    border: 3px solid #ffcc00;
+    padding: 6px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .uc-inner {
+    background: var(--panel-bg);
+    border: 3px inset var(--border-dark);
+    padding: 6px;
+    color: var(--heading);
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .uc-icon { font-size: 1.2rem; animation: spin 3s linear infinite; display: inline-block; margin: 0 4px; }
+
+  /* NEW badge */
+  .new-badge {
+    display: inline-block;
+    background: #ff0000;
+    color: #ffff00;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 1px 3px;
+    border: 2px outset #ff6666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: blink 0.7s step-start infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  /* Webring */
+  .webring {
+    background: var(--panel-bg);
+    border: 3px outset var(--border-light);
+    padding: 8px;
+    text-align: center;
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+  }
+  .webring-title { font-weight: bold; color: var(--heading); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-size: 0.75rem; }
+  .webring-nav { display: flex; justify-content: center; align-items: center; gap: 6px; }
+  .webring-btn {
+    background: var(--panel-bg);
+    border: 2px outset var(--border-light);
+    color: var(--link);
+    padding: 2px 7px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+  }
+  .webring-btn:hover { border-style: inset; color: var(--link-hover); }
+
+  /* Netscape badge */
+  .netscape-badge {
+    display: inline-block;
+    background: #333;
+    border: 3px outset #666;
+    padding: 3px 6px;
+    color: #ffcc00;
+    font-size: 0.62rem;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    margin: 4px;
+  }
+
+  /* Link item */
+  .link-item { display: flex; align-items: flex-start; margin-bottom: 4px; font-size: 0.82rem; }
+  .link-bullet { color: var(--accent); margin-right: 5px; animation: blink 1.5s step-start infinite; flex-shrink: 0; }
+
+  /* Article body */
+  .article-body p {
+    margin-bottom: 0.8em;
+    color: var(--text);
+  }
+
+  .article-body h2 {
+    font-size: 1rem;
+    color: var(--heading);
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 var(--border-dark), 0 0 6px var(--glow);
+    margin: 1.2em 0 0.4em;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 3px;
+  }
+
+  /* Interview questions: bold paragraph = question */
+  .article-body p > strong:first-child {
+    display: block;
+    color: #00ffff;
+    font-style: italic;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    text-shadow: 0 0 6px #0099ff;
+    font-size: 0.9rem;
+  }
+
+  .article-body em { color: #ffcc99; }
+
+  /* Images: geocities photo style */
+  .article-body img {
+    display: block;
+    max-width: 100%;
+    margin: 10px auto;
+    border: 4px outset var(--border-light);
+    box-shadow: 3px 3px 0 var(--border-dark);
+    image-rendering: pixelated;
+  }
+
+  /* Override gallery to fit geocities style */
+  .article-body .gallery-wrap {
+    position: relative !important;
+    width: 100% !important;
+    left: auto !important;
+    transform: none !important;
+    height: auto !important;
+    background: var(--panel-bg) !important;
+    border: 3px outset var(--border-light) !important;
+    padding: 6px !important;
+    margin: 10px 0 !important;
+    overflow: hidden !important;
+  }
+
+  .article-body .gallery-track {
+    position: relative !important;
+    height: 220px !important;
+    overflow: hidden !important;
+  }
+
+  .article-body .gallery-slide[data-pos="0"] {
+    transform: translate(-50%, -50%) !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+  .article-body .gallery-slide img {
+    width: auto !important;
+    height: 200px !important;
+    object-fit: cover !important;
+    border: 2px inset var(--border-dark) !important;
+    box-shadow: none !important;
+    image-rendering: auto !important;
+  }
+
+  .article-body .gallery-btn {
+    background: var(--panel-bg) !important;
+    border: 2px outset var(--border-light) !important;
+    color: var(--heading) !important;
+    font-size: 1rem !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .article-body blockquote {
+    border-left: 4px solid #ff00ff;
+    margin: 0.8em 0;
+    padding: 0.4em 0.8em;
+    color: #ffccff;
+    background: #110022;
+    font-style: italic;
+  }
+
+  .article-body ul, .article-body ol {
+    margin: 0.4em 0 0.8em 1.4em;
+    color: #ccccff;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 14px; }
+  ::-webkit-scrollbar-track { background: var(--panel-bg); border: 2px inset var(--border-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border: 2px outset var(--border-light); }
+
+  /* Keyframes */
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes marqueeScroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+  @keyframes neonPulse {
+    0%, 100% { text-shadow: 2px 2px 0 var(--border-dark), 0 0 8px var(--glow), 0 0 20px var(--glow); }
+    50% { text-shadow: 2px 2px 0 var(--border-dark), 0 0 2px var(--glow); }
+  }
+  @keyframes rainbow { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* Responsive */
+  @media (max-width: 560px) {
+    #main-table, #content-row, #sidebar, #main-content { display: block; width: 100%; }
+    #sidebar { padding-right: 0; margin-bottom: 8px; }
+  }
+</style>
+
+<script>
+  // Live clock
+  function updateClock() {
+    const el = document.getElementById('page-clock');
+    if (el) el.textContent = new Date().toLocaleTimeString('es-ES', { hour12: false });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

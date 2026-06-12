@@ -1,5 +1,8 @@
 ---
 import PostEmbed from '../../../layouts/PostEmbed.astro';
+import PostEmbedWordpad from '../../../layouts/PostEmbedWordpad.astro';
+import PostEmbedGeocities from '../../../layouts/PostEmbedGeocities.astro';
+import PostEmbedBook from '../../../layouts/PostEmbedBook.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -12,7 +15,22 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const embedStyle = post.data.embedStyle;
 ---
-<PostEmbed frontmatter={post.data}>
-  <Content />
-</PostEmbed>
+{embedStyle === 'wordpad' ? (
+  <PostEmbedWordpad frontmatter={post.data}>
+    <Content />
+  </PostEmbedWordpad>
+) : embedStyle === 'geocities' ? (
+  <PostEmbedGeocities frontmatter={post.data}>
+    <Content />
+  </PostEmbedGeocities>
+) : embedStyle === 'book' ? (
+  <PostEmbedBook frontmatter={post.data}>
+    <Content />
+  </PostEmbedBook>
+) : (
+  <PostEmbed frontmatter={post.data}>
+    <Content />
+  </PostEmbed>
+)}

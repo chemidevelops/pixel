@@ -17,6 +17,7 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   <link rel="stylesheet" href="/styles/global.css" />
 </head>
 <body class="embed-post">
+
   <article class="embed-post-shell">
     <div class="post-header">
       <div class="post-header-meta">
@@ -47,6 +48,7 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       overflow-x: hidden;
     }
 
+    /* ── Article ── */
     .embed-post-shell {
       max-width: 720px;
       margin: 0 auto;
@@ -93,7 +95,11 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
     }
 
     .embed-post .post-layout { position: relative; }
-    .embed-post .post-body { margin-top: 2rem; }
+    .embed-post .post-body {
+      margin-top: 2rem;
+      font-size: 1.15rem;
+      line-height: 1.75;
+    }
 
     .embed-post .post-body > p:first-of-type::first-letter {
       font-size: 6.5em;
@@ -103,6 +109,12 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       margin: 0.04em 0.12em 0 0;
       color: var(--red);
       font-family: var(--font-serif);
+    }
+
+    /* Remove white bg from images */
+    .embed-post .post-body img {
+      mix-blend-mode: multiply;
+      background: transparent;
     }
 
     .embed-post #toc {
@@ -175,6 +187,7 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
   </style>
 
   <script>
+    /* ── TOC ── */
     const toc = document.getElementById('toc');
     const body = document.querySelector('.post-body');
     if (toc && body) {
