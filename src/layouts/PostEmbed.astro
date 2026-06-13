@@ -33,11 +33,8 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       {excerpt && <p class="post-excerpt-header">{excerpt}</p>}
     </div>
 
-    <div class="post-layout">
-      <nav id="toc" aria-label="Índice" hidden></nav>
-      <div class="post-body">
-        <slot />
-      </div>
+    <div class="post-body">
+      <slot />
     </div>
   </article>
 
@@ -45,12 +42,12 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
     body.embed-post {
       padding: 0;
       background: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Crect x='0' y='0' width='1' height='1' fill='%23f0ede8' opacity='0.9'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23ebe8e3' opacity='0.7'/%3E%3Crect x='1' y='3' width='1' height='1' fill='%23f4f1ed' opacity='0.5'/%3E%3Crect x='3' y='1' width='1' height='1' fill='%23f2efea' opacity='0.6'/%3E%3C/svg%3E");
       overflow-x: hidden;
     }
 
-    /* ── Article ── */
     .embed-post-shell {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
       padding: 2rem 1.25rem 4rem;
     }
@@ -94,7 +91,6 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       max-width: 600px;
     }
 
-    .embed-post .post-layout { position: relative; }
     .embed-post .post-body {
       margin-top: 2rem;
       font-size: 1.15rem;
@@ -112,50 +108,15 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
     }
 
     /* Remove white bg from images */
-    .embed-post .post-body img {
+    .embed-post .post-body img,
+    .embed-post .post-body .gallery-slide img {
       mix-blend-mode: multiply;
       background: transparent;
     }
 
-    .embed-post #toc {
-      position: sticky;
-      top: 2rem;
-      float: right;
-      clear: right;
-      width: 220px;
-      margin-left: 2rem;
-      margin-right: -250px;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      line-height: 1.6;
-    }
-
-    .embed-post #toc ul {
-      list-style: none;
-      border-left: 2px solid var(--border);
-      padding-left: 0.75rem;
-    }
-
-    .embed-post #toc li { margin-bottom: 0.35rem; }
-
-    .embed-post #toc a {
-      text-decoration: none;
-      color: var(--text-muted);
-      transition: color 0.15s;
-      display: block;
-      white-space: normal;
-    }
-
-    .embed-post #toc a:hover,
-    .embed-post #toc a.active { color: var(--red); }
-
-    .embed-post #toc .toc-title {
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--red);
-      font-size: 0.62rem;
-      margin-bottom: 0.5rem;
-      display: block;
+    .embed-post .post-body .gallery-wrap {
+      background-color: #fff !important;
+      background-image: none !important;
     }
 
     .embed-post .post-tag {
@@ -166,51 +127,12 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
     .embed-post .post-tag::before { content: '#'; }
     .embed-post .post-tag-issue::before { content: ''; }
 
-    @media (max-width: 980px) {
-      .embed-post #toc { display: none !important; }
-    }
-
     @media (max-width: 700px) {
-      .embed-post-shell {
-        padding: 1.15rem 0.9rem 3rem;
-      }
-
-      .embed-post .post-header {
-        margin-bottom: 2rem;
-        padding-bottom: 1.2rem;
-      }
-
-      .embed-post .post-body > p:first-of-type::first-letter {
-        font-size: 4.7em;
-      }
+      .embed-post-shell { padding: 1.15rem 0.9rem 3rem; }
+      .embed-post .post-header { margin-bottom: 2rem; padding-bottom: 1.2rem; }
+      .embed-post .post-body > p:first-of-type::first-letter { font-size: 4.7em; }
     }
   </style>
 
-  <script>
-    /* ── TOC ── */
-    const toc = document.getElementById('toc');
-    const body = document.querySelector('.post-body');
-    if (toc && body) {
-      const headings = [...body.querySelectorAll('h2')];
-      if (headings.length >= 2) {
-        toc.hidden = false;
-        const title = document.createElement('span');
-        title.className = 'toc-title';
-        title.textContent = 'Índice';
-        const ul = document.createElement('ul');
-        headings.forEach((h, i) => {
-          if (!h.id) h.id = `section-${i}`;
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = `#${h.id}`;
-          a.textContent = h.textContent;
-          li.appendChild(a);
-          ul.appendChild(li);
-        });
-        toc.appendChild(title);
-        toc.appendChild(ul);
-      }
-    }
-  </script>
 </body>
 </html>

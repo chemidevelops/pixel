@@ -33,7 +33,7 @@ button { cursor: default; }
 .wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; }
 .wallpaper-grid .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(980px, calc(100vw - 220px)); min-width: 640px; height: min(650px, calc(100vh - 110px)); min-height: 380px; margin: 0; box-sizing: border-box; overflow: hidden; }
-.window.os-window.maximized { inset: 0 !important; width: 100% !important; height: calc(100% - 42px) !important; }
+.window.os-window.maximized { inset: 0 !important; width: 100% !important; height: 100% !important; }
 .window.os-window.minimized { display: none; }
 .window.os-window:not(.focused) .title-bar { background: #7f7f7f !important; }
 .window.os-window .title-bar {
@@ -210,8 +210,8 @@ button { cursor: default; }
 /* Each button */
 .ie3-tool { min-width: 0; min-height: 0; width: auto; min-width: 47px; padding: 1px 1px 0; border: 1px solid transparent; box-shadow: none; background: transparent; appearance: none; -webkit-appearance: none; font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 3px; color: var(--w95-text); cursor: default; }
 .ie3-tool:hover:not(.is-disabled) { border-top-color: var(--w95-highlight); border-left-color: var(--w95-highlight); border-right-color: var(--w95-shadow); border-bottom-color: var(--w95-shadow); }
-.ie3-tool:active:not(.is-disabled):not(:disabled) .ie3-tool-icon,
-.ie3-tool:active:not(.is-disabled):not(:disabled) .ie3-tool-label { transform: translate(1px, 1px); }
+.ie3-tool:active:not(.is-disabled):not(:disabled) { border-top-color: var(--w95-shadow); border-left-color: var(--w95-shadow); border-right-color: var(--w95-highlight); border-bottom-color: var(--w95-highlight); }
+.ie3-tool:focus { outline: none; }
 .ie3-tool.is-disabled { color: var(--w95-shadow); text-shadow: 1px 1px 0 var(--w95-highlight); pointer-events: none; }
 .ie3-tool.is-disabled .ie3-tool-icon { opacity: 0.55; }
 
@@ -240,6 +240,12 @@ button { cursor: default; }
 .ie3-tool:hover:not(.is-disabled) .ie3-tool-icon--font      { background-image: url('/icons/ie3/font-size-on.webp'); }
 .ie3-tool:hover:not(.is-disabled) .ie3-tool-icon--mail      { background-image: url('/icons/ie3/mail-on.webp'); }
 .ie3-tool-label { font-size: 11px; line-height: 11px; white-space: nowrap; }
+
+/* Font size dropdown menu (IE3 style) */
+.ie3-font-menu { position: absolute; top: 52px; right: 50px; z-index: 300; background: #c0c0c0; border: 2px solid; border-color: #fff #000 #000 #fff; box-shadow: 2px 2px 0 #000; padding: 2px 0; min-width: 120px; display: flex; flex-direction: column; }
+.ie3-font-item { text-align: left; background: transparent; border: none; padding: 3px 20px 3px 6px; font-size: 11px; font-family: "MSSansSerif8pt", "MS Sans Serif", Arial, sans-serif; color: #000; cursor: default; width: 100%; }
+.ie3-font-item:hover { background: #000080; color: #fff; }
+.ie3-font-item--active::before { content: "✓ "; }
 
 /* Address bar */
 /* address bar — copia literal de desktopnostalgia.com */
@@ -511,6 +517,9 @@ button { cursor: default; }
 .taisei-window { width: min(900px, calc(100vw - 180px)); height: min(660px, calc(100vh - 100px)); min-width: 480px; min-height: 320px; }
 .taisei-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; }
 .taisei-body iframe { flex: 1; width: 100%; border: none; display: block; }
+.doom-window { width: min(860px, calc(100vw - 180px)); height: min(640px, calc(100vh - 100px)); min-width: 480px; min-height: 320px; }
+.doom-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; }
+.doom-body iframe { flex: 1; width: 100%; border: none; display: block; }
 .window-drag-outline { position: absolute; border: 1px dotted #000000; box-sizing: border-box; pointer-events: none; z-index: 9999; }
 .window-resize-handle { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; cursor: se-resize; z-index: 1; background: linear-gradient(135deg, transparent 50%, #808080 50%, transparent 62%, #808080 62%, transparent 74%, #808080 74%); }
 .game-content { background: #111; color: #fff; font: 12px monospace; text-align: center; }
