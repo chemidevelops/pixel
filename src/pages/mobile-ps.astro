@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map(p => ({ id: p.id, title: p.data.title, date: p.data.date, excerpt: p.data.excerpt ?? '', tags: p.data.tags ?? [] }));
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<title>PIXEL</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/micah5/PSone.css@master/PSone.css"/>
+<style>
+  * { box-sizing: border-box; }
+  body { padding: 16px 12px 30px; min-height: 100vh; }
+  .menu-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid #2a2a2a; cursor: pointer; }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item:active { opacity: 0.5; }
+  .menu-arrow { color: #555; font-size: 22px; margin-left: auto; font-family: Arial; }
+  .article-item { padding: 10px 0; border-bottom: 1px solid #222; cursor: pointer; }
+  .article-item:active { opacity: 0.5; }
+  .excerpt { font-size: 18px; color: #666; margin-top: 6px; line-height: 1.3; }
+  .back-btn { margin-bottom: 14px; }
+  video, audio { width: 100%; margin-top: 10px; }
+  .view { display: none; }
+  .view.active { display: block; }
+  a.btn { display: inline-block; text-align: center; margin-top: 20px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div id="view-root" class="view active">
+  <div class="container dark">
+    <p class="title">PIXEL</p>
+  </div>
+  <div class="container">
+    <div class="menu-item" onclick="open_('articulos')">
+      <span class="icon ddr1"></span>
+      <span class="field">Artículos</span>
+      <span class="menu-arrow">›</span>
+    </div>
+    <div class="menu-item" onclick="open_('videos')">
+      <span class="icon ddr2"></span>
+      <span class="field">Vídeos</span>
+      <span class="menu-arrow">›</span>
+    </div>
+    <div class="menu-item" onclick="open_('musica')">
+      <span class="icon ddr3"></span>
+      <span class="field">Música</span>
+      <span class="menu-arrow">›</span>
+    </div>
+  </div>
+</div>
+
+<div id="view-section" class="view">
+  <button class="btn back-btn" onclick="show('root')">← Volver</button>
+  <div class="container dark">
+    <p class="title" id="sec-title">—</p>
+  </div>
+  <div id="sec-body"></div>
+</div>
+
+<div id="view-article" class="view">
+  <button class="btn back-btn" onclick="show('section')">← Volver</button>
+  <div class="container dark">
+    <p class="title" id="art-title">—</p>
+  </div>
+  <div class="container">
+    <p class="field" id="art-meta" style="color:#666"></p>
+    <p class="field" id="art-excerpt" style="margin-top:14px;line-height:1.5;font-size:22px"></p>
+    <a id="art-link" href="#" class="btn primary">Leer completo →</a>
+  </div>
+</div>
+
+<script define:vars={{ posts }}>
+var VIDEOS = [
+  { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4' },
+  { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4' },
+];
+
+function show(id) {
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('view-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function open_(key) {
+  var titles = { articulos:'Artículos', videos:'Vídeos', musica:'Música' };
+  document.getElementById('sec-title').textContent = titles[key];
+  var body = document.getElementById('sec-body');
+  body.innerHTML = '';
+
+  if (key === 'articulos') {
+    posts.forEach(function(p) {
+      var d = document.createElement('div');
+      d.className = 'container article-item';
+      d.innerHTML = '<p class="field">'+p.title+'</p><p class="excerpt">'+p.excerpt+'</p>';
+      d.addEventListener('click', function(){
+        document.getElementById('art-title').textContent = p.title;
+        document.getElementById('art-meta').textContent = p.date+(p.tags.length?' · '+p.tags.join(', '):'');
+        document.getElementById('art-excerpt').textContent = p.excerpt;
+        document.getElementById('art-link').href = '/pixelos/posts/'+p.id+'/';
+        show('article');
+      });
+      body.appendChild(d);
+    });
+  } else if (key === 'videos') {
+    VIDEOS.forEach(function(v) {
+      var d = document.createElement('div');
+      d.className = 'container';
+      d.innerHTML = '<p class="field">'+v.title+'</p><video controls src="/videos/'+v.file+'"></video>';
+      body.appendChild(d);
+    });
+  } else if (key === 'musica') {
+    var d = document.createElement('div');
+    d.className = 'container';
+    d.innerHTML = '<p class="field">Vampire Killer (Block 1) — Konami</p><audio controls src="/music/vampire_killer.mp3"></audio>';
+    body.appendChild(d);
+  }
+  show('section');
+}
+
+window.open_ = open_;
+window.show = show;
+</script>
+</body>
+</html>

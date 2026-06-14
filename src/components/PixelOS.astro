@@ -49,7 +49,8 @@ const iconUrls = {
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=1024" />
+  <meta name="viewport" content="width=1024" id="viewport-meta" />
+  <script>if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { document.getElementById('viewport-meta').content = 'width=device-width, initial-scale=1, maximum-scale=1'; document.documentElement.classList.add('is-mobile'); }</script>
   <meta name="description" content="PIXEL — revista independiente de videojuegos" />
   <title>PixelOS — PIXEL</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -61,22 +62,22 @@ const iconUrls = {
     <main class="desktop" aria-label="Escritorio PixelOS">
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><div class="border-box"><p class="desktop-icon-label">Arcade</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><div class="border-box"><p class="desktop-icon-label">Fanzines</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" id="winamp-icon" data-desktop-window="winamp"><img class="desktop-icon-image" src="/icons/winamp-32.png" alt="" /><div class="border-box"><p class="desktop-icon-label">Winamp</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" id="winamp-icon" data-desktop-window="winamp"><img class="desktop-icon-image" src="/icons/winamp-32.png" alt="" /><div class="border-box"><p class="desktop-icon-label">Winamp</p></div></button></li>
       </ul>
 
 
       <section class="window os-window explorer-window" id="window-explorer" hidden>
         <div class="title-bar">
           <div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.window} alt="" /><span id="explorer-title">Artículos</span></div>
-          <div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div>
+          <div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div>
         </div>
         <div class="window-body explorer-shell">
           <div class="explorer-menu-bar" role="menubar" aria-label="Menú del explorador">
@@ -137,13 +138,13 @@ const iconUrls = {
                       <li>
                         <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\PIXEL</span>
                         <ul>
-                          <li><button class="tree-button active" data-folder-nav="all"><img src={iconUrls.files.folder} alt="" />Artículos</button></li>
-                          <li><button class="tree-button" data-folder-nav="entrevista"><img src={iconUrls.files.folder} alt="" />Entrevistas</button></li>
-                          <li><button class="tree-button" data-folder-nav="arcade"><img src={iconUrls.files.folder} alt="" />Arcade</button></li>
-                          <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button></li>
+                          <li><button class="tree-button active" data-folder-nav="all"><img src="/icons/react95/folder-open-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="entrevista"><img src="/icons/react95/folder-closed-16.png" alt="" />Entrevistas</button><ul class="tree-files" id="tree-files-entrevista"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="arcade"><img src="/icons/react95/folder-closed-16.png" alt="" />Arcade</button><ul class="tree-files" id="tree-files-arcade"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button><ul class="tree-files" id="tree-files-videos"></ul></li>
                         </ul>
                       </li>
-                      <li><button class="tree-button" data-folder-nav="fanzines"><img src={iconUrls.files.folder} alt="" />Disco de 3½ (A:)</button></li>
+                      <li><button class="tree-button" data-folder-nav="fanzines"><img src="/icons/react95/folder-closed-16.png" alt="" />Disco de 3½ (A:)</button><ul class="tree-files" id="tree-files-fanzines"></ul></li>
                     </ul>
                   </li>
                 </ul>
@@ -180,16 +181,41 @@ const iconUrls = {
       <section class="window os-window settings-window" id="window-settings" hidden>
         <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.settings} alt="" /><span>Propiedades de pantalla</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body settings-content">
-          <fieldset>
-            <legend>Fondo del escritorio</legend>
-            <div class="wallpaper-options">
-              <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
-              <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
+          <div class="settings-tabs">
+            <button class="settings-tab active" data-tab="fondo">Fondo</button>
+            <button class="settings-tab" data-tab="efectos">Efectos</button>
+            <button class="settings-tab" data-tab="protector">Protector</button>
+          </div>
+          <div class="settings-tab-body">
+            <div class="settings-panel active" id="stab-fondo">
+              <fieldset>
+                <legend>Fondo del escritorio</legend>
+                <div class="wallpaper-options">
+                  <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
+                  <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
+                </div>
+              </fieldset>
             </div>
-          </fieldset>
-          <div class="field-row setting-check"><input type="checkbox" id="screensaver-toggle" checked /><label for="screensaver-toggle">Activar salvapantallas tras 45 segundos</label></div>
+            <div class="settings-panel" id="stab-efectos">
+              <fieldset>
+                <legend>Efectos visuales</legend>
+                <div class="field-row setting-check"><input type="checkbox" id="crt-toggle" checked /><label for="crt-toggle">Efecto monitor CRT (scanlines, viñeta, parpadeo)</label></div>
+              </fieldset>
+            </div>
+            <div class="settings-panel" id="stab-protector">
+              <fieldset>
+                <legend>Protector de pantalla</legend>
+                <div class="field-row setting-check"><input type="checkbox" id="screensaver-toggle" checked /><label for="screensaver-toggle">Activar salvapantallas tras 45 segundos</label></div>
+              </fieldset>
+            </div>
+          </div>
         </div>
       </section>
+
+      <!-- CRT overlay elements -->
+      <div class="crt-overlay" id="crt-overlay"></div>
+      <div class="crt-flicker" id="crt-flicker"></div>
+      <div class="crt-screen" id="crt-screen"></div>
 
       <section class="window os-window taisei-window" id="window-taisei" hidden>
         <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
@@ -225,7 +251,7 @@ const iconUrls = {
             <button class="mp-nav-link"><img src="/icons/wmp-mediaguide-16.png" alt="" /> Media Guide</button>
           </div>
           <div class="mplayer-viewport">
-            <video id="mplayer-video" preload="metadata"></video>
+            <video id="mplayer-video" preload="metadata" playsinline webkit-playsinline></video>
           </div>
           <div class="mplayer-bottom">
             <div class="mplayer-seek-row">
@@ -559,6 +585,8 @@ const iconUrls = {
   </script>
 
   <script define:vars={{ posts, issues, iconUrls }}>
+    function isMobile() { return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
     const os = document.getElementById('pixel-os');
     const desktop = document.querySelector('.desktop');
     const desktopSelectionBox = document.getElementById('desktop-selection-box');
@@ -574,6 +602,8 @@ const iconUrls = {
       arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
       videos: ['Vídeos', 'C:\\PIXEL\\VIDEOS'],
+      musica: ['Música', 'C:\\PIXEL\\MUSICA'],
+      juegos: ['Juegos', 'C:\\PIXEL\\JUEGOS'],
     };
     const videoFiles = [
       { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
@@ -656,6 +686,7 @@ const iconUrls = {
       }
       win.hidden = true;
       win.classList.remove('maximized', 'minimized');
+      if (isMobile()) { win.style.cssText = ''; win.style.zIndex = ''; }
       syncTasks();
     }
 
@@ -717,7 +748,14 @@ const iconUrls = {
       document.getElementById('explorer-address').value = path;
       document.getElementById('status-path').textContent = path;
       fileView.innerHTML = '';
-      document.querySelectorAll('[data-folder-nav]').forEach(function(item) { item.classList.toggle('active', item.dataset.folderNav === folder); });
+      document.querySelectorAll('[data-folder-nav]').forEach(function(item) {
+        var isActive = item.dataset.folderNav === folder;
+        item.classList.toggle('active', isActive);
+        var img = item.querySelector('img');
+        if (img && item.dataset.folderNav !== 'videos') {
+          img.src = isActive ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
+        }
+      });
       document.getElementById('explorer-up').classList.toggle('tb-disabled', folder === 'all');
       if (folder === 'fanzines') {
         issues.forEach(function(issue) {
@@ -726,11 +764,53 @@ const iconUrls = {
         });
       } else if (folder === 'videos') {
         videoFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
+      } else if (folder === 'musica') {
+        var musicTracks = [{ title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' }];
+        musicTracks.forEach(function(t) {
+          var tr = document.createElement('tr');
+          tr.className = 'file-item'; tr.tabIndex = 0;
+          tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.desktop.mplayer + '" alt="" /><span class="file-main"><strong>' + t.title + ' — ' + t.artist + '</strong></span></td><td>Audio MP3</td><td></td><td></td>';
+          fileView.appendChild(tr);
+        });
+      } else if (folder === 'juegos') {
+        var games = [
+          { title: 'Taisei Project', icon: iconUrls.desktop.taisei, action: function() { showWindow('taisei'); } },
+          { title: 'DOOM', icon: iconUrls.desktop.doom, action: function() { showWindow('doom'); } },
+        ];
+        games.forEach(function(g) {
+          var tr = document.createElement('tr');
+          tr.className = 'file-item'; tr.tabIndex = 0;
+          tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + g.icon + '" alt="" /><span class="file-main"><strong>' + g.title + '</strong></span></td><td>Juego</td><td></td><td></td>';
+          tr.addEventListener('click', g.action);
+          tr.addEventListener('dblclick', g.action);
+          fileView.appendChild(tr);
+        });
       } else {
         const files = filesFor(folder);
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
       }
       document.getElementById('status-count').textContent = String(fileView.children.length) + ' objetos';
+      document.querySelectorAll('.tree-files').forEach(function(ul) { ul.innerHTML = ''; });
+      var treeUl = document.getElementById('tree-files-' + folder);
+      if (treeUl) {
+        var treeItems = [];
+        if (folder === 'fanzines') {
+          treeItems = issues.filter(function(i) { return i.pdf; }).map(function(i) { return { label: 'PIXEL nº' + i.number + '.pdf', icon: iconUrls.files.pdf || iconUrls.files.article, action: function() {} }; });
+        } else if (folder === 'videos') {
+          videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.video, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
+        } else {
+          filesFor(folder).forEach(function(p) { treeItems.push({ label: p.title, icon: iconUrls.files.article, action: function(pp) { return function() { openArticle(pp); }; }(p) }); });
+        }
+        treeItems.forEach(function(item) {
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.className = 'tree-file-button';
+          btn.innerHTML = '<img src="' + item.icon + '" alt="" />' + item.label;
+          btn.addEventListener('click', item.action);
+          li.appendChild(btn);
+          treeUl.appendChild(li);
+        });
+      }
       if (!options.skipHistory) {
         folderHistory.splice(historyIndex + 1);
         folderHistory.push(folder);
@@ -744,6 +824,32 @@ const iconUrls = {
       return withOpeningFeedback(function() { openFolderNow(folder, options); });
     }
 
+    var mobileIsAtRoot = true;
+    function openMobileRoot() {
+      mobileIsAtRoot = true;
+      fileView.innerHTML = '';
+      document.getElementById('explorer-title').textContent = 'PIXEL';
+      document.getElementById('explorer-address').value = 'C:\\PIXEL';
+      document.getElementById('status-path').textContent = 'C:\\PIXEL';
+      document.getElementById('status-count').textContent = '4 objetos';
+      document.getElementById('explorer-back').classList.add('tb-disabled');
+      document.getElementById('explorer-up').classList.add('tb-disabled');
+      var folders = [
+        { label: 'Artículos', icon: iconUrls.desktop.folder,  action: function() { mobileIsAtRoot = false; openFolder('all'); } },
+        { label: 'Vídeos',    icon: iconUrls.desktop.video,   action: function() { mobileIsAtRoot = false; openFolder('videos'); } },
+        { label: 'Música',    icon: iconUrls.desktop.mplayer, action: function() { mobileIsAtRoot = false; openFolder('musica'); } },
+        { label: 'Juegos',    icon: iconUrls.desktop.taisei,  action: function() { mobileIsAtRoot = false; openFolder('juegos'); } },
+      ];
+      folders.forEach(function(f) {
+        var tr = document.createElement('tr');
+        tr.className = 'file-item';
+        tr.tabIndex = 0;
+        tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + f.icon + '" alt="" /><span class="file-main"><strong>' + f.label + '</strong></span></td>';
+        tr.addEventListener('click', f.action);
+        fileView.appendChild(tr);
+      });
+    }
+
     function makeArticleFile(post) {
       const row = document.createElement('tr');
       row.className = 'file-item';
@@ -751,8 +857,10 @@ const iconUrls = {
       row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'PIXEL') + '</td>';
       row.addEventListener('dblclick', function() { openArticle(post); });
       row.addEventListener('click', function() {
-        if (matchMedia('(max-width: 700px)').matches) {
-          openArticle(post);
+        if (isMobile()) {
+          if (row.classList.contains('selected')) { openArticle(post); return; }
+          document.querySelectorAll('.file-item.selected').forEach(function(r) { r.classList.remove('selected'); });
+          selectRow(row);
           return;
         }
         selectRow(row);
@@ -768,7 +876,15 @@ const iconUrls = {
       const date = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric' });
       row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.video + '" alt="" /><span class="file-main"><strong>' + video.title + '</strong></span></td><td>' + date + '</td><td>Vídeo MP4</td><td>' + (video.tags || '') + '</td>';
       row.addEventListener('dblclick', function() { openVideo(video); });
-      row.addEventListener('click', function() { selectRow(row); });
+      row.addEventListener('click', function() {
+        if (isMobile()) {
+          if (row.classList.contains('selected')) { openVideo(video); return; }
+          document.querySelectorAll('.file-item.selected').forEach(function(r) { r.classList.remove('selected'); });
+          selectRow(row);
+          return;
+        }
+        selectRow(row);
+      });
       row.addEventListener('keydown', function(e) { if (e.key === 'Enter') openVideo(video); });
       return row;
     }
@@ -786,13 +902,7 @@ const iconUrls = {
         link.click();
       }
       row.addEventListener('dblclick', triggerDownload);
-      row.addEventListener('click', function() {
-        if (matchMedia('(max-width: 700px)').matches) {
-          triggerDownload();
-          return;
-        }
-        selectRow(row);
-      });
+      row.addEventListener('click', function() { selectRow(row); });
       row.addEventListener('keydown', function(event) { if (event.key === 'Enter') triggerDownload(); });
       return row;
     }
@@ -871,11 +981,9 @@ const iconUrls = {
       }
 
       iframe.src = url;
-      if (!matchMedia('(max-width: 700px)').matches) {
-        win.style.left = String(210 + (readerOffset % 7) * 30) + 'px';
-        win.style.top = String(55 + (readerOffset % 7) * 24) + 'px';
-        readerOffset += 1;
-      }
+      win.style.left = String(210 + (readerOffset % 7) * 30) + 'px';
+      win.style.top = String(55 + (readerOffset % 7) * 24) + 'px';
+      readerOffset += 1;
       readerWindows.appendChild(win);
       bindWindow(win);
       focusWindow(win);
@@ -959,8 +1067,31 @@ const iconUrls = {
       return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
+    document.querySelectorAll('.tree-toggle').forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var li = toggle.closest('li');
+        var childUl = li.querySelector(':scope > ul');
+        if (!childUl) return;
+        var collapsed = childUl.style.display === 'none';
+        childUl.style.display = collapsed ? '' : 'none';
+        toggle.textContent = collapsed ? '−' : '+';
+      });
+    });
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
-    document.querySelectorAll('[data-folder-nav]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folderNav); }); });
+    document.querySelectorAll('[data-folder-nav]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var folder = button.dataset.folderNav;
+        var explorerWin = document.getElementById('window-explorer');
+        var explorerOpen = explorerWin && !explorerWin.hidden && !explorerWin.classList.contains('minimized');
+        if (folder === currentFolder && explorerOpen) {
+          var treeUl = document.getElementById('tree-files-' + folder);
+          if (treeUl) treeUl.style.display = treeUl.style.display === 'none' ? '' : 'none';
+          return;
+        }
+        openFolder(folder);
+      });
+    });
     document.querySelectorAll('[data-window]').forEach(function(button) { button.addEventListener('click', function() { showWindow(button.dataset.window); }); });
     document.getElementById('explorer-go').addEventListener('click', function() {
       const targetFolder = resolveFolderPath(document.getElementById('explorer-address').value);
@@ -974,11 +1105,13 @@ const iconUrls = {
     });
     document.getElementById('explorer-back').classList.add('tb-disabled');
     document.getElementById('explorer-back').addEventListener('click', function() {
+      if (isMobile()) { if (!mobileIsAtRoot) openMobileRoot(); return; }
       if (historyIndex === 0) return;
       historyIndex -= 1;
       openFolder(folderHistory[historyIndex], { skipHistory: true });
     });
     document.getElementById('explorer-up').addEventListener('click', function() {
+      if (isMobile()) { if (!mobileIsAtRoot) openMobileRoot(); return; }
       if (currentFolder === 'all') return;
       openFolder('all');
     });
@@ -1036,15 +1169,18 @@ const iconUrls = {
     function bindWindow(win) {
       win.querySelectorAll('[data-close]').forEach(function(button) { button.addEventListener('click', function() { closeWindow(win); if (win.dataset.readerId) win.remove(); }); });
       win.querySelectorAll('[data-minimize]').forEach(function(button) { button.addEventListener('click', function() {
+        if (isMobile()) { closeWindow(win); if (win.dataset.readerId) win.remove(); return; }
         win.classList.add('minimized');
         win.classList.remove('focused');
         var next = allWindows().filter(function(w) { return !w.hidden && !w.classList.contains('minimized'); });
         if (next.length) focusWindow(next[next.length - 1]);
         else syncTasks();
       }); });
-      win.querySelectorAll('[data-maximize]').forEach(function(button) { button.addEventListener('click', function() { win.classList.toggle('maximized'); }); });
+      win.querySelectorAll('[data-maximize]').forEach(function(button) { button.addEventListener('click', function() {
+        if (isMobile()) { win.style.cssText = ''; focusWindow(win); return; }
+        win.classList.toggle('maximized');
+      }); });
       win.addEventListener('pointerdown', function() { focusWindow(win); });
-      if (matchMedia('(max-width: 700px)').matches) return;
       const bar = win.querySelector('.title-bar');
       let dragging = false;
       let offsetX = 0;
@@ -1061,19 +1197,39 @@ const iconUrls = {
           win.style.top = '24px';
         }
         dragging = true;
+        if (isMobile()) {
+          // Read position before touching anything
+          var pinL = win.offsetLeft, pinT = win.offsetTop, pinW = win.offsetWidth, pinH = win.offsetHeight;
+          // Clear inset shorthand first (it would override individual left/top if set after)
+          win.style.setProperty('inset', 'auto', 'important');
+          win.style.setProperty('right', 'auto', 'important');
+          win.style.setProperty('bottom', 'auto', 'important');
+          win.style.setProperty('width', pinW + 'px', 'important');
+          win.style.setProperty('height', pinH + 'px', 'important');
+          win.style.setProperty('left', pinL + 'px', 'important');
+          win.style.setProperty('top', pinT + 'px', 'important');
+        }
         offsetX = event.clientX - win.offsetLeft;
         offsetY = event.clientY - win.offsetTop;
         bar.setPointerCapture(event.pointerId);
-        ghostEl = document.createElement('div');
-        ghostEl.className = 'window-drag-outline';
-        ghostEl.style.left = win.offsetLeft + 'px';
-        ghostEl.style.top = win.offsetTop + 'px';
-        ghostEl.style.width = win.offsetWidth + 'px';
-        ghostEl.style.height = win.offsetHeight + 'px';
-        document.querySelector('.desktop').appendChild(ghostEl);
+        if (!isMobile()) {
+          ghostEl = document.createElement('div');
+          ghostEl.className = 'window-drag-outline';
+          ghostEl.style.left = win.offsetLeft + 'px';
+          ghostEl.style.top = win.offsetTop + 'px';
+          ghostEl.style.width = win.offsetWidth + 'px';
+          ghostEl.style.height = win.offsetHeight + 'px';
+          document.querySelector('.desktop').appendChild(ghostEl);
+        }
       });
       bar.addEventListener('pointermove', function(event) {
-        if (!dragging || !ghostEl) return;
+        if (!dragging) return;
+        if (isMobile()) {
+          win.style.setProperty('left', (event.clientX - offsetX) + 'px', 'important');
+          win.style.setProperty('top', Math.max(0, event.clientY - offsetY) + 'px', 'important');
+          return;
+        }
+        if (!ghostEl) return;
         ghostEl.style.left = String(Math.max(0, event.clientX - offsetX)) + 'px';
         ghostEl.style.top = String(Math.max(0, event.clientY - offsetY)) + 'px';
       });
@@ -1219,8 +1375,28 @@ const iconUrls = {
         item.style.top = String(chosen.row * desktopGrid.stepY) + 'px';
       });
     }
+    if (isMobile()) {
+      document.querySelectorAll('.desktop-icon-item').forEach(function(item) {
+        var button = item.querySelector('.desktop-icon');
+        item.addEventListener('click', function() {
+          if (button.classList.contains('selected')) {
+            openDesktopButton(button);
+          } else {
+            desktopButtons().forEach(function(b) { b.classList.remove('selected'); });
+            button.classList.add('selected');
+          }
+        });
+      });
+      // Deselect when tapping empty desktop
+      desktop.addEventListener('click', function(e) {
+        if (!e.target.closest('.desktop-icon-item')) {
+          desktopButtons().forEach(function(b) { b.classList.remove('selected'); });
+        }
+      });
+    }
+
     document.querySelectorAll('.desktop-icon-item').forEach(function(item) {
-      if (matchMedia('(max-width: 700px)').matches) return;
+      if (isMobile()) return;
       const button = item.querySelector('.desktop-icon');
       let dragging = false;
       let moved = false;
@@ -1296,7 +1472,7 @@ const iconUrls = {
         draggedItems.forEach(function(node) { node.style.zIndex = ''; });
       });
     });
-    if (!matchMedia('(max-width: 700px)').matches) {
+    {
       let boxSelecting = false;
       let boxStartX = 0;
       let boxStartY = 0;
@@ -1345,7 +1521,28 @@ const iconUrls = {
     const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
     if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
 
-    allWindows().forEach(function(win, index) { if (matchMedia('(max-width: 700px)').matches) return; win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
+    /* ── Settings tabs ── */
+    document.querySelectorAll('.settings-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.settings-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.settings-panel').forEach(function(p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById('stab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    /* ── CRT effect ── */
+    function setCRT(enabled) {
+      document.body.classList.toggle('crt-enabled', enabled);
+      localStorage.setItem('pixelos-crt', enabled ? '1' : '0');
+      var el = document.getElementById('crt-toggle');
+      if (el) el.checked = enabled;
+    }
+    var savedCRT = localStorage.getItem('pixelos-crt');
+    setCRT(savedCRT === null ? true : savedCRT === '1');
+    document.getElementById('crt-toggle').addEventListener('change', function() { setCRT(this.checked); });
+
+    allWindows().forEach(function(win, index) { win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
     (function() {
       var volumeBtn = document.getElementById('volume-btn');
       var volumePopup = document.getElementById('volume-popup');
@@ -1540,8 +1737,11 @@ const iconUrls = {
       }
     });
 
-    openFolderNow('all');
-    if (matchMedia('(max-width: 700px)').matches) closeWindow(explorer);
+    if (isMobile()) {
+      openMobileRoot();
+    } else {
+      openFolderNow('all');
+    }
   </script>
 </body>
 </html>

@@ -1,0 +1,419 @@
+---
+import { getCollection } from 'astro:content';
+import '98.css/dist/98.css';
+
+const posts = (await getCollection('posts'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map(p => ({ id: p.id, title: p.data.title, date: p.data.date, excerpt: p.data.excerpt ?? '', tags: p.data.tags ?? [] }));
+
+const videoFiles = [
+  { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: "shoot'em up · plataformas" },
+  { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: "arcade · shoot'em up" },
+];
+const musicTracks = [
+  { artist: 'Konami', title: 'Vampire Killer (Block 1)', url: '/music/vampire_killer.mp3' },
+];
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>PIXEL</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      background: #008080;
+      margin: 0;
+      padding: 12px 10px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Main window fills almost full height ── */
+    #win-main {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 24px);
+    }
+
+    #win-main .window-body {
+      margin: 0 !important;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Title bar ── */
+    .title-bar { padding: 3px 4px 3px 6px !important; }
+    .title-bar-text { font-size: 13px !important; }
+    .title-bar-controls button { min-width: 20px !important; min-height: 18px !important; }
+
+    /* ── Toolbar & address bar ── */
+    .toolbar {
+      display: flex;
+      gap: 2px;
+      padding: 2px 3px;
+      border-bottom: 1px solid #808080;
+      flex-shrink: 0;
+    }
+    .tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-family: inherit;
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tool-btn:active { border-color: #808080 #fff #fff #808080; }
+    .tool-btn.dis { opacity: 0.4; pointer-events: none; }
+    .tool-btn img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+    .addrbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 4px;
+      border-bottom: 1px solid #808080;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .addrbar input { flex: 1; font-size: 11px; min-width: 0; }
+
+    /* ── File table ── */
+    .sunken-panel {
+      flex: 1;
+      overflow-y: auto;
+      height: auto !important;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap;
+    }
+    table > thead > tr > th {
+      height: 22px;
+      font-size: 12px;
+      padding: 0 6px;
+      text-align: left;
+    }
+    table > tbody > tr > td {
+      height: 38px;
+      font-size: 13px;
+      padding: 0 6px;
+      vertical-align: middle;
+    }
+    table > tbody > tr { cursor: pointer; }
+    table > tbody > tr:active td { background: navy; color: #fff; }
+    .name-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .name-cell img {
+      width: 16px;
+      height: 16px;
+      image-rendering: pixelated;
+      flex-shrink: 0;
+    }
+    .name-cell span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status-bar { margin: 0 !important; flex-shrink: 0; }
+    .status-bar-field { font-size: 11px; padding: 1px 4px !important; }
+
+    /* ── Overlay windows (article / video / music) ── */
+    #overlay-container {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 10px;
+      background: rgba(0,0,0,0.25);
+      z-index: 100;
+    }
+    #overlay-container.open { display: flex; }
+
+    .overlay-win {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      max-width: 480px;
+      height: calc(100vh - 24px);
+    }
+    .overlay-win.open { display: flex; }
+
+    .overlay-win .window-body {
+      margin: 0 !important;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Article */
+    .article-body {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-y: auto;
+      background: #fff;
+    }
+    .article-body h2 { font-size: 14px; margin: 0 0 4px; }
+    .article-body .meta { font-size: 11px; color: #666; margin-bottom: 10px; }
+    .article-body p { margin: 0 0 8px; }
+    .article-body a { color: navy; }
+
+    /* Video */
+    video { width: 100%; display: block; background: #000; }
+
+    /* Music */
+    .music-info { background: #000; color: #c0c0c0; padding: 8px; font-size: 11px; text-align: center; }
+    .music-title { font-weight: bold; color: #fff; font-size: 12px; }
+    .music-controls { display: flex; align-items: center; gap: 4px; padding: 6px; }
+    .music-controls button { min-width: 32px !important; min-height: 28px !important; font-size: 12px !important; }
+    .music-controls input[type=range] { flex: 1; }
+    audio { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- MAIN EXPLORER WINDOW -->
+<div class="window" id="win-main">
+  <div class="title-bar">
+    <div class="title-bar-text">PIXEL</div>
+    <div class="title-bar-controls">
+      <button aria-label="Close" onclick="window.history.back()"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <div class="toolbar">
+      <button class="tool-btn dis" id="btn-back">
+        <img src="/icons/toolbar/back.png" alt=""/>Atrás
+      </button>
+      <button class="tool-btn dis" id="btn-up">
+        <img src="/icons/toolbar/up.png" alt=""/>Subir
+      </button>
+    </div>
+    <div class="addrbar">
+      <span>Dirección</span>
+      <input type="text" id="addr" value="C:\PIXEL" readonly />
+    </div>
+    <div class="sunken-panel">
+      <table>
+        <thead><tr><th>Nombre</th><th>Tipo</th></tr></thead>
+        <tbody id="filebody"></tbody>
+      </table>
+    </div>
+    <div class="status-bar">
+      <p class="status-bar-field" id="status-count">3 objetos</p>
+      <p class="status-bar-field" id="status-path">C:\PIXEL</p>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY CONTAINER -->
+<div id="overlay-container">
+
+  <!-- ARTICLE READER -->
+  <div class="window overlay-win" id="win-article">
+    <div class="title-bar">
+      <div class="title-bar-text" id="article-title">Artículo</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeOverlay('article')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="article-body" id="article-body"></div>
+    </div>
+  </div>
+
+  <!-- VIDEO PLAYER -->
+  <div class="window overlay-win" id="win-video">
+    <div class="title-bar">
+      <div class="title-bar-text" id="video-title">Vídeo</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeOverlay('video')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <video id="video-el" controls></video>
+    </div>
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <div class="window overlay-win" id="win-music">
+    <div class="title-bar">
+      <div class="title-bar-text">Reproductor de Media</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeOverlay('music')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="music-info">
+        <div class="music-title" id="music-title">—</div>
+        <div id="music-artist">—</div>
+      </div>
+      <div class="music-controls">
+        <button id="mp-prev">⏮</button>
+        <button id="mp-play">▶</button>
+        <button id="mp-stop">■</button>
+        <button id="mp-next">⏭</button>
+        <input type="range" id="music-seek" value="0" min="0" max="100" />
+      </div>
+      <audio id="audio-el"></audio>
+    </div>
+  </div>
+
+</div>
+
+<script define:vars={{ posts, videoFiles, musicTracks }}>
+  var filebody = document.getElementById('filebody');
+  var addr = document.getElementById('addr');
+  var statusCount = document.getElementById('status-count');
+  var statusPath = document.getElementById('status-path');
+  var btnBack = document.getElementById('btn-back');
+  var btnUp = document.getElementById('btn-up');
+  var overlay = document.getElementById('overlay-container');
+
+  var ROOT_FOLDERS = [
+    { key: 'articulos', label: 'Artículos', icon: '/icons/react95/folder-32.png' },
+    { key: 'videos',    label: 'Vídeos',    icon: '/icons/video-32.png' },
+    { key: 'musica',    label: 'Música',    icon: '/icons/mplayer-32.png' },
+  ];
+
+  function nav(path, count, back) {
+    addr.value = path;
+    statusPath.textContent = path;
+    statusCount.textContent = count + ' objetos';
+    btnBack.classList.toggle('dis', !back);
+    btnUp.classList.toggle('dis', !back);
+  }
+
+  function row(icon, name, type, cb) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><div class="name-cell"><img src="'+icon+'" alt=""/><span>'+name+'</span></div></td>'+
+      '<td style="color:#666;font-size:11px">'+type+'</td>';
+    if (cb) tr.addEventListener('click', cb);
+    return tr;
+  }
+
+  function showRoot() {
+    nav('C:\\PIXEL', 3, false);
+    filebody.innerHTML = '';
+    ROOT_FOLDERS.forEach(function(f) {
+      filebody.appendChild(row(f.icon, f.label, 'Carpeta',
+        (function(key, label){ return function(){ openFolder(key, label); }; })(f.key, f.label)
+      ));
+    });
+  }
+
+  function openFolder(key) {
+    filebody.innerHTML = '';
+    if (key === 'articulos') {
+      nav('C:\\PIXEL\\ARTICULOS', posts.length, true);
+      posts.forEach(function(p) {
+        filebody.appendChild(row('/icons/react95/html-16.png', p.title, 'Documento HTML',
+          (function(post){ return function(){ openArticle(post); }; })(p)
+        ));
+      });
+    } else if (key === 'videos') {
+      nav('C:\\PIXEL\\VIDEOS', videoFiles.length, true);
+      videoFiles.forEach(function(v) {
+        filebody.appendChild(row('/icons/video-16.png', v.title, v.tags,
+          (function(vid){ return function(){
+            document.getElementById('video-title').textContent = vid.title;
+            document.getElementById('video-el').src = '/videos/'+vid.file;
+            openOverlay('video');
+          }; })(v)
+        ));
+      });
+    } else if (key === 'musica') {
+      nav('C:\\PIXEL\\MUSICA', musicTracks.length, true);
+      musicTracks.forEach(function(t) {
+        filebody.appendChild(row('/icons/mplayer-16.png', t.title+' — '+t.artist, 'Audio MP3',
+          (function(track){ return function(){ openMusic(track); }; })(t)
+        ));
+      });
+    }
+  }
+
+  function openOverlay(id) {
+    overlay.querySelectorAll('.overlay-win').forEach(function(w){ w.classList.remove('open'); });
+    document.getElementById('win-'+id).classList.add('open');
+    overlay.classList.add('open');
+  }
+
+  function closeOverlay(id) {
+    document.getElementById('win-'+id).classList.remove('open');
+    overlay.classList.remove('open');
+    if (id === 'video') { var v = document.getElementById('video-el'); v.pause(); v.src = ''; }
+    if (id === 'music') { var a = document.getElementById('audio-el'); a.pause(); a.src = ''; }
+  }
+  window.closeOverlay = closeOverlay;
+
+  function openArticle(post) {
+    document.getElementById('article-title').textContent = post.title;
+    document.getElementById('article-body').innerHTML =
+      '<h2>'+post.title+'</h2>'+
+      '<p class="meta">'+post.date+(post.tags.length ? ' · '+post.tags.join(', ') : '')+'</p>'+
+      '<p>'+post.excerpt+'</p>'+
+      '<p><a href="/pixelos/posts/'+post.id+'/">Leer artículo completo →</a></p>';
+    openOverlay('article');
+  }
+
+  function openVideo(vid) {
+    document.getElementById('video-title').textContent = vid.title;
+    document.getElementById('video-el').src = '/videos/'+vid.file;
+    openOverlay('video');
+  }
+
+  var audio = document.getElementById('audio-el');
+  var trackIdx = 0;
+  function openMusic(track) {
+    trackIdx = musicTracks.indexOf(track);
+    if (trackIdx < 0) trackIdx = 0;
+    loadTrack(trackIdx);
+    openOverlay('music');
+  }
+  function loadTrack(i) {
+    var t = musicTracks[i];
+    document.getElementById('music-title').textContent = t.title;
+    document.getElementById('music-artist').textContent = t.artist;
+    audio.src = t.url;
+    audio.play();
+  }
+  document.getElementById('mp-play').addEventListener('click', function(){ audio.paused ? audio.play() : audio.pause(); });
+  document.getElementById('mp-stop').addEventListener('click', function(){ audio.pause(); audio.currentTime = 0; });
+  document.getElementById('mp-prev').addEventListener('click', function(){ if (trackIdx > 0) loadTrack(--trackIdx); });
+  document.getElementById('mp-next').addEventListener('click', function(){ if (trackIdx < musicTracks.length-1) loadTrack(++trackIdx); });
+  audio.addEventListener('timeupdate', function(){
+    if (audio.duration) document.getElementById('music-seek').value = (audio.currentTime / audio.duration) * 100;
+  });
+  document.getElementById('music-seek').addEventListener('input', function(){
+    if (audio.duration) audio.currentTime = (this.value / 100) * audio.duration;
+  });
+
+  btnBack.addEventListener('click', showRoot);
+  btnUp.addEventListener('click', showRoot);
+  showRoot();
+</script>
+</body>
+</html>
