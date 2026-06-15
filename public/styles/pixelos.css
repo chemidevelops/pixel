@@ -81,7 +81,7 @@ button { cursor: default; }
 /* close */
 .title-bar-controls button[data-action="close"]::before { width: 7px; height: 1px; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(45deg); }
 .title-bar-controls button[data-action="close"]::after { width: 7px; height: 1px; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
-.window.os-window { box-shadow: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf !important; padding: 4px !important; }
+.window.os-window { box-shadow: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf !important; padding: 6px !important; }
 .explorer-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; box-sizing: border-box; padding: 0 !important; margin: 0 !important; }
 .explorer-menu-bar { display: flex; gap: 2px; padding: 1px 2px 0; zoom: 1.25; }
 .explorer-menu-bar button { min-width: 0; margin: 0; padding: 2px 8px; border: 0; background: transparent; box-shadow: none; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; }
@@ -182,7 +182,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 }
 
 /* Body */
-.ie3-body { margin: 1px 2px 2px; padding: 0; min-height: 0; display: flex; flex-direction: column; position: relative; background: var(--w95-face); }
+.ie3-body { margin: 0 !important; padding: 0; min-height: 0; display: flex; flex-direction: column; position: relative; background: var(--w95-face); }
 
 /* Aplicar zoom 2x al chrome (igual que desktopnostalgia), pero NO al iframe */
 .ie3-menubar, .ie3-commandbar, .ie3-addressbar, .ie3-linksbar, .ie3-statusbar { zoom: 1.5; }
