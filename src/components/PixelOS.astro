@@ -128,7 +128,6 @@ const iconUrls = {
             <aside class="explorer-sidebar">
               <div class="explorer-sidebar-header">
                 <span>Carpetas</span>
-                <button class="sidebar-close-btn" aria-label="Cerrar">×</button>
               </div>
               <div class="explorer-tree-panel">
                 <ul class="tree-view folder-tree">
@@ -138,7 +137,7 @@ const iconUrls = {
                       <li>
                         <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\PIXEL</span>
                         <ul>
-                          <li><button class="tree-button active" data-folder-nav="all"><img src="/icons/react95/folder-open-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="all"><img src="/icons/react95/folder-closed-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
                           <li><button class="tree-button" data-folder-nav="entrevista"><img src="/icons/react95/folder-closed-16.png" alt="" />Entrevistas</button><ul class="tree-files" id="tree-files-entrevista"></ul></li>
                           <li><button class="tree-button" data-folder-nav="arcade"><img src="/icons/react95/folder-closed-16.png" alt="" />Arcade</button><ul class="tree-files" id="tree-files-arcade"></ul></li>
                           <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button><ul class="tree-files" id="tree-files-videos"></ul></li>
@@ -221,6 +220,20 @@ const iconUrls = {
         <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.taisei} alt="" /><span>Taisei Project</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body taisei-body">
           <iframe id="taisei-frame" title="Taisei Project" src="" allowfullscreen></iframe>
+          <div class="taisei-touch-controls" id="taisei-touch-controls">
+            <div class="taisei-joy-zone" id="taisei-joy-zone">
+              <div class="taisei-joy-base" id="taisei-joy-base">
+                <div class="taisei-joy-knob" id="taisei-joy-knob"></div>
+              </div>
+            </div>
+            <div class="taisei-btns">
+              <div class="taisei-btns-row">
+                <button class="taisei-btn taisei-btn-focus" id="taisei-btn-focus">Focus</button>
+                <button class="taisei-btn taisei-btn-bomb" id="taisei-btn-bomb">Bomb</button>
+              </div>
+              <button class="taisei-btn taisei-btn-shot" id="taisei-btn-shot">Shot</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -624,6 +637,7 @@ const iconUrls = {
     let topZ = 20;
     let readerOffset = 0;
     let currentFolder = 'all';
+    let treeExpanded = false;
     const folderHistory = ['all'];
     let historyIndex = 0;
     let openingQueue = 0;
@@ -790,7 +804,8 @@ const iconUrls = {
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
       }
       document.getElementById('status-count').textContent = String(fileView.children.length) + ' objetos';
-      document.querySelectorAll('.tree-files').forEach(function(ul) { ul.innerHTML = ''; });
+      treeExpanded = true;
+      document.querySelectorAll('.tree-files').forEach(function(ul) { ul.innerHTML = ''; ul.style.display = ''; });
       var treeUl = document.getElementById('tree-files-' + folder);
       if (treeUl) {
         var treeItems = [];
@@ -1086,7 +1101,14 @@ const iconUrls = {
         var explorerOpen = explorerWin && !explorerWin.hidden && !explorerWin.classList.contains('minimized');
         if (folder === currentFolder && explorerOpen) {
           var treeUl = document.getElementById('tree-files-' + folder);
-          if (treeUl) treeUl.style.display = treeUl.style.display === 'none' ? '' : 'none';
+          if (treeUl) {
+            treeExpanded = !treeExpanded;
+            treeUl.style.display = treeExpanded ? '' : 'none';
+            var img = button.querySelector('img');
+            if (img && folder !== 'videos') {
+              img.src = treeExpanded ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
+            }
+          }
           return;
         }
         openFolder(folder);
@@ -1636,7 +1658,17 @@ const iconUrls = {
     const screensaver = document.getElementById('screensaver');
     const saverToggle = document.getElementById('screensaver-toggle');
     let saverTimer;
-    function gameIsActive() { var t = document.getElementById('window-taisei'); var d = document.getElementById('window-doom'); return (t && !t.hidden && !t.classList.contains('minimized')) || (d && !d.hidden && !d.classList.contains('minimized')); }
+    function gameIsActive() {
+      var t = document.getElementById('window-taisei');
+      var d = document.getElementById('window-doom');
+      var vid = document.getElementById('mplayer-video');
+      var winampWin = document.getElementById('window-winamp');
+      var taiseiActive = t && !t.hidden && !t.classList.contains('minimized');
+      var doomActive = d && !d.hidden && !d.classList.contains('minimized');
+      var videoActive = vid && !vid.paused && !vid.ended;
+      var winampActive = winampWin && !winampWin.hidden && !winampWin.classList.contains('minimized');
+      return taiseiActive || doomActive || videoActive || winampActive;
+    }
     function resetSaver() { screensaver.hidden = true; window.stopPipesScreensaver && window.stopPipesScreensaver(); clearTimeout(saverTimer); if (saverToggle.checked) saverTimer = setTimeout(function() { if (gameIsActive()) { resetSaver(); return; } screensaver.hidden = false; window.startPipesScreensaver && window.startPipesScreensaver(); }, 45000); }
     ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(function(name) { document.addEventListener(name, resetSaver, { passive: true }); });
     saverToggle.addEventListener('change', resetSaver);
@@ -1670,7 +1702,83 @@ const iconUrls = {
       frame.addEventListener('load', function() { patchTaiseiAudio(frame.contentWindow); });
       win.addEventListener('taisei-open', function() {
         if (!frame.src || frame.src === window.location.href) frame.src = TAISEI_URL;
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          win.classList.add('touch-fullscreen');
+        }
       });
+
+      // Touch controls
+      (function() {
+        var RADIUS = 45;
+        var joyZone = document.getElementById('taisei-joy-zone');
+        var joyKnob = document.getElementById('taisei-joy-knob');
+        var activeKeys = {};
+
+        function tKey(key, code, down) {
+          if (activeKeys[key] === down) return;
+          activeKeys[key] = down;
+          try {
+            var iw = frame.contentWindow;
+            iw.document.dispatchEvent(new KeyboardEvent(down ? 'keydown' : 'keyup', { key: key, code: code, bubbles: true, cancelable: true }));
+          } catch(e) {}
+        }
+
+        function releaseAll() {
+          tKey('ArrowUp',    'ArrowUp',    false);
+          tKey('ArrowDown',  'ArrowDown',  false);
+          tKey('ArrowLeft',  'ArrowLeft',  false);
+          tKey('ArrowRight', 'ArrowRight', false);
+          joyKnob.style.transform = 'translate(0,0)';
+        }
+
+        var joyId = null, joyOriginX, joyOriginY;
+        joyZone.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          var t = e.changedTouches[0];
+          joyId = t.identifier;
+          var r = joyZone.getBoundingClientRect();
+          joyOriginX = r.left + r.width / 2;
+          joyOriginY = r.top + r.height / 2;
+        }, { passive: false });
+
+        joyZone.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+          for (var i = 0; i < e.changedTouches.length; i++) {
+            var t = e.changedTouches[i];
+            if (t.identifier !== joyId) continue;
+            var dx = t.clientX - joyOriginX;
+            var dy = t.clientY - joyOriginY;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            var clamped = Math.min(dist, RADIUS);
+            var angle = Math.atan2(dy, dx);
+            var kx = Math.cos(angle) * clamped;
+            var ky = Math.sin(angle) * clamped;
+            joyKnob.style.transform = 'translate(' + kx + 'px,' + ky + 'px)';
+            var threshold = RADIUS * 0.3;
+            tKey('ArrowLeft',  'ArrowLeft',  dx < -threshold);
+            tKey('ArrowRight', 'ArrowRight', dx >  threshold);
+            tKey('ArrowUp',    'ArrowUp',    dy < -threshold);
+            tKey('ArrowDown',  'ArrowDown',  dy >  threshold);
+          }
+        }, { passive: false });
+
+        joyZone.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          for (var i = 0; i < e.changedTouches.length; i++) {
+            if (e.changedTouches[i].identifier === joyId) { joyId = null; releaseAll(); break; }
+          }
+        }, { passive: false });
+
+        function btnKey(btn, key, code) {
+          btn.addEventListener('touchstart', function(e) { e.preventDefault(); btn.classList.add('pressed'); tKey(key, code, true); }, { passive: false });
+          function up(e) { e.preventDefault(); btn.classList.remove('pressed'); tKey(key, code, false); }
+          btn.addEventListener('touchend', up, { passive: false });
+          btn.addEventListener('touchcancel', up, { passive: false });
+        }
+        btnKey(document.getElementById('taisei-btn-shot'),  'z', 'KeyZ');
+        btnKey(document.getElementById('taisei-btn-bomb'),  'x', 'KeyX');
+        btnKey(document.getElementById('taisei-btn-focus'), 'Shift', 'ShiftLeft');
+      })();
 
     })();
 

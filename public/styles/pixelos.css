@@ -557,8 +557,82 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .screensaver small { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #777; font: 11px monospace; }
 .shutdown-screen { position: fixed; inset: 0; z-index: 9001; display: grid; place-content: center; gap: 20px; background: #000; color: #f90; text-align: center; font: 22px Georgia, serif; }
 .taisei-window { width: min(900px, calc(100vw - 180px)); height: min(660px, calc(100vh - 100px)); min-width: 480px; min-height: 320px; }
-.taisei-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; }
+.taisei-window.touch-fullscreen { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; min-width: unset !important; min-height: unset !important; transform: none !important; border: none !important; z-index: 500 !important; }
+.taisei-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; position: relative; }
 .taisei-body iframe { flex: 1; width: 100%; border: none; display: block; }
+
+/* Touch controls overlay — visible only on touch devices */
+.taisei-touch-controls {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 20px 24px 40px;
+  z-index: 10;
+}
+@media (pointer: coarse) { .taisei-touch-controls { display: flex; } }
+
+.taisei-joy-zone {
+  pointer-events: auto;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+.taisei-joy-base {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.taisei-joy-knob {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), rgba(255,255,255,0.15));
+  border: 1.5px solid rgba(255,255,255,0.3);
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.taisei-btns {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  touch-action: none;
+}
+.taisei-btns-row { display: flex; gap: 10px; }
+.taisei-btn {
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.taisei-btn-shot { width: 72px; height: 72px; font-size: 12px; border-color: rgba(255,100,100,0.7); background: rgba(180,0,0,0.35); }
+.taisei-btn-bomb { width: 54px; height: 54px; font-size: 10px; border-color: rgba(100,200,255,0.7); background: rgba(0,80,180,0.35); }
+.taisei-btn-focus { width: 54px; height: 54px; font-size: 10px; border-color: rgba(200,255,100,0.7); background: rgba(60,140,0,0.35); }
+.taisei-btn.pressed { filter: brightness(1.8); }
 .doom-window { width: min(860px, calc(100vw - 180px)); height: min(640px, calc(100vh - 100px)); min-width: 480px; min-height: 320px; }
 .doom-body { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0 !important; background: #000; }
 .doom-body iframe { flex: 1; width: 100%; border: none; display: block; }
