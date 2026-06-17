@@ -3,7 +3,8 @@
 @font-face { font-family: "MSSansSerif8pt"; src: url("/fonts/ms-sans-serif-8pt-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 
 :root {
-  --pixel-bg: #008080;
+  --pixel-bg: #6b90a8;
+  --win-accent: #7f1d1d;
 }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 body { font-family: "MSSansSerif8pt", "MS Sans Serif", Arial, sans-serif; background: var(--pixel-bg); }
@@ -13,10 +14,32 @@ button { cursor: default; }
 [hidden] { display: none !important; }
 .pixel-os { position: absolute; inset: 0; overflow: hidden; background-color: var(--pixel-bg); }
 #pixel-os:fullscreen, #pixel-os:-webkit-full-screen { position: fixed; inset: 0; width: 100vw; height: 100vh; }
-.wallpaper-teal { background: #008080; }
-.wallpaper-grid { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
+.wallpaper-teal     { background: #008080; }
+.wallpaper-grid     { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
+.wallpaper-yellow   { background: #f5c800; }
+.wallpaper-mustard  { background: #FEDD57; }
+.wallpaper-mustard  .desktop-icon-label { color: #000; text-shadow: none; }
+.wallpaper-mustard  .desktop-icon:focus .desktop-icon-label { color: #fff; }
+.wallpaper-black    { background: #1a1a18; }
+.wallpaper-navy     { background: #6b90a8; }
+.wallpaper-cream    { background: #f0e8d8; }
+.wallpaper-rose     { background: #ff66c4; }
+.wallpaper-rosedk   { background: #d946a8; }
+.wallpaper-segasky  { background: url('/images/segasky.png') center center / cover no-repeat; }
+.wallpaper-sage     { background: #7a9e7e; }
+.wallpaper-terra    { background: #b5714a; }
+.wallpaper-plum     { background: #4e2d4e; }
+.wallpaper-slate    { background: #3d5a80; }
+.wallpaper-sand     { background: #c9b08a; }
+.wallpaper-lavender { background: #8b7faa; }
+.wallpaper-cream .desktop-icon-label,
+.wallpaper-rose .desktop-icon-label,
+.wallpaper-sand .desktop-icon-label    { color: #333; text-shadow: none; }
+.wallpaper-cream .desktop-icon:focus .desktop-icon-label,
+.wallpaper-rose .desktop-icon:focus .desktop-icon-label,
+.wallpaper-sand .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .desktop { position: absolute; inset: 0 0 42px; }
-.desktop::after { content: ""; position: absolute; inset: 0; background: url('/bitoslogo.png') center center / 280px 280px no-repeat; opacity: 0.22; pointer-events: none; z-index: 0; }
+.desktop::after { content: ""; position: absolute; inset: 0; background: url('/images/bitmag_logo_pink.svg') right 24px bottom 48px / 320px auto no-repeat; opacity: 1; pointer-events: none; z-index: 0; }
 .desktop-selection-box { position: absolute; border: 1px dotted #fff; background: rgba(0, 0, 128, 0.18); pointer-events: none; z-index: 3; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
 .desktop-icon-item { position: absolute; width: 94px; height: 102px; outline: none; }
@@ -30,15 +53,17 @@ button { cursor: default; }
 .desktop-icon:focus .desktop-icon-image, .desktop-icon.selected .desktop-icon-image { filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(400%) contrast(0.9); }
 .desktop-icon:focus .desktop-icon-label, .desktop-icon.selected .desktop-icon-label { background: rgb(0, 0, 118); color: white; margin: 0; text-shadow: none; }
 .desktop-icon:focus .border-box, .desktop-icon.selected .border-box { border: rgb(255, 255, 148) dotted 1px; }
-.wallpaper-grid .desktop-icon-label { color: #000; text-shadow: none; }
-.wallpaper-grid .desktop-icon:focus .desktop-icon-label { color: #fff; }
+.wallpaper-grid .desktop-icon-label,
+.wallpaper-yellow .desktop-icon-label { color: #000; text-shadow: none; }
+.wallpaper-grid .desktop-icon:focus .desktop-icon-label,
+.wallpaper-yellow .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(980px, calc(100vw - 220px)); min-width: 640px; height: min(650px, calc(100vh - 110px)); min-height: 380px; margin: 0; box-sizing: border-box; overflow: hidden; }
 .window.os-window.maximized { inset: 0 !important; width: 100% !important; height: 100% !important; }
 .window.os-window.minimized { display: none; }
 .window.os-window:not(.focused) .title-bar { background: #7f7f7f !important; }
 .window.os-window .title-bar {
   zoom: 1.5;
-  background: #000080 !important;
+  background: var(--win-accent) !important;
   padding: 3px 3px 3px 4px !important;
   font-family: "MSSansSerif8pt", "MS Sans Serif", Arial, sans-serif !important;
   display: flex !important;
@@ -115,13 +140,13 @@ button { cursor: default; }
 .tree-root img { width: 16px; height: 16px; image-rendering: pixelated; }
 .tree-button { appearance: none; box-shadow: none; width: 100%; padding: 0px 3px; border: 0; background: transparent; text-align: left; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; }
 .tree-button img { width: 16px; height: 16px; image-rendering: pixelated; }
-.tree-button.active, .tree-button:hover, .tree-button:focus { background: #000080; color: #fff; }
+.tree-button.active, .tree-button:hover, .tree-button:focus { background: var(--win-accent); color: #fff; }
 .tree-toggle { cursor: pointer; }
 .tree-files { padding-left: 20px; list-style: none; margin: 0; }
 ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important; }
 .tree-file-button { display: flex; align-items: center; gap: 4px; appearance: none; box-shadow: none; width: 100%; padding: 0 3px; border: 0; background: transparent; text-align: left; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; cursor: pointer; line-height: 14px; height: 14px; }
 .tree-file-button img { width: 14px; height: 14px; image-rendering: pixelated; flex-shrink: 0; }
-.tree-file-button:hover, .tree-file-button:focus { background: #000080; color: #fff; }
+.tree-file-button:hover, .tree-file-button:focus { background: var(--win-accent); color: #fff; }
 .explorer-main { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .file-panel { flex: 1; min-height: 0; overflow: auto; background: #fff; }
 .file-table { min-width: 100%; border-collapse: collapse; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; white-space: nowrap; }
@@ -132,7 +157,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .file-table th:nth-child(4) { min-width: 120px; }
 .file-table th, .file-table td { height: 23px; padding: 1px 5px; vertical-align: middle; box-sizing: border-box; }
 .file-item { cursor: default; }
-.file-item.highlighted td { background: #000080; color: #fff; }
+.file-item.highlighted td { background: var(--win-accent); color: #fff; }
 .name-cell { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .file-type-icon { width: 18px; height: 18px; image-rendering: pixelated; flex: 0 0 auto; }
 .file-main { min-width: 0; display: block; line-height: 1.4; }
@@ -152,7 +177,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
   --w95-frame-inner-shadow: #808488;
   --w95-frame-outer-dark: #404040;
   --w95-text:            #000000;
-  --w95-highlight-bg:    #000080;
+  --w95-highlight-bg:    var(--win-accent);
   --w95-highlight-text:  #ffffff;
   --w95-font:            "MSSansSerif8pt", 'MS Sans Serif', 'Microsoft Sans Serif', Arial, sans-serif;
   --ie3-logo-size:       52px;
@@ -250,7 +275,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 /* Font size dropdown menu (IE3 style) */
 .ie3-font-menu { position: absolute; top: 52px; right: 50px; z-index: 300; background: #c0c0c0; border: 2px solid; border-color: #fff #000 #000 #fff; box-shadow: 2px 2px 0 #000; padding: 2px 0; min-width: 120px; display: flex; flex-direction: column; }
 .ie3-font-item { text-align: left; background: transparent; border: none; padding: 3px 20px 3px 6px; font-size: 11px; font-family: "MSSansSerif8pt", "MS Sans Serif", Arial, sans-serif; color: #000; cursor: default; width: 100%; }
-.ie3-font-item:hover { background: #000080; color: #fff; }
+.ie3-font-item:hover { background: var(--win-accent); color: #fff; }
 .ie3-font-item--active::before { content: "✓ "; }
 
 /* Address bar */
@@ -365,17 +390,49 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 }
 .settings-panel { display: none; }
 .settings-panel.active { display: block; }
-.about-logo { float: left; margin: 0 22px 8px 0; font: 700 34px 'JetBrains Mono', monospace; }
-.about-logo span { color: #c00; }
-.about-content h1 { margin: 0 0 10px; font-size: 24px; }
-.about-content p { font: 14px/1.55 Georgia, serif; }
-.about-content dl { display: grid; grid-template-columns: 90px 1fr; font-size: 12px; gap: 4px 0; }
-.about-hint { color: #666; font-style: italic; }
-.wallpaper-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
-.wallpaper-preview { display: block; height: 56px; margin-bottom: 5px; border: 2px inset #fff; }
-.wallpaper-preview.grid { background-color: #f4f4f0; background-image: linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px); background-size: 8px 8px; }
-.wallpaper-preview.teal { background: #008080; }
+.about-window { width: 260px; height: auto !important; min-height: 0 !important; min-width: 0 !important; }
+@media (pointer: coarse) {
+  .about-window { width: 220px; height: auto !important; min-height: unset !important; max-height: none !important; }
+  .about-logo { width: 90px; height: 90px; margin-left: -21px; margin-top: -6px; }
+  .about-content { gap: 4px; padding: 8px 12px 10px !important; }
+  .about-content > p:first-of-type { font-size: 13px; }
+}
+.about-content { display: flex; flex-direction: column; gap: 6px; padding: 12px 16px 14px !important; align-items: flex-start; }
+.about-logo { width: 160px; height: 160px; display: block; margin-left: -37px; margin-top: -14px; margin-bottom: -35px; }
+.about-content h1 { margin: 0; font-size: 18px; font-weight: normal; display: flex; align-items: baseline; gap: 8px; }
+.about-version { font-size: 13px; color: #666; font-weight: normal; }
+.about-content p { font: 16px/1.5 var(--w95-font); margin: 0; }
+.about-content hr { border: none; border-top: 1px solid #aaa; margin: 0; }
+.about-content dl { display: grid; grid-template-columns: 90px 1fr; font-size: 12px; gap: 3px 0; margin: 0; }
+.about-content dt { color: #444; }
+.about-content dd { margin: 0; font-weight: bold; }
+.about-hint { color: #666; font-style: italic; font-size: 11px !important; }
+.wallpaper-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.wallpaper-options button { font-size: 10px; }
+.wallpaper-preview { display: block; height: 32px; margin-bottom: 3px; border: 2px inset #fff; }
+.settings-tab-body { max-height: 320px; overflow-y: auto; }
+.wallpaper-preview.teal   { background: #008080; }
+.wallpaper-preview.grid   { background-color: #f4f4f0; background-image: linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px); background-size: 8px 8px; }
+.wallpaper-preview.yellow  { background: #f5c800; }
+.wallpaper-preview.mustard { background: #FEDD57; }
+.wallpaper-preview.black   { background: #111; }
+.wallpaper-preview.navy    { background: #6b90a8; }
+.wallpaper-preview.cream    { background: #f0e8d8; }
+.wallpaper-preview.rose     { background: #ff66c4; }
+.wallpaper-preview.rosedk   { background: #d946a8; }
+.wallpaper-preview.segasky  { background: linear-gradient(to bottom, #1a0a4a 0%, #3d1a8a 35%, #6b35c8 60%, #d4608a 80%, #f0a060 100%); }
+.wallpaper-preview.sage     { background: #7a9e7e; }
+.wallpaper-preview.terra    { background: #b5714a; }
+.wallpaper-preview.plum     { background: #4e2d4e; }
+.wallpaper-preview.slate    { background: #3d5a80; }
+.wallpaper-preview.sand     { background: #c9b08a; }
+.wallpaper-preview.lavender { background: #8b7faa; }
 .setting-check { margin-top: 16px; }
+.settings-content fieldset,
+.settings-content legend,
+.settings-content label,
+.settings-content input,
+.settings-content button { font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif !important; }
 /* ── Windows Media Player ─────────────────────────────────── */
 .mplayer-window { width: min(540px, calc(100vw - 60px)); height: min(560px, calc(100vh - 80px)); min-width: 340px; min-height: 380px; }
 .mplayer-menu-bar, .mplayer-nav-bar, .mplayer-bottom { zoom: 1.35; }
@@ -383,7 +440,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 /* menu bar */
 .mplayer-menu-bar { display: flex; gap: 0; padding: 0 2px; flex: 0 0 auto; }
 .mplayer-menu-bar button { min-width: 0; margin: 0; height: 20px; padding: 0 8px; border: 0; background: transparent; box-shadow: none; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; line-height: 20px; }
-.mplayer-menu-bar button:hover { background: #000080; color: #fff; }
+.mplayer-menu-bar button:hover { background: var(--win-accent); color: #fff; }
 /* nav toolbar */
 .mplayer-nav-bar { display: flex; align-items: center; gap: 0; padding: 1px 4px; flex: 0 0 auto; border-top: 1px solid #808080; border-bottom: 1px solid #808080; background: #c0c0c0; }
 .mp-nav-arrow { min-width: 0; width: 22px; height: 22px; padding: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; cursor: default; display: flex; align-items: center; justify-content: center; color: #404040; }
@@ -391,7 +448,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .mp-nav-sep { width: 1px; height: 20px; background: #808080; border-right: 1px solid #fff; margin: 0 6px; }
 .mp-nav-link { min-width: 0; height: 22px; padding: 1px 5px; border: 0 !important; box-shadow: none !important; background: transparent !important; display: flex; align-items: center; gap: 4px; font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; white-space: nowrap; cursor: default; }
 .mp-nav-link img { width: 16px; height: 16px; image-rendering: pixelated; }
-.mp-nav-link:hover { background: #000080 !important; color: #fff; }
+.mp-nav-link:hover { background: var(--win-accent) !important; color: #fff; }
 /* viewport */
 .mplayer-viewport { flex: 1; min-height: 0; background: #000; overflow: hidden; }
 .mplayer-viewport video { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -685,8 +742,8 @@ html.is-mobile .desktop::after {
   display: block !important;
   flex: 1 !important;
   align-self: stretch !important;
-  background: url('/bitoslogowhite.png') center center / 65% auto no-repeat !important;
-  opacity: 0.5 !important;
+  background: url('/images/bitmag_logo_pink.svg') right 12px bottom 56px / 70% auto no-repeat !important;
+  opacity: 1 !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
@@ -728,20 +785,39 @@ html.is-mobile .desktop-icon-label { font-size: 12px !important; line-height: 1.
 
 html.is-mobile .window.os-window {
   position: absolute !important;
-  inset: 5px 3px !important;
-  width: calc(100% - 6px) !important;
-  height: calc(100% - 10px) !important;
+  inset: 5px 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 10px);
   min-width: 0 !important;
   min-height: 0 !important;
   resize: none !important;
   box-shadow: none !important;
   padding: 3px !important;
 }
+html.is-mobile .window.os-window.no-resize {
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+html.is-mobile #window-about {
+  top: 60px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: 80vw !important;
+  max-width: 320px !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+html.is-mobile #window-about .about-logo {
+  margin-bottom: -31px !important;
+}
 
 html.is-mobile .reader-window.os-window {
-  inset: 10px 5px !important;
-  width: calc(100% - 10px) !important;
-  height: calc(100% - 20px) !important;
+  inset: 10px 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 20px);
 }
 
 html.is-mobile .window.os-window .title-bar {

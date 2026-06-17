@@ -25,14 +25,14 @@ interface Props {
 const { posts, issues } = Astro.props;
 const iconUrls = {
   desktop: {
-    folder: '/icons/react95/folder-32.png',
+    folder: '/icons/react95/explorer-32.png',
     interview: '/icons/react95/notepad-32.png',
     arcade: '/icons/react95/exe-32.png',
     fanzines: '/icons/react95/notepad-32.png',
     computer: '/icons/react95/computer-32.png',
     settings: '/icons/react95/settings-32.png',
     taisei: '/icons/taisei-32.png',
-    doom: '/icons/doom-32.png',
+    doom: '/icons/doom-32-new.png',
     video: '/icons/video-32.png',
     mplayer: '/icons/mplayer-32.png',
   },
@@ -41,7 +41,9 @@ const iconUrls = {
     pdf: '/icons/react95/file-32.png',
     folder: '/icons/react95/folder-16.png',
     window: '/icons/react95/folder-16.png',
-    video: '/icons/video-16.png',
+    video: '/icons/react95/folder-closed-16.png',
+    videoFile: '/icons/claqueta-16.png',
+    music: '/icons/musiccd-16.png',
   },
 };
 ---
@@ -51,24 +53,22 @@ const iconUrls = {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1024" id="viewport-meta" />
   <script>if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { document.getElementById('viewport-meta').content = 'width=device-width, initial-scale=1, maximum-scale=1'; document.documentElement.classList.add('is-mobile'); }</script>
-  <meta name="description" content="PIXEL — revista independiente de videojuegos" />
-  <title>PixelOS — PIXEL</title>
+  <meta name="description" content="bitmag — blog independiente de videojuegos" />
+  <title>bitOS 26 — bitmag</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="/styles/pixelos.css" />
   <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
 </head>
 <body>
-  <div id="pixel-os" class="pixel-os wallpaper-teal">
-    <main class="desktop" aria-label="Escritorio PixelOS">
+  <div id="pixel-os" class="pixel-os wallpaper-navy">
+    <main class="desktop" aria-label="Escritorio bitOS">
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
-        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Artículos</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="arcade"><img class="desktop-icon-image" src={iconUrls.desktop.arcade} alt="" /><div class="border-box"><p class="desktop-icon-label">Arcade</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-folder="fanzines"><img class="desktop-icon-image" src={iconUrls.desktop.fanzines} alt="" /><div class="border-box"><p class="desktop-icon-label">Fanzines</p></div></button></li>
-        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi Pixel</p></div></button></li>
-        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Explorador</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi bitmag</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
-        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
+        <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" id="winamp-icon" data-desktop-window="winamp"><img class="desktop-icon-image" src="/icons/winamp-32.png" alt="" /><div class="border-box"><p class="desktop-icon-label">Winamp</p></div></button></li>
       </ul>
@@ -76,7 +76,7 @@ const iconUrls = {
 
       <section class="window os-window explorer-window" id="window-explorer" hidden>
         <div class="title-bar">
-          <div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.window} alt="" /><span id="explorer-title">Artículos</span></div>
+          <div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.window} alt="" /><span id="explorer-title">Explorador</span></div>
           <div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div>
         </div>
         <div class="window-body explorer-shell">
@@ -132,18 +132,17 @@ const iconUrls = {
               <div class="explorer-tree-panel">
                 <ul class="tree-view folder-tree">
                   <li>
-                    <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi Pixel</span>
+                    <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi bitmag</span>
                     <ul>
                       <li>
                         <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\PIXEL</span>
                         <ul>
                           <li><button class="tree-button" data-folder-nav="all"><img src="/icons/react95/folder-closed-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
                           <li><button class="tree-button" data-folder-nav="entrevista"><img src="/icons/react95/folder-closed-16.png" alt="" />Entrevistas</button><ul class="tree-files" id="tree-files-entrevista"></ul></li>
-                          <li><button class="tree-button" data-folder-nav="arcade"><img src="/icons/react95/folder-closed-16.png" alt="" />Arcade</button><ul class="tree-files" id="tree-files-arcade"></ul></li>
                           <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button><ul class="tree-files" id="tree-files-videos"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="musica"><img src={iconUrls.files.music} alt="" />Música</button><ul class="tree-files" id="tree-files-musica"></ul></li>
                         </ul>
                       </li>
-                      <li><button class="tree-button" data-folder-nav="fanzines"><img src="/icons/react95/folder-closed-16.png" alt="" />Disco de 3½ (A:)</button><ul class="tree-files" id="tree-files-fanzines"></ul></li>
                     </ul>
                   </li>
                 </ul>
@@ -160,19 +159,22 @@ const iconUrls = {
             </div>
           </div>
         </div>
-        <div class="status-bar"><p class="status-bar-field" id="status-count">0 objetos</p><p class="status-bar-field" id="status-path">C:\PIXEL\ARTICULOS</p><p class="status-bar-field">PixelOS 95</p></div>
+        <div class="status-bar"><p class="status-bar-field" id="status-count">0 objetos</p><p class="status-bar-field" id="status-path">C:\PIXEL\ARTICULOS</p><p class="status-bar-field">bitOS 26</p></div>
       </section>
 
       <div id="reader-windows"></div>
 
-      <section class="window os-window about-window" id="window-about" hidden>
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de PixelOS</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
+      <section class="window os-window about-window no-resize" id="window-about" hidden>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de bitOS</span></div><div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body about-content">
-          <div class="about-logo">PIXEL<span>.</span></div>
-          <h1>PixelOS 95</h1>
-          <p>Una revista independiente de videojuegos convertida en sistema operativo.</p>
+          <img class="about-logo" src="/bitoslogovert.png" alt="bitOS" />
+          <p><strong>bitMAG</strong> es un blog de videojuegos donde prima la lectura pausada, el slow gaming y la crítica honesta. Artículos hechos para durar, envueltos en una interfaz que recuerda a los sistemas operativos del pasado.</p>
           <hr />
-          <dl><dt>Versión</dt><dd>0.1 Experimental</dd><dt>Memoria</dt><dd>{posts.length} artículos cargados</dd><dt>Formato</dt><dd>HTML, papel y secretos</dd></dl>
+          <dl>
+            <dt>Versión</dt><dd>bitOS 26</dd>
+            <dt>Artículos</dt><dd>{posts.length} cargados</dd>
+            <dt>Motor</dt><dd>Astro + 98.css</dd>
+          </dl>
           <p class="about-hint">Consejo: algunos sistemas responden a secuencias de teclado antiguas.</p>
         </div>
       </section>
@@ -182,6 +184,7 @@ const iconUrls = {
         <div class="window-body settings-content">
           <div class="settings-tabs">
             <button class="settings-tab active" data-tab="fondo">Fondo</button>
+            <button class="settings-tab" data-tab="colores">Colores</button>
             <button class="settings-tab" data-tab="efectos">Efectos</button>
             <button class="settings-tab" data-tab="protector">Protector</button>
           </div>
@@ -191,7 +194,39 @@ const iconUrls = {
                 <legend>Fondo del escritorio</legend>
                 <div class="wallpaper-options">
                   <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
+                  <button data-wallpaper="navy"><span class="wallpaper-preview navy"></span>Azul</button>
+                  <button data-wallpaper="black"><span class="wallpaper-preview black"></span>Negro</button>
+                  <button data-wallpaper="slate"><span class="wallpaper-preview slate"></span>Pizarra</button>
+                  <button data-wallpaper="plum"><span class="wallpaper-preview plum"></span>Ciruela</button>
+                  <button data-wallpaper="lavender"><span class="wallpaper-preview lavender"></span>Lavanda</button>
+                  <button data-wallpaper="sage"><span class="wallpaper-preview sage"></span>Salvia</button>
+                  <button data-wallpaper="terra"><span class="wallpaper-preview terra"></span>Terracota</button>
+                  <button data-wallpaper="rose"><span class="wallpaper-preview rose"></span>Rosa</button>
+                  <button data-wallpaper="sand"><span class="wallpaper-preview sand"></span>Arena</button>
+                  <button data-wallpaper="cream"><span class="wallpaper-preview cream"></span>Crema</button>
+                  <button data-wallpaper="rosedk"><span class="wallpaper-preview rosedk"></span>Rosa oscuro</button>
+                  <button data-wallpaper="segasky"><span class="wallpaper-preview segasky"></span>Sega Sky</button>
                   <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
+                </div>
+              </fieldset>
+            </div>
+            <div class="settings-panel" id="stab-colores">
+              <fieldset>
+                <legend>Color de ventanas</legend>
+                <div class="wallpaper-options">
+                  <button data-wincolor="#000080"><span class="wallpaper-preview" style="background:#000080"></span>Clásico</button>
+                  <button data-wincolor="#1a3a5c"><span class="wallpaper-preview" style="background:#1a3a5c"></span>Marino</button>
+                  <button data-wincolor="#1a1a18"><span class="wallpaper-preview" style="background:#1a1a18"></span>Negro</button>
+                  <button data-wincolor="#3d5a80"><span class="wallpaper-preview" style="background:#3d5a80"></span>Pizarra</button>
+                  <button data-wincolor="#4e2d4e"><span class="wallpaper-preview" style="background:#4e2d4e"></span>Ciruela</button>
+                  <button data-wincolor="#6a5a8a"><span class="wallpaper-preview" style="background:#6a5a8a"></span>Lavanda</button>
+                  <button data-wincolor="#4a7c59"><span class="wallpaper-preview" style="background:#4a7c59"></span>Salvia</button>
+                  <button data-wincolor="#8c4a2f"><span class="wallpaper-preview" style="background:#8c4a2f"></span>Terracota</button>
+                  <button data-wincolor="#ff66c4"><span class="wallpaper-preview" style="background:#ff66c4"></span>Rosa</button>
+                  <button data-wincolor="#7f5a2a"><span class="wallpaper-preview" style="background:#7f5a2a"></span>Arena</button>
+                  <button data-wincolor="#7f1d1d"><span class="wallpaper-preview" style="background:#7f1d1d"></span>Granate</button>
+                  <button data-wincolor="#d946a8"><span class="wallpaper-preview" style="background:#d946a8"></span>Rosa oscuro</button>
+                  <button data-wincolor="#2d6a4f"><span class="wallpaper-preview" style="background:#2d6a4f"></span>Bosque</button>
                 </div>
               </fieldset>
             </div>
@@ -425,12 +460,11 @@ const iconUrls = {
     </template>
 
   <div class="start-menu" id="start-menu" hidden>
-    <div class="start-brand">PixelOS <b>95</b></div>
+    <div class="start-brand">bitOS <b>26</b></div>
     <div class="start-items">
-      <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Artículos</span></button>
-      <button class="start-entry" data-folder="fanzines"><img class="menu-icon" src={iconUrls.desktop.fanzines} alt="" /><span>Fanzines</span></button>
+      <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Explorador</span></button>
       <button class="start-entry" data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
-      <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de...</span></button>
+      <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de bitOS...</span></button>
       <div class="start-divider" aria-hidden="true"></div>
       <button class="start-entry" id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
     </div>
@@ -456,7 +490,7 @@ const iconUrls = {
   </div>
 
   <div class="screensaver" id="screensaver" hidden><canvas id="pipes-canvas" aria-label="Salvapantallas de tuberías 3D"></canvas><small>Mueve el ratón o pulsa una tecla</small></div>
-  <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar PixelOS</button></div>
+  <div class="shutdown-screen" id="shutdown-screen" hidden><strong>Ahora puede apagar su revista.</strong><button id="restart">Reiniciar bitOS</button></div>
 
   </div>{/* end #pixel-os */}
 
@@ -610,7 +644,7 @@ const iconUrls = {
     const readerWindows = document.getElementById('reader-windows');
     const readerTemplate = document.getElementById('reader-template');
     const folderTitles = {
-      all: ['Artículos', 'C:\\PIXEL\\ARTICULOS'],
+      all: ['Artículos', 'C:\\BITMAG\\ARTICULOS'],
       entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
       arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
@@ -678,6 +712,9 @@ const iconUrls = {
       focusWindow(win);
       syncTasks();
       startMenu.hidden = true;
+      if (win.classList.contains('no-resize')) {
+        win.style.setProperty('height', 'auto', 'important');
+      }
       if (id === 'taisei') { win.dispatchEvent(new Event('taisei-open')); setTimeout(function() { document.getElementById('taisei-frame').focus(); }, 600); }
       if (id === 'doom') { win.dispatchEvent(new Event('doom-open')); setTimeout(function() { document.getElementById('doom-frame').focus(); }, 600); }
     }
@@ -700,6 +737,7 @@ const iconUrls = {
       }
       win.hidden = true;
       win.classList.remove('maximized', 'minimized');
+      if (win.dataset.defaultLeft) { win.style.left = win.dataset.defaultLeft; win.style.top = win.dataset.defaultTop; }
       if (isMobile()) { win.style.cssText = ''; win.style.zIndex = ''; }
       syncTasks();
     }
@@ -779,11 +817,18 @@ const iconUrls = {
       } else if (folder === 'videos') {
         videoFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
       } else if (folder === 'musica') {
-        var musicTracks = [{ title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' }];
+        var musicTracks = [
+          { title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' },
+          { title: 'Magical Sound Shower', artist: 'Hiroshi Kawaguchi / OutRun', url: '/music/magical_sound_shower.mp3' },
+        ];
         musicTracks.forEach(function(t) {
           var tr = document.createElement('tr');
           tr.className = 'file-item'; tr.tabIndex = 0;
-          tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.desktop.mplayer + '" alt="" /><span class="file-main"><strong>' + t.title + ' — ' + t.artist + '</strong></span></td><td>Audio MP3</td><td></td><td></td>';
+          tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.music + '" alt="" /><span class="file-main"><strong>' + t.title + '</strong></span></td><td>' + t.artist + '</td><td>Audio MP3</td><td></td>';
+          (function(track) {
+            tr.addEventListener('click', function() { launchWebampWithTrack(track); });
+            tr.addEventListener('dblclick', function() { launchWebampWithTrack(track); });
+          })(t);
           fileView.appendChild(tr);
         });
       } else if (folder === 'juegos') {
@@ -812,7 +857,13 @@ const iconUrls = {
         if (folder === 'fanzines') {
           treeItems = issues.filter(function(i) { return i.pdf; }).map(function(i) { return { label: 'PIXEL nº' + i.number + '.pdf', icon: iconUrls.files.pdf || iconUrls.files.article, action: function() {} }; });
         } else if (folder === 'videos') {
-          videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.video, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
+          videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
+        } else if (folder === 'musica') {
+          var mTracks = [
+            { title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' },
+            { title: 'Magical Sound Shower', artist: 'Hiroshi Kawaguchi / OutRun', url: '/music/magical_sound_shower.mp3' },
+          ];
+          mTracks.forEach(function(t) { treeItems.push({ label: t.title, icon: iconUrls.files.music, action: function(tt) { return function() { launchWebampWithTrack(tt); }; }(t) }); });
         } else {
           filesFor(folder).forEach(function(p) { treeItems.push({ label: p.title, icon: iconUrls.files.article, action: function(pp) { return function() { openArticle(pp); }; }(p) }); });
         }
@@ -889,7 +940,7 @@ const iconUrls = {
       row.className = 'file-item';
       row.tabIndex = 0;
       const date = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric' });
-      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.video + '" alt="" /><span class="file-main"><strong>' + video.title + '</strong></span></td><td>' + date + '</td><td>Vídeo MP4</td><td>' + (video.tags || '') + '</td>';
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.videoFile + '" alt="" /><span class="file-main"><strong>' + video.title + '</strong></span></td><td>' + date + '</td><td>Vídeo MP4</td><td>' + (video.tags || '') + '</td>';
       row.addEventListener('dblclick', function() { openVideo(video); });
       row.addEventListener('click', function() {
         if (isMobile()) {
@@ -1091,6 +1142,8 @@ const iconUrls = {
         var collapsed = childUl.style.display === 'none';
         childUl.style.display = collapsed ? '' : 'none';
         toggle.textContent = collapsed ? '−' : '+';
+        var img = toggle.parentElement.querySelector('img');
+        if (img) img.src = collapsed ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
       });
     });
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
@@ -1139,6 +1192,10 @@ const iconUrls = {
     });
     /* ── Webamp / Winamp ──────────────────────────────────────── */
     var webampInstance = null;
+    var allMusicTracks = [
+      { metaData: { artist: 'Konami', title: 'Vampire Killer (Block 1)' }, url: '/music/vampire_killer.mp3' },
+      { metaData: { artist: 'Hiroshi Kawaguchi / OutRun', title: 'Magical Sound Shower' }, url: '/music/magical_sound_shower.mp3' },
+    ];
     function focusWebamp() {
       var wa = document.getElementById('webamp');
       if (!wa) return;
@@ -1146,17 +1203,25 @@ const iconUrls = {
       wa.style.zIndex = String(topZ);
       allWindows().forEach(function(w) { w.classList.remove('focused'); });
     }
+    function launchWebampWithTrack(track) {
+      if (webampInstance) {
+        focusWebamp();
+        return;
+      }
+      // @ts-ignore
+      var wa = new Webamp({ initialTracks: [{ metaData: { artist: track.artist, title: track.title }, url: track.url }].concat(allMusicTracks.filter(function(t) { return t.url !== track.url; })) });
+      webampInstance = wa;
+      wa.onClose(function() { webampInstance = null; });
+      var host = document.getElementById('webamp-container');
+      wa.renderWhenReady(host).then(function() { wa.play(); });
+    }
     function launchWebamp() {
       if (webampInstance) {
         focusWebamp();
         return;
       }
       // @ts-ignore
-      var wa = new Webamp({
-        initialTracks: [
-          { metaData: { artist: 'Konami', title: 'Vampire Killer (Block 1)' }, url: '/music/vampire_killer.mp3' }
-        ]
-      });
+      var wa = new Webamp({ initialTracks: allMusicTracks });
       webampInstance = wa;
       wa.onClose(function() { webampInstance = null; });
       var host = document.getElementById('webamp-container');
@@ -1166,6 +1231,8 @@ const iconUrls = {
           document.getElementById('pixel-os').appendChild(waEl);
           topZ += 1;
           waEl.style.zIndex = String(topZ);
+          waEl.style.left = '200px';
+          waEl.style.top = '100px';
           waEl.addEventListener('pointerdown', focusWebamp);
         }
       });
@@ -1227,7 +1294,7 @@ const iconUrls = {
           win.style.setProperty('right', 'auto', 'important');
           win.style.setProperty('bottom', 'auto', 'important');
           win.style.setProperty('width', pinW + 'px', 'important');
-          win.style.setProperty('height', pinH + 'px', 'important');
+          if (!win.classList.contains('no-resize')) win.style.setProperty('height', pinH + 'px', 'important');
           win.style.setProperty('left', pinL + 'px', 'important');
           win.style.setProperty('top', pinT + 'px', 'important');
         }
@@ -1268,6 +1335,7 @@ const iconUrls = {
       bar.addEventListener('pointercancel', endDrag);
 
       // Resize handle
+      if (win.classList.contains('no-resize')) return;
       const handle = document.createElement('div');
       handle.className = 'window-resize-handle';
       win.appendChild(handle);
@@ -1543,6 +1611,11 @@ const iconUrls = {
     const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
     if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
 
+    function setWinColor(color) { document.documentElement.style.setProperty('--win-accent', color); localStorage.setItem('pixelos-wincolor', color); }
+    document.querySelectorAll('[data-wincolor]').forEach(function(button) { button.addEventListener('click', function() { setWinColor(button.dataset.wincolor); }); });
+    const savedWinColor = localStorage.getItem('pixelos-wincolor');
+    if (savedWinColor) document.documentElement.style.setProperty('--win-accent', savedWinColor);
+
     /* ── Settings tabs ── */
     document.querySelectorAll('.settings-tab').forEach(function(tab) {
       tab.addEventListener('click', function() {
@@ -1561,10 +1634,17 @@ const iconUrls = {
       if (el) el.checked = enabled;
     }
     var savedCRT = localStorage.getItem('pixelos-crt');
-    setCRT(savedCRT === null ? true : savedCRT === '1');
+    setCRT(savedCRT === null ? false : savedCRT === '1');
     document.getElementById('crt-toggle').addEventListener('change', function() { setCRT(this.checked); });
 
-    allWindows().forEach(function(win, index) { win.style.left = String(170 + index * 28) + 'px'; win.style.top = String(70 + index * 24) + 'px'; });
+    allWindows().forEach(function(win, index) {
+      var left = String(170 + index * 28) + 'px';
+      var top = String(70 + index * 24) + 'px';
+      win.style.left = left;
+      win.style.top = top;
+      win.dataset.defaultLeft = left;
+      win.dataset.defaultTop = top;
+    });
     (function() {
       var volumeBtn = document.getElementById('volume-btn');
       var volumePopup = document.getElementById('volume-popup');
@@ -1850,6 +1930,64 @@ const iconUrls = {
     } else {
       openFolderNow('all');
     }
+
+    // Startup: latest article (back) → explorer (middle) → portada (front)
+    setTimeout(function() {
+      var mobile = isMobile();
+
+      function mobileInset(win, top, left) {
+        win.style.top = top + 'px';
+        win.style.left = left + 'px';
+        win.style.right = '4px';
+        win.style.bottom = '4px';
+        win.style.width = 'auto';
+        win.style.height = 'auto';
+      }
+
+      // 1. Latest article (back)
+      if (posts.length > 0) {
+        var latest = posts[0];
+        var articleWin = readerTemplate.content.firstElementChild.cloneNode(true);
+        articleWin.dataset.readerId = latest.id;
+        articleWin.querySelector('.title-bar-text span').textContent = latest.title;
+        articleWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
+          var path = 'C:\\PIXEL\\ARTICULOS\\' + latest.id + '.HTM';
+          if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
+        });
+        articleWin.querySelector('iframe').src = '/pixelos/posts/' + latest.id + '/';
+        document.getElementById('reader-windows').appendChild(articleWin);
+        bindWindow(articleWin);
+        if (mobile) { mobileInset(articleWin, 62, 12); }
+        else { articleWin.style.left = '420px'; articleWin.style.top = '30px'; }
+        articleWin.hidden = false;
+        focusWindow(articleWin);
+        syncTasks();
+      }
+
+      // 2. Explorer (middle) — abierto en artículos
+      var explorerWin = document.getElementById('window-explorer');
+      if (mobile && explorerWin) {
+        mobileInset(explorerWin, 28, 8);
+      }
+      showWindowNow('explorer');
+      openFolderNow('all');
+
+      // 3. Portada (front)
+      var portadaWin = readerTemplate.content.firstElementChild.cloneNode(true);
+      portadaWin.dataset.readerId = 'portada';
+      portadaWin.querySelector('.title-bar-text span').textContent = 'bitMAG — Inicio';
+      portadaWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
+        if (el.tagName === 'INPUT') { el.value = 'bitmag.es'; } else { el.textContent = 'bitmag.es'; }
+      });
+      portadaWin.querySelector('iframe').src = '/portada-content/';
+      document.getElementById('reader-windows').appendChild(portadaWin);
+      bindWindow(portadaWin);
+      if (mobile) { mobileInset(portadaWin, 32, 4); }
+      else { portadaWin.style.left = '220px'; portadaWin.style.top = '120px'; }
+      portadaWin.hidden = false;
+      focusWindow(portadaWin);
+      syncTasks();
+    }, 300);
   </script>
 </body>
 </html>

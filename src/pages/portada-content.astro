@@ -1,0 +1,244 @@
+---
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const thumbs: Record<string, string> = {
+  'shinobi-arcade':               '/images/shinobi-gameplay.png',
+  'mina-the-hollower':            '/images/mina-the-hollower-gameplay.jpg',
+  'outrun':                       '/images/outrun-gameplay.png',
+  'bounty-sister':                '/images/bounty-3.jpg',
+  'ball-x-pit':                   '/images/ballxpit-4.jpg',
+  'andro-dunos-ii-entrevista':    '/images/andro_dunos_1.jpg',
+  'el-tiempo-en-los-videojuegos': '/images/outrun-1.jpg',
+};
+
+const recent = allPosts.slice(0, 5);
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>bitMAG!</title>
+  <style>
+    body {
+      background: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Crect x='0' y='0' width='1' height='1' fill='%23d8d0c8' opacity='0.9'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23c8c0b8' opacity='0.8'/%3E%3Crect x='1' y='3' width='1' height='1' fill='%23e0d8d0' opacity='0.7'/%3E%3Crect x='3' y='1' width='1' height='1' fill='%23d0c8c0' opacity='0.9'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23b8b0a8' opacity='0.5'/%3E%3Crect x='3' y='3' width='1' height='1' fill='%23e8e0d8' opacity='0.6'/%3E%3C/svg%3E");
+      color: #000;
+      font-family: Times New Roman, serif;
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+    }
+    a         { color: #0000cc; }
+    a:visited { color: #551a8b; }
+    a:hover   { text-decoration: underline; color: #cc0000; }
+    small     { font-size: 11px; }
+    .wrap     { max-width: 640px; margin: 0 auto; padding: 0 8px; }
+    @media (max-width: 600px) {
+      body { font-size: 13px; }
+      table { width: 100% !important; }
+      td[width="155"] { width: auto !important; display: block; width: 100% !important; }
+      .wrap { padding: 0 4px; }
+      img[style*="height:70px"] { height: 50px !important; }
+      marquee { width: 100% !important; }
+      td[nowrap] { white-space: normal !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap"><center>
+
+<!-- LOGO + SEARCH -->
+<form action="#" target="_top">
+  <table border="0" cellspacing="0" cellpadding="0" width="600">
+    <tr><td align="center">
+      <a href="/" target="_top">
+        <img src="/images/bitmag_logo_pink.svg" alt="bitMAG" style="height:180px;width:auto" />
+      </a>
+    </td></tr>
+  </table>
+
+  <table border="0" cellspacing="0" cellpadding="4" width="600">
+    <tr>
+      <td align="center" width="160">
+        <a href="/pixelos/posts/outrun/" target="_top"><b>OutRun</b></a><br />conducir es soñar
+      </td>
+      <td align="center">
+        <marquee scrollamount="2" style="width:230px;font-size:11px;font-family:Arial,sans-serif;background:#ffffcc;border:1px solid #cccc00;padding:2px">
+          ✦ {allPosts.length} artículos · slow gaming · crítica honesta ✦
+        </marquee>
+      </td>
+      <td align="center" width="160">
+        <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top"><b>Entrevista</b><br />Andro Dunos II</a>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center">
+        <input size="30" name="q" style="font-size:12px" />
+        <input type="submit" value="Buscar" style="font-size:12px" />
+        &nbsp;<a href="#" style="font-size:11px">búsqueda avanzada</a>
+      </td>
+    </tr>
+  </table>
+
+  <table border="0" cellspacing="0" cellpadding="4" width="600">
+    <tr><td nowrap align="center">
+      <b>bitMAG</b> — videojuegos para leer despacio. <a href="/" target="_top">Inicio</a> · <a href="#" target="_top">Archivo</a> · <a href="#" target="_top">Sobre nosotros</a>
+    </td></tr>
+    <tr><td nowrap align="center">
+      <small>
+        <a href="/pixelos/posts/outrun/" target="_top">Análisis</a> ·
+        <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Entrevistas</a> ·
+        <a href="#" target="_top">Arcade</a> ·
+        <a href="#" target="_top">Consola</a> ·
+        <a href="#" target="_top">Indie</a> ·
+        <a href="#" target="_top">Vídeos</a> ·
+        <a href="#" target="_top">Slow Gaming</a> ·
+        <a href="#" target="_top">más...</a>
+      </small>
+    </td></tr>
+  </table>
+</form>
+
+<!-- DIVIDER -->
+<table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
+
+<!-- MAIN: CATEGORÍAS + SIDEBAR -->
+<table border="0" cellspacing="7" cellpadding="2" width="600">
+  <tr>
+    <td valign="top" align="left">
+      <table border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td valign="top" nowrap>
+            <small>
+              <font size="3" face="arial"><a href="#" target="_top"><b>Análisis &amp; Crítica</b></a></font><br />
+              <a href="/pixelos/posts/outrun/" target="_top">OutRun</a>, <a href="/pixelos/posts/shinobi-arcade/" target="_top">Shinobi</a>, <a href="/pixelos/posts/ball-x-pit/" target="_top">Ball X Pit</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Entrevistas</b></a></font><br />
+              <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Andro Dunos II</a>, <a href="#" target="_top">Picorinne Soft</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Arcade</b></a></font><br />
+              <a href="/pixelos/posts/shinobi-arcade/" target="_top">Shinobi</a>, <a href="/pixelos/posts/outrun/" target="_top">OutRun</a>, <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Shoot'em ups</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Consola &amp; Plataformas</b></a></font><br />
+              <a href="/pixelos/posts/mina-the-hollower/" target="_top">Switch</a>, <a href="/pixelos/posts/bounty-sister/" target="_top">Megadrive</a>, <a href="#" target="_top">PC Engine</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Indie &amp; Moderno</b></a></font><br />
+              <a href="/pixelos/posts/mina-the-hollower/" target="_top">Mina the Hollower</a>, <a href="/pixelos/posts/bounty-sister/" target="_top">Bounty Sister</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Ensayo &amp; Reflexión</b></a></font><br />
+              <a href="/pixelos/posts/el-tiempo-en-los-videojuegos/" target="_top">El tiempo</a>, <a href="#" target="_top">Slow Gaming</a>, <a href="#" target="_top">Retro</a>...
+            </small>
+          </td>
+          <td valign="top" nowrap>
+            <small>
+              <font size="3" face="arial"><a href="#" target="_top"><b>Plataformas</b></a></font><br />
+              <a href="#" target="_top">Arcade</a>, <a href="#" target="_top">Megadrive</a>, <a href="#" target="_top">SNES</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Géneros</b></a></font><br />
+              <a href="#" target="_top">Shoot'em ups</a>, <a href="#" target="_top">Acción</a>, <a href="#" target="_top">Conducción</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Épocas</b></a></font><br />
+              <a href="#" target="_top">80s</a>, <a href="#" target="_top">90s</a>, <a href="#" target="_top">2000s</a>, <a href="#" target="_top">Actual</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Vídeos</b></a></font><br />
+              <a href="#" target="_top">Gameplay</a>, <a href="#" target="_top">Análisis</a>, <a href="#" target="_top">Taisei Project</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Especiales</b></a></font><br />
+              <a href="#" target="_top">Número 1</a>, <a href="#" target="_top">Recomendados</a>, <a href="#" target="_top">Clásicos</a>...<br /><br />
+
+              <font size="3" face="arial"><a href="#" target="_top"><b>Sobre bitMAG</b></a></font><br />
+              <a href="#" target="_top">Quiénes somos</a>, <a href="#" target="_top">Filosofía</a>, <a href="#" target="_top">Contacto</a>...
+            </small>
+          </td>
+        </tr>
+      </table>
+    </td>
+
+    <td align="right" valign="top" bgcolor="#dcdcdc" width="155">
+      <table border="0" cellspacing="1" cellpadding="3" width="100%">
+        <tr><td align="center" bgcolor="#ffffcc" nowrap colspan="2">
+          <font face="arial" size="2"><b>Últimas entradas</b></font>
+        </td></tr>
+        {recent.map(post => (
+          <tr>
+            <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
+            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{post.data.title}</a></small></td>
+          </tr>
+        ))}
+        <tr><td align="right" colspan="2" bgcolor="#dcdcdc"><a href="#"><small>más...</small></a></td></tr>
+        <tr><td colspan="2" bgcolor="#dcdcdc" height="6"></td></tr>
+
+        <tr><td align="center" bgcolor="#ffffcc" colspan="2">
+          <font face="arial" size="2"><b>En bitMAG</b></font>
+        </td></tr>
+        <tr>
+          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
+          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Entrevista</a> — Picorinne Soft habla de Andro Dunos II</small></td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
+          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/el-tiempo-en-los-videojuegos/" target="_top">Ensayo</a> — El tiempo en los videojuegos</small></td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
+          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/outrun/" target="_top">OutRun</a> — conducir es soñar</small></td>
+        </tr>
+        <tr><td align="right" colspan="2" bgcolor="#dcdcdc"><a href="#"><small>más...</small></a></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- DIVIDER -->
+<table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
+
+<!-- ZONA INFERIOR -->
+<table border="0" cellspacing="4" cellpadding="0">
+  <tr>
+    <td align="right" valign="top" nowrap><small><b>Géneros destacados</b></small></td>
+    <td width="8"></td>
+    <td valign="top">
+      <small>
+        <a href="#" target="_top">Shoot'em up</a> · <a href="#" target="_top">Beat'em up</a> · <a href="#" target="_top">Plataformas</a> · <a href="#" target="_top">Conducción</a> · <a href="#" target="_top">Acción</a> · <a href="#" target="_top">Puzzle</a> · <a href="#" target="_top">RPG</a>
+      </small>
+    </td>
+  </tr>
+  <tr>
+    <td align="right" valign="top" nowrap><small><b>Por época</b></small></td>
+    <td></td>
+    <td valign="top">
+      <small>
+        <a href="#" target="_top">Años 80</a> · <a href="#" target="_top">Años 90</a> · <a href="#" target="_top">Años 2000</a> · <a href="#" target="_top">Actual</a> · <a href="#" target="_top">Indie retro</a>
+      </small>
+    </td>
+  </tr>
+  <tr>
+    <td align="right" valign="top" nowrap><small><b>Otras secciones</b></small></td>
+    <td></td>
+    <td valign="top">
+      <small>
+        <a href="#" target="_top">Vídeos</a> · <a href="#" target="_top">Recomendados</a> · <a href="#" target="_top">Archivo completo</a> · <a href="#" target="_top">Libro de visitas</a> · <a href="#" target="_top">Sobre bitMAG</a>
+      </small>
+    </td>
+  </tr>
+</table>
+
+<!-- DIVIDER -->
+<table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
+
+<br />
+<small>
+  <a href="#">Cómo sugerir un juego</a> ·
+  <a href="#">Sobre bitMAG</a> ·
+  <a href="#">Política de privacidad</a> ·
+  <a href="#">Contacto</a>
+</small>
+<br /><br />
+
+</center></div>
+</body>
+</html>
