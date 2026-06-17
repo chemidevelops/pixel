@@ -60,7 +60,7 @@ const iconUrls = {
   <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
 </head>
 <body>
-  <div id="pixel-os" class="pixel-os wallpaper-navy">
+  <div id="pixel-os" class="pixel-os wallpaper-segasky">
     <main class="desktop" aria-label="Escritorio bitOS">
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
@@ -1634,7 +1634,7 @@ const iconUrls = {
       if (el) el.checked = enabled;
     }
     var savedCRT = localStorage.getItem('pixelos-crt');
-    setCRT(savedCRT === null ? false : savedCRT === '1');
+    setCRT(savedCRT === null ? true : savedCRT === '1');
     document.getElementById('crt-toggle').addEventListener('change', function() { setCRT(this.checked); });
 
     allWindows().forEach(function(win, index) {
