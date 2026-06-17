@@ -1077,9 +1077,8 @@ const iconUrls = {
       vid.muted = false;
       var volVal = parseFloat(document.getElementById('mp-volume').value) / 100;
       vid.volume = isNaN(volVal) ? 0.8 : volVal;
-      console.log('[mplayer] play() vol=' + vid.volume + ' muted=' + vid.muted + ' src=' + vid.src);
       vid.play().then(function() {
-        console.log('[mplayer] play() resolved OK');
+        // play started OK
       }).catch(function(err) {
         console.error('[mplayer] play() failed:', err);
         document.getElementById('mp-status').textContent = 'Error: ' + (err && err.name ? err.name : err);
