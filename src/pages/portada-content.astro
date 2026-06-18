@@ -4,17 +4,37 @@ import { getCollection } from 'astro:content';
 const allPosts = (await getCollection('posts'))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-const thumbs: Record<string, string> = {
-  'shinobi-arcade':               '/images/shinobi-gameplay.png',
-  'mina-the-hollower':            '/images/mina-the-hollower-gameplay.jpg',
-  'outrun':                       '/images/outrun-gameplay.png',
-  'bounty-sister':                '/images/bounty-3.jpg',
-  'ball-x-pit':                   '/images/ballxpit-4.jpg',
-  'andro-dunos-ii-entrevista':    '/images/andro_dunos_1.jpg',
-  'el-tiempo-en-los-videojuegos': '/images/outrun-1.jpg',
+const recent = allPosts.slice(0, 5);
+
+// Nombre corto del juego: lo que va tras "sobre " en el título de la entrevista
+const gameName = (t: string) => t.includes(' sobre ') ? t.split(' sobre ').slice(1).join(' sobre ') : t;
+
+// Etiquetas legibles
+const tagLabels: Record<string, string> = {
+  'entrevista': 'Entrevistas',
+  "shoot'em up": "Shoot'em up",
+  'indie': 'Indie',
+  'run and gun': "Run'n'gun",
+  'acción': 'Acción',
+  'clásicos': 'Clásicos',
+  'conducción': 'Conducción',
+  'crítica': 'Crítica',
+  'diseño': 'Diseño',
+  'narrativa': 'Narrativa',
 };
 
-const recent = allPosts.slice(0, 5);
+// Agrupar posts por etiqueta real (nada inventado)
+const byTag = new Map<string, typeof allPosts>();
+for (const post of allPosts) {
+  for (const tag of post.data.tags) {
+    if (!byTag.has(tag)) byTag.set(tag, []);
+    byTag.get(tag)!.push(post);
+  }
+}
+const tags = [...byTag.entries()].sort((a, b) => b[1].length - a[1].length);
+const half = Math.ceil(tags.length / 2);
+const tagsLeft = tags.slice(0, half);
+const tagsRight = tags.slice(half);
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -41,8 +61,8 @@ const recent = allPosts.slice(0, 5);
       body { font-size: 13px; }
       table { width: 100% !important; }
       td[width="155"] { width: auto !important; display: block; width: 100% !important; }
+      td[width="170"] { display: block; width: 100% !important; }
       .wrap { padding: 0 4px; }
-      img[style*="height:70px"] { height: 50px !important; }
       marquee { width: 100% !important; }
       td[nowrap] { white-space: normal !important; }
     }
@@ -51,7 +71,7 @@ const recent = allPosts.slice(0, 5);
 <body>
 <div class="wrap"><center>
 
-<!-- LOGO + SEARCH -->
+<!-- LOGO + BUSCADOR -->
 <form action="#" target="_top">
   <table border="0" cellspacing="0" cellpadding="0" width="600">
     <tr><td align="center">
@@ -63,42 +83,31 @@ const recent = allPosts.slice(0, 5);
 
   <table border="0" cellspacing="0" cellpadding="4" width="600">
     <tr>
-      <td align="center" width="160">
-        <a href="/pixelos/posts/outrun/" target="_top"><b>OutRun</b></a><br />conducir es soñar
+      <td align="center" width="170">
+        <small>Entrevista</small><br />
+        <a href={`/pixelos/posts/${allPosts[0].id}/`} target="_top"><b>{gameName(allPosts[0].data.title)}</b></a>
       </td>
       <td align="center">
         <marquee scrollamount="2" style="width:230px;font-size:11px;font-family:Arial,sans-serif;background:#ffffcc;border:1px solid #cccc00;padding:2px">
-          ✦ {allPosts.length} artículos · slow gaming · crítica honesta ✦
+          ✦ {allPosts.length} entrevistas · slow gaming · crítica honesta ✦
         </marquee>
       </td>
-      <td align="center" width="160">
-        <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top"><b>Entrevista</b><br />Andro Dunos II</a>
+      <td align="center" width="170">
+        <small>Entrevista</small><br />
+        <a href={`/pixelos/posts/${allPosts[1].id}/`} target="_top"><b>{gameName(allPosts[1].data.title)}</b></a>
       </td>
     </tr>
     <tr>
       <td colspan="3" align="center">
         <input size="30" name="q" style="font-size:12px" />
         <input type="submit" value="Buscar" style="font-size:12px" />
-        &nbsp;<a href="#" style="font-size:11px">búsqueda avanzada</a>
       </td>
     </tr>
   </table>
 
   <table border="0" cellspacing="0" cellpadding="4" width="600">
     <tr><td nowrap align="center">
-      <b>bitMAG</b> — videojuegos para leer despacio. <a href="/" target="_top">Inicio</a> · <a href="#" target="_top">Archivo</a> · <a href="#" target="_top">Sobre nosotros</a>
-    </td></tr>
-    <tr><td nowrap align="center">
-      <small>
-        <a href="/pixelos/posts/outrun/" target="_top">Análisis</a> ·
-        <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Entrevistas</a> ·
-        <a href="#" target="_top">Arcade</a> ·
-        <a href="#" target="_top">Consola</a> ·
-        <a href="#" target="_top">Indie</a> ·
-        <a href="#" target="_top">Vídeos</a> ·
-        <a href="#" target="_top">Slow Gaming</a> ·
-        <a href="#" target="_top">más...</a>
-      </small>
+      <b>bitMAG</b> — videojuegos para leer despacio. <a href="/" target="_top">Inicio</a>
     </td></tr>
   </table>
 </form>
@@ -112,46 +121,34 @@ const recent = allPosts.slice(0, 5);
     <td valign="top" align="left">
       <table border="0" cellspacing="0" cellpadding="4">
         <tr>
-          <td valign="top" nowrap>
+          <td valign="top">
             <small>
-              <font size="3" face="arial"><a href="#" target="_top"><b>Análisis &amp; Crítica</b></a></font><br />
-              <a href="/pixelos/posts/outrun/" target="_top">OutRun</a>, <a href="/pixelos/posts/shinobi-arcade/" target="_top">Shinobi</a>, <a href="/pixelos/posts/ball-x-pit/" target="_top">Ball X Pit</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Entrevistas</b></a></font><br />
-              <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Andro Dunos II</a>, <a href="#" target="_top">Picorinne Soft</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Arcade</b></a></font><br />
-              <a href="/pixelos/posts/shinobi-arcade/" target="_top">Shinobi</a>, <a href="/pixelos/posts/outrun/" target="_top">OutRun</a>, <a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Shoot'em ups</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Consola &amp; Plataformas</b></a></font><br />
-              <a href="/pixelos/posts/mina-the-hollower/" target="_top">Switch</a>, <a href="/pixelos/posts/bounty-sister/" target="_top">Megadrive</a>, <a href="#" target="_top">PC Engine</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Indie &amp; Moderno</b></a></font><br />
-              <a href="/pixelos/posts/mina-the-hollower/" target="_top">Mina the Hollower</a>, <a href="/pixelos/posts/bounty-sister/" target="_top">Bounty Sister</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Ensayo &amp; Reflexión</b></a></font><br />
-              <a href="/pixelos/posts/el-tiempo-en-los-videojuegos/" target="_top">El tiempo</a>, <a href="#" target="_top">Slow Gaming</a>, <a href="#" target="_top">Retro</a>...
+              {tagsLeft.map(([tag, posts]) => (
+                <>
+                  <font size="3" face="arial"><b>{tagLabels[tag] ?? tag}</b></font><br />
+                  {posts.map((p, i) => (
+                    <>
+                      <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
+                    </>
+                  ))}
+                  <br /><br />
+                </>
+              ))}
             </small>
           </td>
-          <td valign="top" nowrap>
+          <td valign="top">
             <small>
-              <font size="3" face="arial"><a href="#" target="_top"><b>Plataformas</b></a></font><br />
-              <a href="#" target="_top">Arcade</a>, <a href="#" target="_top">Megadrive</a>, <a href="#" target="_top">SNES</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Géneros</b></a></font><br />
-              <a href="#" target="_top">Shoot'em ups</a>, <a href="#" target="_top">Acción</a>, <a href="#" target="_top">Conducción</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Épocas</b></a></font><br />
-              <a href="#" target="_top">80s</a>, <a href="#" target="_top">90s</a>, <a href="#" target="_top">2000s</a>, <a href="#" target="_top">Actual</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Vídeos</b></a></font><br />
-              <a href="#" target="_top">Gameplay</a>, <a href="#" target="_top">Análisis</a>, <a href="#" target="_top">Taisei Project</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Especiales</b></a></font><br />
-              <a href="#" target="_top">Número 1</a>, <a href="#" target="_top">Recomendados</a>, <a href="#" target="_top">Clásicos</a>...<br /><br />
-
-              <font size="3" face="arial"><a href="#" target="_top"><b>Sobre bitMAG</b></a></font><br />
-              <a href="#" target="_top">Quiénes somos</a>, <a href="#" target="_top">Filosofía</a>, <a href="#" target="_top">Contacto</a>...
+              {tagsRight.map(([tag, posts]) => (
+                <>
+                  <font size="3" face="arial"><b>{tagLabels[tag] ?? tag}</b></font><br />
+                  {posts.map((p, i) => (
+                    <>
+                      <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
+                    </>
+                  ))}
+                  <br /><br />
+                </>
+              ))}
             </small>
           </td>
         </tr>
@@ -161,68 +158,26 @@ const recent = allPosts.slice(0, 5);
     <td align="right" valign="top" bgcolor="#dcdcdc" width="155">
       <table border="0" cellspacing="1" cellpadding="3" width="100%">
         <tr><td align="center" bgcolor="#ffffcc" nowrap colspan="2">
-          <font face="arial" size="2"><b>Últimas entradas</b></font>
+          <font face="arial" size="2"><b>Últimas entrevistas</b></font>
         </td></tr>
         {recent.map(post => (
           <tr>
             <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{post.data.title}</a></small></td>
+            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a></small></td>
           </tr>
         ))}
-        <tr><td align="right" colspan="2" bgcolor="#dcdcdc"><a href="#"><small>más...</small></a></td></tr>
         <tr><td colspan="2" bgcolor="#dcdcdc" height="6"></td></tr>
 
         <tr><td align="center" bgcolor="#ffffcc" colspan="2">
           <font face="arial" size="2"><b>En bitMAG</b></font>
         </td></tr>
-        <tr>
-          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/andro-dunos-ii-entrevista/" target="_top">Entrevista</a> — Picorinne Soft habla de Andro Dunos II</small></td>
-        </tr>
-        <tr>
-          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/el-tiempo-en-los-videojuegos/" target="_top">Ensayo</a> — El tiempo en los videojuegos</small></td>
-        </tr>
-        <tr>
-          <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-          <td bgcolor="#dcdcdc"><small><a href="/pixelos/posts/outrun/" target="_top">OutRun</a> — conducir es soñar</small></td>
-        </tr>
-        <tr><td align="right" colspan="2" bgcolor="#dcdcdc"><a href="#"><small>más...</small></a></td></tr>
+        {allPosts.slice(0, 3).map(post => (
+          <tr>
+            <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
+            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a> — {post.data.excerpt}</small></td>
+          </tr>
+        ))}
       </table>
-    </td>
-  </tr>
-</table>
-
-<!-- DIVIDER -->
-<table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
-
-<!-- ZONA INFERIOR -->
-<table border="0" cellspacing="4" cellpadding="0">
-  <tr>
-    <td align="right" valign="top" nowrap><small><b>Géneros destacados</b></small></td>
-    <td width="8"></td>
-    <td valign="top">
-      <small>
-        <a href="#" target="_top">Shoot'em up</a> · <a href="#" target="_top">Beat'em up</a> · <a href="#" target="_top">Plataformas</a> · <a href="#" target="_top">Conducción</a> · <a href="#" target="_top">Acción</a> · <a href="#" target="_top">Puzzle</a> · <a href="#" target="_top">RPG</a>
-      </small>
-    </td>
-  </tr>
-  <tr>
-    <td align="right" valign="top" nowrap><small><b>Por época</b></small></td>
-    <td></td>
-    <td valign="top">
-      <small>
-        <a href="#" target="_top">Años 80</a> · <a href="#" target="_top">Años 90</a> · <a href="#" target="_top">Años 2000</a> · <a href="#" target="_top">Actual</a> · <a href="#" target="_top">Indie retro</a>
-      </small>
-    </td>
-  </tr>
-  <tr>
-    <td align="right" valign="top" nowrap><small><b>Otras secciones</b></small></td>
-    <td></td>
-    <td valign="top">
-      <small>
-        <a href="#" target="_top">Vídeos</a> · <a href="#" target="_top">Recomendados</a> · <a href="#" target="_top">Archivo completo</a> · <a href="#" target="_top">Libro de visitas</a> · <a href="#" target="_top">Sobre bitMAG</a>
-      </small>
     </td>
   </tr>
 </table>
@@ -232,10 +187,7 @@ const recent = allPosts.slice(0, 5);
 
 <br />
 <small>
-  <a href="#">Cómo sugerir un juego</a> ·
-  <a href="#">Sobre bitMAG</a> ·
-  <a href="#">Política de privacidad</a> ·
-  <a href="#">Contacto</a>
+  bitMAG — videojuegos para leer despacio · entrevistas a desarrolladores · slow gaming
 </small>
 <br /><br />
 
