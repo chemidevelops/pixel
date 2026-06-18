@@ -8,6 +8,11 @@ const recent = allPosts.slice(0, 5);
 
 // Nombre corto del juego: lo que va tras "sobre " en el título de la entrevista
 const gameName = (t: string) => t.includes(' sobre ') ? t.split(' sobre ').slice(1).join(' sobre ') : t;
+// Nombre del desarrollador: lo que va entre "Entrevista a " y " sobre "
+const devName = (t: string) => {
+  const m = t.match(/Entrevista a (.+?) sobre /);
+  return m ? m[1] : '';
+};
 
 // Etiquetas legibles
 const tagLabels: Record<string, string> = {
@@ -35,6 +40,12 @@ const tags = [...byTag.entries()].sort((a, b) => b[1].length - a[1].length);
 const half = Math.ceil(tags.length / 2);
 const tagsLeft = tags.slice(0, half);
 const tagsRight = tags.slice(half);
+
+const feat0 = gameName(allPosts[0].data.title);
+const feat1 = gameName(allPosts[1].data.title);
+const href0 = `/pixelos/posts/${allPosts[0].id}/`;
+const href1 = `/pixelos/posts/${allPosts[1].id}/`;
+const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -54,14 +65,20 @@ const tagsRight = tags.slice(half);
     }
     a         { color: #0000cc; }
     a:visited { color: #551a8b; }
-    a:hover   { text-decoration: underline; color: #cc0000; }
+    a:hover   { text-decoration: underline; }
     small     { font-size: 11px; }
     .wrap     { max-width: 640px; margin: 0 auto; padding: 0 8px; }
+    .mq {
+      overflow: hidden; white-space: nowrap;
+      font-size: 11px; font-family: Arial, sans-serif;
+      background: #ffffcc; border: 1px solid #cccc00; padding: 2px;
+    }
+    .mq span { display: inline-block; padding-left: 100%; animation: mq 14s linear infinite; }
+    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-100%); } }
     @media (max-width: 600px) {
       body { font-size: 13px; }
       table { width: 100% !important; }
-      td[width="155"] { width: auto !important; display: block; width: 100% !important; }
-      td[width="170"] { display: block; width: 100% !important; }
+      td[width="155"], td[width="170"], td[width="200"] { display: block; width: 100% !important; }
       .wrap { padding: 0 4px; }
       marquee { width: 100% !important; }
       td[nowrap] { white-space: normal !important; }
@@ -84,17 +101,13 @@ const tagsRight = tags.slice(half);
   <table border="0" cellspacing="0" cellpadding="4" width="600">
     <tr>
       <td align="center" width="170">
-        <small>Entrevista</small><br />
-        <a href={`/pixelos/posts/${allPosts[0].id}/`} target="_top"><b>{gameName(allPosts[0].data.title)}</b></a>
+        Entrevista: <a href={href0} target="_top">{feat0}</a>
       </td>
       <td align="center">
-        <marquee scrollamount="2" style="width:230px;font-size:11px;font-family:Arial,sans-serif;background:#ffffcc;border:1px solid #cccc00;padding:2px">
-          ✦ {allPosts.length} entrevistas · slow gaming · crítica honesta ✦
-        </marquee>
+        <div class="mq"><span>{marqueeText}</span></div>
       </td>
       <td align="center" width="170">
-        <small>Entrevista</small><br />
-        <a href={`/pixelos/posts/${allPosts[1].id}/`} target="_top"><b>{gameName(allPosts[1].data.title)}</b></a>
+        Entrevista: <a href={href1} target="_top">{feat1}</a>
       </td>
     </tr>
     <tr>
@@ -118,41 +131,35 @@ const tagsRight = tags.slice(half);
 <!-- MAIN: CATEGORÍAS + SIDEBAR -->
 <table border="0" cellspacing="7" cellpadding="2" width="600">
   <tr>
-    <td valign="top" align="left">
-      <table border="0" cellspacing="0" cellpadding="4">
-        <tr>
-          <td valign="top">
-            <small>
-              {tagsLeft.map(([tag, posts]) => (
-                <>
-                  <font size="3" face="arial"><b>{tagLabels[tag] ?? tag}</b></font><br />
-                  {posts.map((p, i) => (
-                    <>
-                      <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
-                    </>
-                  ))}
-                  <br /><br />
-                </>
-              ))}
-            </small>
-          </td>
-          <td valign="top">
-            <small>
-              {tagsRight.map(([tag, posts]) => (
-                <>
-                  <font size="3" face="arial"><b>{tagLabels[tag] ?? tag}</b></font><br />
-                  {posts.map((p, i) => (
-                    <>
-                      <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
-                    </>
-                  ))}
-                  <br /><br />
-                </>
-              ))}
-            </small>
-          </td>
-        </tr>
-      </table>
+    <td valign="top" width="200">
+      <small>
+        {tagsLeft.map(([tag, posts]) => (
+          <>
+            <font size="3" face="arial" color="#000080"><b>{tagLabels[tag] ?? tag}</b></font><br />
+            {posts.map((p, i) => (
+              <>
+                <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
+              </>
+            ))}
+            <br /><br />
+          </>
+        ))}
+      </small>
+    </td>
+    <td valign="top" width="200">
+      <small>
+        {tagsRight.map(([tag, posts]) => (
+          <>
+            <font size="3" face="arial" color="#000080"><b>{tagLabels[tag] ?? tag}</b></font><br />
+            {posts.map((p, i) => (
+              <>
+                <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
+              </>
+            ))}
+            <br /><br />
+          </>
+        ))}
+      </small>
     </td>
 
     <td align="right" valign="top" bgcolor="#dcdcdc" width="155">
@@ -174,7 +181,7 @@ const tagsRight = tags.slice(half);
         {allPosts.slice(0, 3).map(post => (
           <tr>
             <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a> — {post.data.excerpt}</small></td>
+            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a> — entrevista a {devName(post.data.title)}</small></td>
           </tr>
         ))}
       </table>
