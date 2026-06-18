@@ -68,7 +68,7 @@ const iconUrls = {
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Explorador</p></div></button></li>
-        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi bitmag</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi blog</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
@@ -136,7 +136,7 @@ const iconUrls = {
               <div class="explorer-tree-panel">
                 <ul class="tree-view folder-tree">
                   <li>
-                    <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi bitmag</span>
+                    <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi blog</span>
                     <ul>
                       <li>
                         <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\BITMAG</span>
@@ -834,8 +834,17 @@ const iconUrls = {
           tr.className = 'file-item'; tr.tabIndex = 0;
           tr.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.music + '" alt="" /><span class="file-main"><strong>' + t.title + '</strong></span></td><td>' + t.artist + '</td><td>Audio MP3</td><td></td>';
           (function(track) {
-            tr.addEventListener('click', function() { launchWebampWithTrack(track); });
             tr.addEventListener('dblclick', function() { launchWebampWithTrack(track); });
+            tr.addEventListener('click', function() {
+              if (isMobile()) {
+                if (tr.classList.contains('selected')) { launchWebampWithTrack(track); return; }
+                document.querySelectorAll('.file-item.selected').forEach(function(r) { r.classList.remove('selected'); });
+                selectRow(tr);
+                return;
+              }
+              selectRow(tr);
+            });
+            tr.addEventListener('keydown', function(event) { if (event.key === 'Enter') launchWebampWithTrack(track); });
           })(t);
           fileView.appendChild(tr);
         });
@@ -1152,7 +1161,7 @@ const iconUrls = {
         childUl.style.display = collapsed ? '' : 'none';
         toggle.textContent = collapsed ? '−' : '+';
         var img = toggle.parentElement.querySelector('img');
-        if (img) img.src = collapsed ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
+        if (img && img.src.indexOf('computer') === -1) img.src = collapsed ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
       });
     });
     document.querySelectorAll('[data-folder]').forEach(function(button) { button.addEventListener('click', function() { openFolder(button.dataset.folder); }); });
