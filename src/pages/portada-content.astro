@@ -41,11 +41,32 @@ const half = Math.ceil(tags.length / 2);
 const tagsLeft = tags.slice(0, half);
 const tagsRight = tags.slice(half);
 
-const feat0 = gameName(allPosts[0].data.title);
-const feat1 = gameName(allPosts[1].data.title);
-const href0 = `/pixelos/posts/${allPosts[0].id}/`;
-const href1 = `/pixelos/posts/${allPosts[1].id}/`;
 const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
+
+// Fragmentos dinámicos como HTML (inyectados con set:html para evitar el
+// bug del compilador de Astro con <a>{expr}</a> como último hijo de celda)
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const link = (p: typeof allPosts[number]) =>
+  `<a href="/pixelos/posts/${p.id}/" target="_top">${esc(gameName(p.data.title))}</a>`;
+
+const feat0Html = `Entrevista: ${link(allPosts[0])}`;
+const feat1Html = `Entrevista: ${link(allPosts[1])}`;
+
+const catColHtml = (entries: typeof tagsLeft) => entries.map(([tag, posts]) =>
+  `<font size="3" face="arial" color="#000080"><b>${esc(tagLabels[tag] ?? tag)}</b></font><br>` +
+  posts.map(link).join(', ') + '<br><br>'
+).join('');
+const leftHtml = catColHtml(tagsLeft);
+const rightHtml = catColHtml(tagsRight);
+
+const recentHtml = recent.map(p =>
+  `<tr><td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>` +
+  `<td bgcolor="#dcdcdc"><small>${link(p)}</small></td></tr>`
+).join('');
+const enbitmagHtml = allPosts.slice(0, 3).map(p =>
+  `<tr><td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>` +
+  `<td bgcolor="#dcdcdc"><small>${link(p)} — entrevista a ${esc(devName(p.data.title))}</small></td></tr>`
+).join('');
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -63,9 +84,9 @@ const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
       margin: 0;
       padding: 0;
     }
-    a         { color: #0000cc; }
-    a:visited { color: #551a8b; }
-    a:hover   { text-decoration: underline; }
+    :global(a)         { color: #0000cc; }
+    :global(a:visited) { color: #551a8b; }
+    :global(a:hover)   { text-decoration: underline; color: #ff66c4; }
     small     { font-size: 11px; }
     .wrap     { max-width: 640px; margin: 0 auto; padding: 0 8px; }
     .mq {
@@ -100,15 +121,11 @@ const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
 
   <table border="0" cellspacing="0" cellpadding="4" width="600">
     <tr>
-      <td align="center" width="170">
-        Entrevista: <a href={href0} target="_top">{feat0}</a>
-      </td>
+      <td align="center" width="170" set:html={feat0Html}></td>
       <td align="center">
         <div class="mq"><span>{marqueeText}</span></div>
       </td>
-      <td align="center" width="170">
-        Entrevista: <a href={href1} target="_top">{feat1}</a>
-      </td>
+      <td align="center" width="170" set:html={feat1Html}></td>
     </tr>
     <tr>
       <td colspan="3" align="center">
@@ -131,59 +148,21 @@ const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
 <!-- MAIN: CATEGORÍAS + SIDEBAR -->
 <table border="0" cellspacing="7" cellpadding="2" width="600">
   <tr>
-    <td valign="top" width="200">
-      <small>
-        {tagsLeft.map(([tag, posts]) => (
-          <>
-            <font size="3" face="arial" color="#000080"><b>{tagLabels[tag] ?? tag}</b></font><br />
-            {posts.map((p, i) => (
-              <>
-                <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
-              </>
-            ))}
-            <br /><br />
-          </>
-        ))}
-      </small>
-    </td>
-    <td valign="top" width="200">
-      <small>
-        {tagsRight.map(([tag, posts]) => (
-          <>
-            <font size="3" face="arial" color="#000080"><b>{tagLabels[tag] ?? tag}</b></font><br />
-            {posts.map((p, i) => (
-              <>
-                <a href={`/pixelos/posts/${p.id}/`} target="_top">{gameName(p.data.title)}</a>{i < posts.length - 1 ? ', ' : ''}
-              </>
-            ))}
-            <br /><br />
-          </>
-        ))}
-      </small>
-    </td>
+    <td valign="top" width="200"><small set:html={leftHtml}></small></td>
+    <td valign="top" width="200"><small set:html={rightHtml}></small></td>
 
     <td align="right" valign="top" bgcolor="#dcdcdc" width="155">
       <table border="0" cellspacing="1" cellpadding="3" width="100%">
         <tr><td align="center" bgcolor="#ffffcc" nowrap colspan="2">
           <font face="arial" size="2"><b>Últimas entrevistas</b></font>
         </td></tr>
-        {recent.map(post => (
-          <tr>
-            <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a></small></td>
-          </tr>
-        ))}
+        <tbody set:html={recentHtml}></tbody>
         <tr><td colspan="2" bgcolor="#dcdcdc" height="6"></td></tr>
 
         <tr><td align="center" bgcolor="#ffffcc" colspan="2">
           <font face="arial" size="2"><b>En bitMAG</b></font>
         </td></tr>
-        {allPosts.slice(0, 3).map(post => (
-          <tr>
-            <td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>
-            <td bgcolor="#dcdcdc"><small><a href={`/pixelos/posts/${post.id}/`} target="_top">{gameName(post.data.title)}</a> — entrevista a {devName(post.data.title)}</small></td>
-          </tr>
-        ))}
+        <tbody set:html={enbitmagHtml}></tbody>
       </table>
     </td>
   </tr>

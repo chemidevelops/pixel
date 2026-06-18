@@ -1,6 +1,6 @@
 ---
 const { frontmatter } = Astro.props;
-const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const { title, headline, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
 const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
   day: 'numeric',
   month: 'long',
@@ -29,7 +29,8 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
           ))}
         </div>
       </div>
-      <h1>{title}</h1>
+      {headline && <p class="post-kicker">{title}</p>}
+      <h1>{headline ?? title}</h1>
       {excerpt && <p class="post-excerpt-header">{excerpt}</p>}
     </div>
 
@@ -73,6 +74,15 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
 
     .embed-post .post-date { color: var(--text-muted); }
     .embed-post .post-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+    .embed-post .post-kicker {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 0 0 0.4rem;
+      font-weight: 600;
+    }
 
     .embed-post .post-header h1 {
       font-size: clamp(2rem, 5vw, 3.4rem);

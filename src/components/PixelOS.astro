@@ -1961,13 +1961,29 @@ const iconUrls = {
     setTimeout(function() {
       var mobile = isMobile();
 
-      function mobileInset(win, top, left) {
-        win.style.top = top + 'px';
+      var mobileWindows = [];
+      function applyMobileInset(win, top, left) {
+        win.style.top = 'calc(' + top + 'px + env(safe-area-inset-top, 0px))';
         win.style.left = left + 'px';
         win.style.right = '4px';
         win.style.bottom = '4px';
         win.style.width = 'auto';
         win.style.height = 'auto';
+      }
+      function mobileInset(win, top, left) {
+        mobileWindows.push({ win: win, top: top, left: left });
+        applyMobileInset(win, top, left);
+      }
+      // Re-asegura las posiciones tras cargar (evita que el viewport móvil
+      // descuadre la barra de título durante el arranque)
+      function reassertMobileWindows() {
+        mobileWindows.forEach(function(m) { applyMobileInset(m.win, m.top, m.left); });
+      }
+      if (mobile) {
+        window.addEventListener('load', reassertMobileWindows);
+        window.addEventListener('orientationchange', reassertMobileWindows);
+        setTimeout(reassertMobileWindows, 120);
+        setTimeout(reassertMobileWindows, 500);
       }
 
       // 1. Latest article (back)
@@ -1983,7 +1999,7 @@ const iconUrls = {
         articleWin.querySelector('iframe').src = '/pixelos/posts/' + latest.id + '/';
         document.getElementById('reader-windows').appendChild(articleWin);
         bindWindow(articleWin);
-        if (mobile) { mobileInset(articleWin, 62, 12); }
+        if (mobile) { mobileInset(articleWin, 74, 12); }
         else { articleWin.style.left = '420px'; articleWin.style.top = '30px'; }
         articleWin.hidden = false;
         focusWindow(articleWin);
@@ -1993,7 +2009,7 @@ const iconUrls = {
       // 2. Explorer (middle) — abierto en artículos
       var explorerWin = document.getElementById('window-explorer');
       if (mobile && explorerWin) {
-        mobileInset(explorerWin, 28, 8);
+        mobileInset(explorerWin, 40, 8);
       }
       showWindowNow('explorer');
       openFolderNow('all');
@@ -2008,7 +2024,7 @@ const iconUrls = {
       portadaWin.querySelector('iframe').src = '/portada-content/';
       document.getElementById('reader-windows').appendChild(portadaWin);
       bindWindow(portadaWin);
-      if (mobile) { mobileInset(portadaWin, 32, 4); }
+      if (mobile) { mobileInset(portadaWin, 44, 4); }
       else { portadaWin.style.left = '220px'; portadaWin.style.top = '120px'; }
       portadaWin.hidden = false;
       focusWindow(portadaWin);
