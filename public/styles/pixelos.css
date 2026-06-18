@@ -27,6 +27,7 @@ button { cursor: default; }
 .wallpaper-rosedk   { background: #d946a8; }
 .wallpaper-segasky      { background: url('/images/segasky.png') center center / cover no-repeat; }
 .wallpaper-streetsofrage { background: url('/images/streetsofrage.jpg') center center / cover no-repeat; }
+.wallpaper-ps1          { background: url('/images/ps1.jpg') center center / cover no-repeat; }
 .wallpaper-sage     { background: #7a9e7e; }
 .wallpaper-terra    { background: #b5714a; }
 .wallpaper-plum     { background: #4e2d4e; }
@@ -423,6 +424,7 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .wallpaper-preview.rosedk   { background: #d946a8; }
 .wallpaper-preview.segasky      { background: linear-gradient(to bottom, #1a0a4a 0%, #3d1a8a 35%, #6b35c8 60%, #d4608a 80%, #f0a060 100%); }
 .wallpaper-preview.streetsofrage { background: url('/images/streetsofrage.jpg') center center / cover no-repeat; }
+.wallpaper-preview.ps1          { background: url('/images/ps1.jpg') center center / cover no-repeat; }
 .wallpaper-preview.sage     { background: #7a9e7e; }
 .wallpaper-preview.terra    { background: #b5714a; }
 .wallpaper-preview.plum     { background: #4e2d4e; }
