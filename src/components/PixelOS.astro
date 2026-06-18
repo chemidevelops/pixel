@@ -35,6 +35,7 @@ const iconUrls = {
     doom: '/icons/doom-32-new.png',
     video: '/icons/video-32.png',
     mplayer: '/icons/mplayer-32.png',
+    psyvariar: '/icons/psyvariar-32.png',
   },
   files: {
     article: '/icons/react95/html-16.png',
@@ -73,6 +74,7 @@ const iconUrls = {
         <li class="desktop-icon-item"><button class="desktop-icon" data-desktop-window="doom"><img class="desktop-icon-image" src={iconUrls.desktop.doom} alt="" /><div class="border-box"><p class="desktop-icon-label">DOOM</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="videos"><img class="desktop-icon-image" src={iconUrls.desktop.video} alt="" /><div class="border-box"><p class="desktop-icon-label">Vídeos</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" id="winamp-icon" data-desktop-window="winamp"><img class="desktop-icon-image" src="/icons/winamp-32.png" alt="" /><div class="border-box"><p class="desktop-icon-label">Winamp</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="psyvariar"><img class="desktop-icon-image" src={iconUrls.desktop.psyvariar} alt="" /><div class="border-box"><p class="desktop-icon-label">Psyvariar 3 Especial</p></div></button></li>
       </ul>
 
 
@@ -122,7 +124,7 @@ const iconUrls = {
           <div class="explorer-command-bar">
             <div class="field-row explorer-toolbar">
               <label for="explorer-address">Dirección</label>
-              <input id="explorer-address" type="text" value="C:\PIXEL\ARTICULOS" spellcheck="false" />
+              <input id="explorer-address" type="text" value="C:\BITMAG\ARTICULOS" spellcheck="false" />
               <button type="button" id="explorer-go">Ir</button>
             </div>
           </div>
@@ -137,12 +139,13 @@ const iconUrls = {
                     <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.desktop.computer} alt="" />Mi bitmag</span>
                     <ul>
                       <li>
-                        <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\PIXEL</span>
+                        <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\BITMAG</span>
                         <ul>
                           <li><button class="tree-button" data-folder-nav="all"><img src="/icons/react95/folder-closed-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
                           <li><button class="tree-button" data-folder-nav="entrevista"><img src="/icons/react95/folder-closed-16.png" alt="" />Entrevistas</button><ul class="tree-files" id="tree-files-entrevista"></ul></li>
                           <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button><ul class="tree-files" id="tree-files-videos"></ul></li>
                           <li><button class="tree-button" data-folder-nav="musica"><img src={iconUrls.files.music} alt="" />Música</button><ul class="tree-files" id="tree-files-musica"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="psyvariar"><img src="/icons/react95/folder-closed-16.png" alt="" />Psyvariar 3 Especial</button><ul class="tree-files" id="tree-files-psyvariar"></ul></li>
                         </ul>
                       </li>
                     </ul>
@@ -161,7 +164,7 @@ const iconUrls = {
             </div>
           </div>
         </div>
-        <div class="status-bar"><p class="status-bar-field" id="status-count">0 objetos</p><p class="status-bar-field" id="status-path">C:\PIXEL\ARTICULOS</p><p class="status-bar-field">bitOS 26</p></div>
+        <div class="status-bar"><p class="status-bar-field" id="status-count">0 objetos</p><p class="status-bar-field" id="status-path">C:\BITMAG\ARTICULOS</p><p class="status-bar-field">bitOS 26</p></div>
       </section>
 
       <div id="reader-windows"></div>
@@ -367,7 +370,7 @@ const iconUrls = {
 
     <template id="reader-template">
       <section class="window os-window reader-window">
-        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de PIXEL</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
+        <div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src={iconUrls.files.article} alt="" /><span>Lector de bitmag</span></div><div class="title-bar-controls"><button aria-label="Minimize" data-action="minimize" data-minimize></button><button aria-label="Maximize" data-action="maximize" data-maximize></button><button aria-label="Close" data-action="close" class="close" data-close></button></div></div>
         <div class="window-body ie3-body">
           <div class="ie3-menubar" role="menubar">
             <button class="ie3-menubar-button" type="button"><u>A</u>rchivo</button>
@@ -428,7 +431,7 @@ const iconUrls = {
           <div class="ie3-addressbar">
             <label class="ie3-address-label" for="ie3-address-input">Dirección</label>
             <div class="ie3-address-field">
-              <input class="ie3-address-input" id="ie3-address-input" type="text" value="C:\PIXEL\ARTICULOS\articulo.HTM" spellcheck="false" data-reader-path />
+              <input class="ie3-address-input" id="ie3-address-input" type="text" value="C:\BITMAG\ARTICULOS\articulo.HTM" spellcheck="false" data-reader-path />
               <button class="ie3-address-drop" type="button" aria-label="Historial de direcciones"></button>
             </div>
           </div>
@@ -440,7 +443,7 @@ const iconUrls = {
             </button>
             <button class="ie3-linksbar-item" type="button">
               <span class="ie3-linksbar-icon" aria-hidden="true"></span>
-              <span class="ie3-linksbar-text">PIXEL</span>
+              <span class="ie3-linksbar-text">bitmag</span>
             </button>
             <button class="ie3-linksbar-item" type="button">
               <span class="ie3-linksbar-icon" aria-hidden="true"></span>
@@ -448,7 +451,7 @@ const iconUrls = {
             </button>
           </div>
           <div class="ie3-main">
-            <iframe title="Artículo de PIXEL"></iframe>
+            <iframe title="Artículo de bitmag"></iframe>
           </div>
           <div class="ie3-statusbar">
             <div class="ie3-status-panel">
@@ -649,23 +652,24 @@ const iconUrls = {
     const readerTemplate = document.getElementById('reader-template');
     const folderTitles = {
       all: ['Artículos', 'C:\\BITMAG\\ARTICULOS'],
-      entrevista: ['Entrevistas', 'C:\\PIXEL\\ENTREVISTAS'],
-      arcade: ['Arcade', 'C:\\PIXEL\\ARCADE'],
+      entrevista: ['Entrevistas', 'C:\\BITMAG\\ENTREVISTAS'],
+      arcade: ['Arcade', 'C:\\BITMAG\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
-      videos: ['Vídeos', 'C:\\PIXEL\\VIDEOS'],
-      musica: ['Música', 'C:\\PIXEL\\MUSICA'],
-      juegos: ['Juegos', 'C:\\PIXEL\\JUEGOS'],
+      videos: ['Vídeos', 'C:\\BITMAG\\VIDEOS'],
+      musica: ['Música', 'C:\\BITMAG\\MUSICA'],
+      juegos: ['Juegos', 'C:\\BITMAG\\JUEGOS'],
+      psyvariar: ['Psyvariar 3 Especial', 'C:\\BITMAG\\PSYVARIAR'],
     };
     const videoFiles = [
       { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
       { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
     ];
     const folderAliases = {
-      'C:\\PIXEL\\ARTICULOS': 'all',
-      'C:\\PIXEL\\ENTREVISTAS': 'entrevista',
-      'C:\\PIXEL\\ARCADE': 'arcade',
+      'C:\\BITMAG\\ARTICULOS': 'all',
+      'C:\\BITMAG\\ENTREVISTAS': 'entrevista',
+      'C:\\BITMAG\\ARCADE': 'arcade',
       'A:\\FANZINES': 'fanzines',
-      'C:\\PIXEL\\VIDEOS': 'videos',
+      'C:\\BITMAG\\VIDEOS': 'videos',
       'ARTICULOS': 'all',
       'ENTREVISTAS': 'entrevista',
       'ARCADE': 'arcade',
@@ -848,6 +852,8 @@ const iconUrls = {
           tr.addEventListener('dblclick', g.action);
           fileView.appendChild(tr);
         });
+      } else if (folder === 'psyvariar') {
+        // Carpeta del juego — de momento vacía (crítica, entrevista y tráiler próximamente)
       } else {
         const files = filesFor(folder);
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
@@ -859,7 +865,7 @@ const iconUrls = {
       if (treeUl) {
         var treeItems = [];
         if (folder === 'fanzines') {
-          treeItems = issues.filter(function(i) { return i.pdf; }).map(function(i) { return { label: 'PIXEL nº' + i.number + '.pdf', icon: iconUrls.files.pdf || iconUrls.files.article, action: function() {} }; });
+          treeItems = issues.filter(function(i) { return i.pdf; }).map(function(i) { return { label: 'bitmag nº' + i.number + '.pdf', icon: iconUrls.files.pdf || iconUrls.files.article, action: function() {} }; });
         } else if (folder === 'videos') {
           videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'musica') {
@@ -898,9 +904,9 @@ const iconUrls = {
     function openMobileRoot() {
       mobileIsAtRoot = true;
       fileView.innerHTML = '';
-      document.getElementById('explorer-title').textContent = 'PIXEL';
-      document.getElementById('explorer-address').value = 'C:\\PIXEL';
-      document.getElementById('status-path').textContent = 'C:\\PIXEL';
+      document.getElementById('explorer-title').textContent = 'bitmag';
+      document.getElementById('explorer-address').value = 'C:\\BITMAG';
+      document.getElementById('status-path').textContent = 'C:\\BITMAG';
       document.getElementById('status-count').textContent = '4 objetos';
       document.getElementById('explorer-back').classList.add('tb-disabled');
       document.getElementById('explorer-up').classList.add('tb-disabled');
@@ -924,7 +930,7 @@ const iconUrls = {
       const row = document.createElement('tr');
       row.className = 'file-item';
       row.tabIndex = 0;
-      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'PIXEL') + '</td>';
+      row.innerHTML = '<td class="name-cell"><img class="file-type-icon" src="' + iconUrls.files.article + '" alt="" /><span class="file-main"><strong>' + post.title + '</strong></span></td><td>' + formatDate(post.date) + '</td><td>Documento HTML</td><td>' + ((post.tags.slice(0, 2).join(' · ')) || 'bitmag') + '</td>';
       row.addEventListener('dblclick', function() { openArticle(post); });
       row.addEventListener('click', function() {
         if (isMobile()) {
@@ -990,7 +996,7 @@ const iconUrls = {
       win.dataset.readerId = post.id;
       win.querySelector('.title-bar-text span').textContent = post.title;
       win.querySelectorAll('[data-reader-path]').forEach(function(el) {
-        var path = 'C:\\PIXEL\\ARTICULOS\\' + post.id + '.HTM';
+        var path = 'C:\\BITMAG\\ARTICULOS\\' + post.id + '.HTM';
         if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
       });
       const iframe = win.querySelector('iframe');
@@ -1993,7 +1999,7 @@ const iconUrls = {
         articleWin.dataset.readerId = latest.id;
         articleWin.querySelector('.title-bar-text span').textContent = latest.title;
         articleWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
-          var path = 'C:\\PIXEL\\ARTICULOS\\' + latest.id + '.HTM';
+          var path = 'C:\\BITMAG\\ARTICULOS\\' + latest.id + '.HTM';
           if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
         });
         articleWin.querySelector('iframe').src = '/pixelos/posts/' + latest.id + '/';
