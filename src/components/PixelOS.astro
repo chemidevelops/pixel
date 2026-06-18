@@ -1205,39 +1205,62 @@ const iconUrls = {
       wa.style.zIndex = String(topZ);
       allWindows().forEach(function(w) { w.classList.remove('focused'); });
     }
-    function launchWebampWithTrack(track) {
-      if (webampInstance) {
-        focusWebamp();
-        return;
-      }
+    var webampReady = null;
+    var webampIndex = 0; // index of current track in allMusicTracks
+    function ensureWebamp() {
+      if (webampInstance) return webampReady;
       // @ts-ignore
-      var wa = new Webamp({ initialTracks: [{ metaData: { artist: track.artist, title: track.title }, url: track.url }].concat(allMusicTracks.filter(function(t) { return t.url !== track.url; })) });
+      var wa = new Webamp({
+        initialTracks: allMusicTracks,
+        __initialWindowLayout: {
+          main:      { position: { x: 200, y: 100 } },
+          equalizer: { position: { x: 200, y: 216 } },
+          playlist:  { position: { x: 200, y: 332 } },
+        },
+      });
       webampInstance = wa;
-      wa.onClose(function() { webampInstance = null; });
-      var host = document.getElementById('webamp-container');
-      wa.renderWhenReady(host).then(function() { wa.play(); });
-    }
-    function launchWebamp() {
-      if (webampInstance) {
-        focusWebamp();
-        return;
+      webampIndex = 0;
+      wa.onClose(function() { webampInstance = null; webampReady = null; });
+      // keep our index in sync when webamp changes track on its own (song ends, etc.)
+      if (wa.onTrackDidChange) {
+        wa.onTrackDidChange(function(t) {
+          if (!t || !t.url) return;
+          for (var i = 0; i < allMusicTracks.length; i++) {
+            if (allMusicTracks[i].url === t.url) { webampIndex = i; break; }
+          }
+        });
       }
-      // @ts-ignore
-      var wa = new Webamp({ initialTracks: allMusicTracks });
-      webampInstance = wa;
-      wa.onClose(function() { webampInstance = null; });
       var host = document.getElementById('webamp-container');
-      wa.renderWhenReady(host).then(function() {
+      webampReady = wa.renderWhenReady(host).then(function() {
         var waEl = document.getElementById('webamp');
         if (waEl) {
           document.getElementById('pixel-os').appendChild(waEl);
           topZ += 1;
           waEl.style.zIndex = String(topZ);
-          waEl.style.left = '200px';
-          waEl.style.top = '100px';
+          waEl.style.left = '0';
+          waEl.style.top = '0';
           waEl.addEventListener('pointerdown', focusWebamp);
         }
+        return wa;
       });
+      return webampReady;
+    }
+    function launchWebampWithTrack(track) {
+      var target = 0;
+      for (var i = 0; i < allMusicTracks.length; i++) {
+        if (allMusicTracks[i].url === track.url) { target = i; break; }
+      }
+      ensureWebamp().then(function(wa) {
+        focusWebamp();
+        var delta = target - webampIndex;
+        while (delta > 0) { wa.nextTrack(); delta--; }
+        while (delta < 0) { wa.previousTrack(); delta++; }
+        webampIndex = target;
+        wa.play();
+      });
+    }
+    function launchWebamp() {
+      ensureWebamp().then(function() { focusWebamp(); });
     }
 
     function desktopButtons() {
