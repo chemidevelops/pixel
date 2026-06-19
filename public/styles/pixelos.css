@@ -725,6 +725,9 @@ html.is-mobile body.opening-wait::after {
   pointer-events: none;
 }
 html.is-mobile { overflow: hidden; }
+/* Ancla el escritorio al viewport: evita que el rubber-band/overscroll de
+   iOS desplace las ventanas absolutas y corte la barra de título al entrar. */
+html.is-mobile .pixel-os { position: fixed !important; inset: 0 !important; }
 
 html.is-mobile .taskbar { display: none !important; }
 html.is-mobile .start-menu { display: none !important; }

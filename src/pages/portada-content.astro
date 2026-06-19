@@ -47,7 +47,7 @@ const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
 // bug del compilador de Astro con <a>{expr}</a> como último hijo de celda)
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const link = (p: typeof allPosts[number]) =>
-  `<a href="/pixelos/posts/${p.id}/" target="_top">${esc(gameName(p.data.title))}</a>`;
+  `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(gameName(p.data.title))}</a>`;
 
 const feat0Html = `Entrevista: ${link(allPosts[0])}`;
 const feat1Html = `Entrevista: ${link(allPosts[1])}`;
@@ -178,5 +178,19 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
 <br /><br />
 
 </center></div>
+<script is:inline>
+  // Dentro de la ventana de bitOS: al pulsar un enlace de artículo, avisa al
+  // escritorio padre para que lo abra en una ventana en vez de navegar a
+  // pantalla completa. Si se abre suelto (sin padre), el href funciona normal.
+  (function () {
+    if (window.parent === window) return;
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[data-article-id]') : null;
+      if (!a) return;
+      e.preventDefault();
+      window.parent.postMessage({ type: 'pixelos-open-article', id: a.getAttribute('data-article-id') }, '*');
+    });
+  })();
+</script>
 </body>
 </html>
