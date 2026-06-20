@@ -200,19 +200,10 @@ const iconUrls = {
                 <div class="wallpaper-options">
                   <button data-wallpaper="teal"><span class="wallpaper-preview teal"></span>Clásico</button>
                   <button data-wallpaper="navy"><span class="wallpaper-preview navy"></span>Azul</button>
-                  <button data-wallpaper="black"><span class="wallpaper-preview black"></span>Negro</button>
-                  <button data-wallpaper="slate"><span class="wallpaper-preview slate"></span>Pizarra</button>
-                  <button data-wallpaper="plum"><span class="wallpaper-preview plum"></span>Ciruela</button>
-                  <button data-wallpaper="lavender"><span class="wallpaper-preview lavender"></span>Lavanda</button>
-                  <button data-wallpaper="sage"><span class="wallpaper-preview sage"></span>Salvia</button>
-                  <button data-wallpaper="terra"><span class="wallpaper-preview terra"></span>Terracota</button>
-                  <button data-wallpaper="rose"><span class="wallpaper-preview rose"></span>Rosa</button>
-                  <button data-wallpaper="sand"><span class="wallpaper-preview sand"></span>Arena</button>
                   <button data-wallpaper="cream"><span class="wallpaper-preview cream"></span>Crema</button>
-                  <button data-wallpaper="rosedk"><span class="wallpaper-preview rosedk"></span>Rosa oscuro</button>
                   <button data-wallpaper="segasky"><span class="wallpaper-preview segasky"></span>Sega Sky</button>
                   <button data-wallpaper="streetsofrage"><span class="wallpaper-preview streetsofrage"></span>Streets of Rage</button>
-                  <button data-wallpaper="ps1"><span class="wallpaper-preview ps1"></span>PS1</button>
+                  <button data-wallpaper="space"><span class="wallpaper-preview space"></span>Espacio</button>
                   <button data-wallpaper="grid"><span class="wallpaper-preview grid"></span>Cuadrícula</button>
                 </div>
               </fieldset>
@@ -224,12 +215,6 @@ const iconUrls = {
                   <button data-wincolor="#000080"><span class="wallpaper-preview" style="background:#000080"></span>Clásico</button>
                   <button data-wincolor="#1a3a5c"><span class="wallpaper-preview" style="background:#1a3a5c"></span>Marino</button>
                   <button data-wincolor="#1a1a18"><span class="wallpaper-preview" style="background:#1a1a18"></span>Negro</button>
-                  <button data-wincolor="#3d5a80"><span class="wallpaper-preview" style="background:#3d5a80"></span>Pizarra</button>
-                  <button data-wincolor="#4e2d4e"><span class="wallpaper-preview" style="background:#4e2d4e"></span>Ciruela</button>
-                  <button data-wincolor="#6a5a8a"><span class="wallpaper-preview" style="background:#6a5a8a"></span>Lavanda</button>
-                  <button data-wincolor="#4a7c59"><span class="wallpaper-preview" style="background:#4a7c59"></span>Salvia</button>
-                  <button data-wincolor="#8c4a2f"><span class="wallpaper-preview" style="background:#8c4a2f"></span>Terracota</button>
-                  <button data-wincolor="#ff66c4"><span class="wallpaper-preview" style="background:#ff66c4"></span>Rosa</button>
                   <button data-wincolor="#7f5a2a"><span class="wallpaper-preview" style="background:#7f5a2a"></span>Arena</button>
                   <button data-wincolor="#7f1d1d"><span class="wallpaper-preview" style="background:#7f1d1d"></span>Granate</button>
                   <button data-wincolor="#d946a8"><span class="wallpaper-preview" style="background:#d946a8"></span>Rosa oscuro</button>
@@ -655,6 +640,9 @@ const iconUrls = {
       { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
       { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
     ];
+    const psyvariarFiles = [
+      { title: 'Psyvariar 3 — Tráiler', file: 'psyvariar3_trailer.mp4', tags: 'shoot\'em up · bullet hell' },
+    ];
     const folderAliases = {
       'C:\\BITMAG\\ARTICULOS': 'all',
       'C:\\BITMAG\\ENTREVISTAS': 'entrevista',
@@ -853,7 +841,7 @@ const iconUrls = {
           fileView.appendChild(tr);
         });
       } else if (folder === 'psyvariar') {
-        // Carpeta del juego — de momento vacía (crítica, entrevista y tráiler próximamente)
+        psyvariarFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
       } else {
         const files = filesFor(folder);
         files.forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
@@ -867,7 +855,9 @@ const iconUrls = {
         if (folder === 'fanzines') {
           treeItems = issues.filter(function(i) { return i.pdf; }).map(function(i) { return { label: 'bitmag nº' + i.number + '.pdf', icon: iconUrls.files.pdf || iconUrls.files.article, action: function() {} }; });
         } else if (folder === 'videos') {
-          videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
+          videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
+        } else if (folder === 'psyvariar') {
+          psyvariarFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'musica') {
           var mTracks = [
             { title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' },
@@ -882,7 +872,7 @@ const iconUrls = {
           var btn = document.createElement('button');
           btn.className = 'tree-file-button';
           btn.innerHTML = '<img src="' + item.icon + '" alt="" />' + item.label;
-          btn.addEventListener('click', item.action);
+          btn.addEventListener(item.dbl ? 'dblclick' : 'click', item.action);
           li.appendChild(btn);
           treeUl.appendChild(li);
         });

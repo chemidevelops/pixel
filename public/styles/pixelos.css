@@ -28,6 +28,7 @@ button { cursor: default; }
 .wallpaper-segasky      { background: url('/images/segasky.png') center center / cover no-repeat; }
 .wallpaper-streetsofrage { background: url('/images/streetsofrage.jpg') center center / cover no-repeat; }
 .wallpaper-ps1          { background: url('/images/ps1.jpg') center center / cover no-repeat; }
+.wallpaper-space        { background: url('/images/space.jpg') center center / cover no-repeat; }
 .wallpaper-sage     { background: #7a9e7e; }
 .wallpaper-terra    { background: #b5714a; }
 .wallpaper-plum     { background: #4e2d4e; }
@@ -42,6 +43,11 @@ button { cursor: default; }
 .wallpaper-sand .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .desktop { position: absolute; inset: 0 0 42px; }
 .desktop::after { content: ""; position: absolute; inset: 0; background: url('/images/bitmag_logo_pink.svg') right 24px bottom 48px / 320px auto no-repeat; opacity: 1; pointer-events: none; z-index: 0; }
+/* Combo logo+fondo: letras beige (pink_beige) en fondos oscuros/imagen,
+   letras azules (pink, por defecto) en fondos claros/azulados. */
+.wallpaper-teal .desktop::after,
+.wallpaper-streetsofrage .desktop::after,
+.wallpaper-space .desktop::after { background-image: url('/images/bitmag_logo_pink_beige.svg'); }
 .desktop-selection-box { position: absolute; border: 1px dotted #fff; background: rgba(0, 0, 128, 0.18); pointer-events: none; z-index: 3; }
 .desktop-icons { position: relative; margin: 10px 0 0 10px; padding: 0; list-style: none; width: 0; height: calc(100% - 20px); }
 .desktop-icon-item { position: absolute; width: 94px; height: 102px; outline: none; }
@@ -410,8 +416,8 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .about-content dd { margin: 0; font-weight: bold; }
 .about-hint { color: #666; font-style: italic; font-size: 11px !important; }
 .wallpaper-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
-.wallpaper-options button { font-size: 10px; }
-.wallpaper-preview { display: block; height: 32px; margin-bottom: 3px; border: 2px inset #fff; }
+.wallpaper-options button { font-size: 10px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 82px; padding-top: 13px; }
+.wallpaper-preview { display: block; width: 100%; height: 32px; margin-bottom: 3px; border: 2px inset #fff; }
 .settings-tab-body { max-height: 320px; overflow-y: auto; }
 .wallpaper-preview.teal   { background: #008080; }
 .wallpaper-preview.grid   { background-color: #f4f4f0; background-image: linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px); background-size: 8px 8px; }
@@ -422,9 +428,10 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .wallpaper-preview.cream    { background: #f0e8d8; }
 .wallpaper-preview.rose     { background: #ff66c4; }
 .wallpaper-preview.rosedk   { background: #d946a8; }
-.wallpaper-preview.segasky      { background: linear-gradient(to bottom, #1a0a4a 0%, #3d1a8a 35%, #6b35c8 60%, #d4608a 80%, #f0a060 100%); }
+.wallpaper-preview.segasky      { background: url('/images/segasky.png') center center / cover no-repeat; }
 .wallpaper-preview.streetsofrage { background: url('/images/streetsofrage.jpg') center center / cover no-repeat; }
 .wallpaper-preview.ps1          { background: url('/images/ps1.jpg') center center / cover no-repeat; }
+.wallpaper-preview.space        { background: url('/images/space.jpg') center center / cover no-repeat; }
 .wallpaper-preview.sage     { background: #7a9e7e; }
 .wallpaper-preview.terra    { background: #b5714a; }
 .wallpaper-preview.plum     { background: #4e2d4e; }
@@ -749,11 +756,18 @@ html.is-mobile .desktop::after {
   display: block !important;
   flex: 1 !important;
   align-self: stretch !important;
-  background: url('/images/bitmag_logo_pink.svg') right 12px bottom 56px / 70% auto no-repeat !important;
+  background-image: url('/images/bitmag_logo_pink.svg') !important;
+  background-position: right 12px bottom 56px !important;
+  background-size: 70% auto !important;
+  background-repeat: no-repeat !important;
   opacity: 1 !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
+/* Combo logo+fondo en móvil (mismas combinaciones que en escritorio) */
+html.is-mobile .wallpaper-teal .desktop::after,
+html.is-mobile .wallpaper-streetsofrage .desktop::after,
+html.is-mobile .wallpaper-space .desktop::after { background-image: url('/images/bitmag_logo_pink_beige.svg') !important; }
 
 html.is-mobile .desktop-icons {
   position: static !important;
