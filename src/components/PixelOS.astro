@@ -1070,13 +1070,48 @@ const iconUrls = {
       return withOpeningFeedback(function() { openArticleNow(post); });
     }
 
+    // Abre una página genérica (p.ej. la política de privacidad) en una ventana
+    // del lector, en vez de navegar a pantalla completa.
+    function openReaderPage(id, title, url) {
+      var existing = document.querySelector('[data-reader-id="' + CSS.escape(id) + '"]');
+      if (existing) { existing.classList.remove('minimized'); focusWindow(existing); syncTasks(); return; }
+      var win = readerTemplate.content.firstElementChild.cloneNode(true);
+      win.dataset.readerId = id;
+      win.querySelector('.title-bar-text span').textContent = title;
+      win.querySelectorAll('[data-reader-path]').forEach(function(el) {
+        var path = 'bitmag.es/privacidad';
+        if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
+      });
+      win.querySelector('iframe').src = url;
+      if (isMobile()) {
+        win.style.top = 'calc(44px + env(safe-area-inset-top, 0px))';
+        win.style.left = 'calc(4px + env(safe-area-inset-left, 0px))';
+        win.style.right = 'calc(4px + env(safe-area-inset-right, 0px))';
+        win.style.bottom = 'calc(4px + env(safe-area-inset-bottom, 0px))';
+        win.style.width = 'auto';
+        win.style.height = 'auto';
+      } else {
+        win.style.left = String(240 + (readerOffset % 7) * 30) + 'px';
+        win.style.top = String(70 + (readerOffset % 7) * 24) + 'px';
+        readerOffset += 1;
+      }
+      document.getElementById('reader-windows').appendChild(win);
+      bindWindow(win);
+      focusWindow(win);
+      syncTasks();
+    }
+
     // La portada (iframe) avisa con postMessage al pulsar un enlace de artículo
-    // para abrirlo en una ventana del escritorio en vez de a pantalla completa.
+    // o de página (privacidad) para abrirlo en una ventana en vez de a pantalla completa.
     window.addEventListener('message', function(event) {
       var data = event.data;
-      if (!data || data.type !== 'pixelos-open-article' || !data.id) return;
-      var post = posts.filter(function(p) { return p.id === data.id; })[0];
-      if (post) openArticle(post);
+      if (!data) return;
+      if (data.type === 'pixelos-open-article' && data.id) {
+        var post = posts.filter(function(p) { return p.id === data.id; })[0];
+        if (post) openArticle(post);
+      } else if (data.type === 'pixelos-open-page' && data.url) {
+        openReaderPage('page-' + data.url, data.title || 'bitMAG', data.url);
+      }
     });
 
     function openVideo(video) {

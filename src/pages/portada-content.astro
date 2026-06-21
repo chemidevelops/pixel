@@ -175,6 +175,10 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
 <small>
   bitMAG — videojuegos para leer despacio · entrevistas a desarrolladores · slow gaming
 </small>
+<br />
+<small>
+  <a href="/privacidad-content/" data-open-page="privacidad" data-page-title="Política de privacidad">Política de privacidad</a>
+</small>
 <br /><br />
 
 </center></div>
@@ -185,10 +189,18 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
   (function () {
     if (window.parent === window) return;
     document.addEventListener('click', function (e) {
-      var a = e.target && e.target.closest ? e.target.closest('a[data-article-id]') : null;
-      if (!a) return;
-      e.preventDefault();
-      window.parent.postMessage({ type: 'pixelos-open-article', id: a.getAttribute('data-article-id') }, '*');
+      var t = e.target;
+      var art = t && t.closest ? t.closest('a[data-article-id]') : null;
+      if (art) {
+        e.preventDefault();
+        window.parent.postMessage({ type: 'pixelos-open-article', id: art.getAttribute('data-article-id') }, '*');
+        return;
+      }
+      var page = t && t.closest ? t.closest('a[data-open-page]') : null;
+      if (page) {
+        e.preventDefault();
+        window.parent.postMessage({ type: 'pixelos-open-page', url: page.getAttribute('href'), title: page.getAttribute('data-page-title') || 'bitMAG' }, '*');
+      }
     });
   })();
 </script>
