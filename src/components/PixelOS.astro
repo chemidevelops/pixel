@@ -189,7 +189,7 @@ const iconUrls = {
         <div class="window-body settings-content">
           <div class="settings-tabs">
             <button class="settings-tab active" data-tab="fondo">Fondo</button>
-            <button class="settings-tab" data-tab="colores">Colores</button>
+            <button class="settings-tab" data-tab="colores">Ventanas</button>
             <button class="settings-tab" data-tab="efectos">Efectos</button>
             <button class="settings-tab" data-tab="protector">Protector</button>
           </div>
@@ -225,7 +225,7 @@ const iconUrls = {
             <div class="settings-panel" id="stab-efectos">
               <fieldset>
                 <legend>Efectos visuales</legend>
-                <div class="field-row setting-check"><input type="checkbox" id="crt-toggle" checked /><label for="crt-toggle">Efecto monitor CRT (scanlines, viñeta, parpadeo)</label></div>
+                <div class="field-row setting-check"><input type="checkbox" id="crt-toggle" /><label for="crt-toggle">Efecto monitor CRT (scanlines, viñeta, parpadeo)</label></div>
               </fieldset>
             </div>
             <div class="settings-panel" id="stab-protector">
@@ -316,7 +316,7 @@ const iconUrls = {
                 <button id="mp-mute" class="mp-btn mp-vol-icon-btn" title="Silencio"><img id="mp-vol-icon" src="/icons/speaker-16.png" alt="" /></button>
                 <div class="mp-vol-wedge-wrap">
                   <div class="mp-vol-wedge"></div>
-                  <input type="range" id="mp-volume" min="0" max="100" value="80" class="mplayer-vol" title="Volumen" />
+                  <input type="range" id="mp-volume" min="0" max="100" value="10" class="mplayer-vol" title="Volumen" />
                 </div>
               </div>
             </div>
@@ -467,7 +467,7 @@ const iconUrls = {
   <div class="volume-popup" id="volume-popup" hidden>
     <div class="volume-label">Volumen</div>
     <div class="volume-track-wrap">
-      <input type="range" id="volume-slider" min="0" max="100" value="40" class="volume-slider" />
+      <input type="range" id="volume-slider" min="0" max="100" value="10" class="volume-slider" />
     </div>
     <label class="volume-mute-row"><input type="checkbox" id="volume-mute" /> Silencio</label>
   </div>
@@ -636,12 +636,13 @@ const iconUrls = {
       juegos: ['Juegos', 'C:\\BITMAG\\JUEGOS'],
       psyvariar: ['Psyvariar 3 Especial', 'C:\\BITMAG\\PSYVARIAR'],
     };
+    const psyvariarFiles = [
+      { title: 'Psyvariar 3 — Tráiler', file: 'psyvariar3_trailer.mp4', tags: 'shoot\'em up · bullet hell' },
+    ];
     const videoFiles = [
       { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
       { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
-    ];
-    const psyvariarFiles = [
-      { title: 'Psyvariar 3 — Tráiler', file: 'psyvariar3_trailer.mp4', tags: 'shoot\'em up · bullet hell' },
+      psyvariarFiles[0],
     ];
     const folderAliases = {
       'C:\\BITMAG\\ARTICULOS': 'all',
@@ -1094,7 +1095,7 @@ const iconUrls = {
       if (opt) opt.textContent = video.title;
       vid.muted = false;
       var volVal = parseFloat(document.getElementById('mp-volume').value) / 100;
-      vid.volume = isNaN(volVal) ? 0.8 : volVal;
+      vid.volume = isNaN(volVal) ? 0.1 : volVal;
       vid.play().then(function() {
         // play started OK
       }).catch(function(err) {
@@ -1247,6 +1248,7 @@ const iconUrls = {
       }
       var host = document.getElementById('webamp-container');
       webampReady = wa.renderWhenReady(host).then(function() {
+        try { if (wa.setVolume) wa.setVolume(10); } catch(e) {}
         var waEl = document.getElementById('webamp');
         if (waEl) {
           document.getElementById('pixel-os').appendChild(waEl);
@@ -1654,7 +1656,7 @@ const iconUrls = {
     function setWinColor(color) { document.documentElement.style.setProperty('--win-accent', color); localStorage.setItem('pixelos-wincolor', color); }
     document.querySelectorAll('[data-wincolor]').forEach(function(button) { button.addEventListener('click', function() { setWinColor(button.dataset.wincolor); }); });
     const savedWinColor = localStorage.getItem('pixelos-wincolor');
-    if (savedWinColor) document.documentElement.style.setProperty('--win-accent', savedWinColor);
+    document.documentElement.style.setProperty('--win-accent', savedWinColor || '#1a3a5c');
 
     /* ── Settings tabs ── */
     document.querySelectorAll('.settings-tab').forEach(function(tab) {
@@ -1674,7 +1676,7 @@ const iconUrls = {
       if (el) el.checked = enabled;
     }
     var savedCRT = localStorage.getItem('pixelos-crt');
-    setCRT(savedCRT === null ? true : savedCRT === '1');
+    setCRT(savedCRT === null ? false : savedCRT === '1');
     document.getElementById('crt-toggle').addEventListener('change', function() { setCRT(this.checked); });
 
     allWindows().forEach(function(win, index) {
@@ -1809,6 +1811,7 @@ const iconUrls = {
           function PatchedAC(opts) {
             var ctx = new Orig(opts);
             var gain = ctx.createGain();
+            try { var ms = document.getElementById('volume-slider'); gain.gain.value = ms ? parseInt(ms.value, 10) / 100 : 0.1; } catch(e) { gain.gain.value = 0.1; }
             gain.connect(ctx.destination);
             gainNodes.push(gain);
             Object.defineProperty(ctx, 'destination', { get: function() { return gain; }, configurable: true });
@@ -2120,8 +2123,8 @@ const iconUrls = {
         });
       }
 
-      // 1. Latest article (back)
-      if (posts.length > 0) {
+      // 1. Latest article (back) — solo en escritorio
+      if (!mobile && posts.length > 0) {
         var latest = posts[0];
         var articleWin = readerTemplate.content.firstElementChild.cloneNode(true);
         articleWin.dataset.readerId = latest.id;
@@ -2133,36 +2136,37 @@ const iconUrls = {
         articleWin.querySelector('iframe').src = '/pixelos/posts/' + latest.id + '/';
         document.getElementById('reader-windows').appendChild(articleWin);
         bindWindow(articleWin);
-        if (mobile) { mobileInset(articleWin, 74, 12); }
-        else { articleWin.style.left = '420px'; articleWin.style.top = '30px'; }
+        articleWin.style.left = '420px'; articleWin.style.top = '30px';
         articleWin.hidden = false;
         focusWindow(articleWin);
         syncTasks();
       }
 
-      // 2. Explorer (middle) — abierto en artículos
+      // 2. Explorer (en móvil es lo único que se abre, en archivos)
       var explorerWin = document.getElementById('window-explorer');
       if (mobile && explorerWin) {
         mobileInset(explorerWin, 40, 8);
       }
       showWindowNow('explorer');
       openFolderNow('all');
+      if (mobile && explorerWin) { focusWindow(explorerWin); syncTasks(); }
 
-      // 3. Portada (front)
-      var portadaWin = readerTemplate.content.firstElementChild.cloneNode(true);
-      portadaWin.dataset.readerId = 'portada';
-      portadaWin.querySelector('.title-bar-text span').textContent = 'bitMAG — Inicio';
-      portadaWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
-        if (el.tagName === 'INPUT') { el.value = 'bitmag.es'; } else { el.textContent = 'bitmag.es'; }
-      });
-      portadaWin.querySelector('iframe').src = '/portada-content/';
-      document.getElementById('reader-windows').appendChild(portadaWin);
-      bindWindow(portadaWin);
-      if (mobile) { mobileInset(portadaWin, 44, 4); }
-      else { portadaWin.style.left = '220px'; portadaWin.style.top = '120px'; }
-      portadaWin.hidden = false;
-      focusWindow(portadaWin);
-      syncTasks();
+      // 3. Portada (front) — solo en escritorio
+      if (!mobile) {
+        var portadaWin = readerTemplate.content.firstElementChild.cloneNode(true);
+        portadaWin.dataset.readerId = 'portada';
+        portadaWin.querySelector('.title-bar-text span').textContent = 'bitMAG — Inicio';
+        portadaWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
+          if (el.tagName === 'INPUT') { el.value = 'bitmag.es'; } else { el.textContent = 'bitmag.es'; }
+        });
+        portadaWin.querySelector('iframe').src = '/portada-content/';
+        document.getElementById('reader-windows').appendChild(portadaWin);
+        bindWindow(portadaWin);
+        portadaWin.style.left = '220px'; portadaWin.style.top = '120px';
+        portadaWin.hidden = false;
+        focusWindow(portadaWin);
+        syncTasks();
+      }
     }, 300);
   </script>
 </body>
