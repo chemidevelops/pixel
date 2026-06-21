@@ -447,9 +447,12 @@ const iconUrls = {
     <div class="start-items">
       <button class="start-entry" data-folder="all"><img class="menu-icon" src={iconUrls.desktop.folder} alt="" /><span>Explorador</span></button>
       <button class="start-entry" data-window="settings"><img class="menu-icon" src={iconUrls.desktop.settings} alt="" /><span>Configuración</span></button>
-      <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de bitOS...</span></button>
       <div class="start-divider" aria-hidden="true"></div>
-      <button class="start-entry" id="shutdown"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Apagar...</span></button>
+      <a class="start-entry start-link" href="mailto:microreviewsweb@gmail.com"><img class="menu-icon" src="/icons/mail-16.png" alt="" /><span>Contacto</span></a>
+      <a class="start-entry start-link" href="https://x.com/microreviews1" target="_blank" rel="noopener noreferrer"><img class="menu-icon menu-icon-pixel" src="/icons/x-pixel.svg" alt="" /><span>X (Twitter)</span></a>
+      <a class="start-entry start-link" href="https://bsky.app/profile/microreviews.bsky.social" target="_blank" rel="noopener noreferrer"><img class="menu-icon menu-icon-pixel" src="/icons/bluesky-pixel.svg" alt="" /><span>Bluesky</span></a>
+      <div class="start-divider" aria-hidden="true"></div>
+      <button class="start-entry" data-window="about"><img class="menu-icon" src={iconUrls.desktop.computer} alt="" /><span>Acerca de bitOS...</span></button>
     </div>
   </div>
 
@@ -1684,6 +1687,7 @@ const iconUrls = {
     }
     document.getElementById('start-button').addEventListener('click', function(event) { event.stopPropagation(); startMenu.hidden = !startMenu.hidden; });
     document.addEventListener('click', function(event) { if (!startMenu.contains(event.target) && event.target.id !== 'start-button') startMenu.hidden = true; });
+    document.querySelectorAll('.start-link').forEach(function(a) { a.addEventListener('click', function() { startMenu.hidden = true; }); });
     document.querySelectorAll('[data-wallpaper]').forEach(function(button) { button.addEventListener('click', function() { os.className = 'pixel-os wallpaper-' + button.dataset.wallpaper; localStorage.setItem('pixelos-wallpaper-v3', button.dataset.wallpaper); }); });
     const savedWallpaper = localStorage.getItem('pixelos-wallpaper-v3');
     if (savedWallpaper) os.className = 'pixel-os wallpaper-' + savedWallpaper;
@@ -1957,7 +1961,8 @@ const iconUrls = {
       });
     })();
 
-    document.getElementById('shutdown').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = false; });
+    var shutdownBtn = document.getElementById('shutdown');
+    if (shutdownBtn) shutdownBtn.addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = false; });
     document.getElementById('restart').addEventListener('click', function() { document.getElementById('shutdown-screen').hidden = true; });
     /* ── Godzilla rampage (Konami code) ── */
     var godzillaActive = false;
