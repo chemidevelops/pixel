@@ -623,6 +623,26 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .menu-icon-pixel { padding: 1px; box-sizing: border-box; }
 .menu-icon-mail { width: 34px; height: 34px; }
 .mobile-status, .mobile-launcher { display: none; }
+
+/* ── Popup "publi" (notificación abajo a la derecha) ── */
+.publi-popup {
+  position: fixed; right: 12px; bottom: 52px; z-index: 1400;
+  width: 280px; padding: 3px;
+  background: #c0c0c0;
+  box-shadow: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf, 3px 3px 8px rgba(0,0,0,0.35);
+  transform: translateY(160%); opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.2,0.9,0.2,1), opacity 0.3s ease;
+}
+.publi-popup.show { transform: translateY(0); opacity: 1; }
+.publi-popup .title-bar { background: var(--win-accent); }
+.publi-body { display: flex; gap: 8px; align-items: flex-start; padding: 8px 9px 9px; }
+.publi-icon { width: 32px; height: 32px; image-rendering: pixelated; flex: 0 0 auto; }
+.publi-text { font: 11px "MSSansSerif8pt","MS Sans Serif",sans-serif; color: #000; line-height: 1.35; }
+.publi-text .publi-kicker { color: var(--win-accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 10px; }
+.publi-text strong { display: block; margin: 1px 0 4px; font-size: 11px; }
+.publi-action { display: inline-block; margin-top: 2px; color: #0000cc; cursor: pointer; text-decoration: underline; }
+.publi-action:hover { color: var(--win-accent); }
+html.is-mobile .publi-popup { right: 8px; left: 8px; width: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); }
 .screensaver { position: fixed; inset: 0; z-index: 9000; background: #000; overflow: hidden; color: #fff; }
 .screensaver canvas { width: 100%; height: 100%; display: block; }
 .screensaver small { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #777; font: 11px monospace; }

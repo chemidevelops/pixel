@@ -641,8 +641,10 @@ const iconUrls = {
     ];
     const videoFiles = [
       { title: 'Cotton Reboot! — Tráiler', file: 'cotton_reboot.mp4', tags: 'shoot\'em up · plataformas' },
-      { title: 'DDP: Dodonpachi Resurrection — Trailer', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
+      { title: 'DoDonPachi Resurrection Reignite — Tráiler', file: 'ddp_reignition.mp4', tags: 'arcade · shoot\'em up' },
       psyvariarFiles[0],
+      { title: 'R-Type Dimensions III — Tráiler', file: 'rtype_trailer.mp4', tags: 'shoot\'em up · clásicos' },
+      { title: 'The Adventures of Elliot — Tráiler', file: 'elliot_trailer.mp4', tags: 'aventura · plataformas' },
     ];
     const folderAliases = {
       'C:\\BITMAG\\ARTICULOS': 'all',
@@ -808,6 +810,12 @@ const iconUrls = {
         var musicTracks = [
           { title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' },
           { title: 'Magical Sound Shower', artist: 'Hiroshi Kawaguchi / OutRun', url: '/music/magical_sound_shower.mp3' },
+          { title: 'U.N. Owen Was Her?', artist: 'ZUN / Touhou', url: '/music/un_owen_was_her.mp3' },
+          { title: 'Bad Apple!!', artist: 'ZUN / Touhou', url: '/music/bad_apple.mp3' },
+          { title: 'Septette for the Dead Princess', artist: 'ZUN / Touhou', url: '/music/septette_dead_princess.mp3' },
+          { title: 'Stab and Stomp!', artist: 'Battle Garegga', url: '/music/battle_garegga_stab_and_stomp.mp3' },
+          { title: 'DoDonPachi — Stage 1', artist: 'Cave', url: '/music/dodonpachi_stage1.mp3' },
+          { title: 'Lightning Strikes Again', artist: 'Thunder Force IV', url: '/music/thunder_force_iv_lightning.mp3' },
         ];
         musicTracks.forEach(function(t) {
           var tr = document.createElement('tr');
@@ -863,6 +871,12 @@ const iconUrls = {
           var mTracks = [
             { title: 'Vampire Killer (Block 1)', artist: 'Konami', url: '/music/vampire_killer.mp3' },
             { title: 'Magical Sound Shower', artist: 'Hiroshi Kawaguchi / OutRun', url: '/music/magical_sound_shower.mp3' },
+            { title: 'U.N. Owen Was Her?', artist: 'ZUN / Touhou', url: '/music/un_owen_was_her.mp3' },
+            { title: 'Bad Apple!!', artist: 'ZUN / Touhou', url: '/music/bad_apple.mp3' },
+            { title: 'Septette for the Dead Princess', artist: 'ZUN / Touhou', url: '/music/septette_dead_princess.mp3' },
+            { title: 'Stab and Stomp!', artist: 'Battle Garegga', url: '/music/battle_garegga_stab_and_stomp.mp3' },
+            { title: 'DoDonPachi — Stage 1', artist: 'Cave', url: '/music/dodonpachi_stage1.mp3' },
+            { title: 'Lightning Strikes Again', artist: 'Thunder Force IV', url: '/music/thunder_force_iv_lightning.mp3' },
           ];
           mTracks.forEach(function(t) { treeItems.push({ label: t.title, icon: iconUrls.files.music, action: function(tt) { return function() { launchWebampWithTrack(tt); }; }(t) }); });
         } else {
@@ -1248,6 +1262,12 @@ const iconUrls = {
     var allMusicTracks = [
       { metaData: { artist: 'Konami', title: 'Vampire Killer (Block 1)' }, url: '/music/vampire_killer.mp3' },
       { metaData: { artist: 'Hiroshi Kawaguchi / OutRun', title: 'Magical Sound Shower' }, url: '/music/magical_sound_shower.mp3' },
+      { metaData: { artist: 'ZUN / Touhou', title: 'U.N. Owen Was Her?' }, url: '/music/un_owen_was_her.mp3' },
+      { metaData: { artist: 'ZUN / Touhou', title: 'Bad Apple!!' }, url: '/music/bad_apple.mp3' },
+      { metaData: { artist: 'ZUN / Touhou', title: 'Septette for the Dead Princess' }, url: '/music/septette_dead_princess.mp3' },
+      { metaData: { artist: 'Battle Garegga', title: 'Stab and Stomp!' }, url: '/music/battle_garegga_stab_and_stomp.mp3' },
+      { metaData: { artist: 'Cave', title: 'DoDonPachi — Stage 1' }, url: '/music/dodonpachi_stage1.mp3' },
+      { metaData: { artist: 'Thunder Force IV', title: 'Lightning Strikes Again' }, url: '/music/thunder_force_iv_lightning.mp3' },
     ];
     function focusWebamp() {
       var wa = document.getElementById('webamp');
@@ -1861,6 +1881,54 @@ const iconUrls = {
         }, delay);
       }
       schedule();
+    })();
+
+    /* ── Popups "publi": notificaciones de artículos/tráilers ── */
+    (function() {
+      var popup = null;
+      function buildPool() {
+        var pool = [];
+        posts.slice(0, 8).forEach(function(p) {
+          pool.push({ kicker: 'Nuevo artículo', title: p.title, action: 'Leer →', icon: iconUrls.files.article, run: function() { openArticle(p); } });
+        });
+        videoFiles.forEach(function(v) {
+          pool.push({ kicker: 'Echa un ojo al tráiler', title: v.title, action: 'Ver →', icon: iconUrls.files.videoFile, run: function() { openVideo(v); } });
+        });
+        return pool;
+      }
+      var pool = buildPool();
+      function closePopup() {
+        if (!popup) return;
+        var el = popup; popup = null;
+        el.classList.remove('show');
+        setTimeout(function() { if (el.parentNode) el.remove(); }, 500);
+      }
+      function showPopup() {
+        if (popup || !pool.length) return;
+        var item = pool[Math.floor(Math.random() * pool.length)];
+        var el = document.createElement('div');
+        el.className = 'publi-popup window';
+        el.innerHTML =
+          '<div class="title-bar"><div class="title-bar-text"><img class="window-title-icon" src="/icons/bitmag-pixel.png" alt="" /><span>bitMAG</span></div>' +
+          '<div class="title-bar-controls"><button aria-label="Close" data-action="close" class="close" data-publi-close></button></div></div>' +
+          '<div class="window-body publi-body"><img class="publi-icon" src="' + item.icon + '" alt="" />' +
+          '<div class="publi-text"><span class="publi-kicker"></span><strong></strong><span class="publi-action" data-publi-go></span></div></div>';
+        el.querySelector('.publi-kicker').textContent = item.kicker;
+        el.querySelector('strong').textContent = item.title;
+        el.querySelector('[data-publi-go]').textContent = item.action;
+        document.body.appendChild(el);
+        popup = el;
+        requestAnimationFrame(function() { el.classList.add('show'); });
+        el.querySelector('[data-publi-close]').addEventListener('click', closePopup);
+        el.querySelector('[data-publi-go]').addEventListener('click', function() { item.run(); closePopup(); });
+        var auto = setTimeout(closePopup, 13000);
+        el.addEventListener('click', function() { clearTimeout(auto); }, { once: true });
+      }
+      // Solo una vez, poco después de entrar en la web
+      setTimeout(function() {
+        var saver = document.getElementById('screensaver');
+        if (!document.hidden && !(saver && !saver.hidden)) showPopup();
+      }, 5000);
     })();
 
     const screensaver = document.getElementById('screensaver');
