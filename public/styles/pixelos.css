@@ -620,7 +620,8 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .start-divider { width: 100%; height: 1px; background: rgb(123, 125, 123); border-bottom: white solid 1px; margin: 2px 0; }
 .menu-icon { width: 30px; height: 30px; image-rendering: pixelated; flex: 0 0 auto; }
 .start-link { text-decoration: none; }
-.menu-icon-pixel { padding: 4px; box-sizing: border-box; }
+.menu-icon-pixel { padding: 1px; box-sizing: border-box; }
+.menu-icon-mail { width: 34px; height: 34px; }
 .mobile-status, .mobile-launcher { display: none; }
 .screensaver { position: fixed; inset: 0; z-index: 9000; background: #000; overflow: hidden; color: #fff; }
 .screensaver canvas { width: 100%; height: 100%; display: block; }
