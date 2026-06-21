@@ -1813,6 +1813,56 @@ const iconUrls = {
     function updateClock() { const value = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); document.getElementById('tray-clock').textContent = value; }
     updateClock();
     setInterval(updateClock, 15000);
+
+    /* ── Vic Viper: vuelo ambiental que zarandea la ventana activa ── */
+    (function() {
+      if (isMobile()) return;
+      function flyby() {
+        var ship = document.createElement('img');
+        ship.src = '/images/vic-viper.png';
+        ship.alt = '';
+        ship.style.cssText = 'position:fixed;z-index:9998;width:128px;height:auto;image-rendering:pixelated;pointer-events:none;left:-170px;top:0;';
+        var vh = window.innerHeight;
+        // solo en la mitad superior de la pantalla
+        ship.style.top = (40 + Math.random() * Math.max(20, vh * 0.5 - 120)) + 'px';
+        document.body.appendChild(ship);
+        var start = null, dur = 1100, fromX = -170, toX = window.innerWidth + 170;
+        function frame(ts) {
+          if (start === null) start = ts;
+          var t = (ts - start) / dur;
+          if (t >= 1) { ship.remove(); return; }
+          var x = fromX + (toX - fromX) * t;
+          ship.style.left = x + 'px';
+          var win = document.querySelector('.window.os-window.focused:not([hidden])');
+          if (win && !win.__vicTilted) {
+            var r = win.getBoundingClientRect();
+            var cx = x + 64;
+            if (cx > r.left && cx < r.right) {
+              win.__vicTilted = true;
+              win.style.transition = 'transform 0.08s ease-out';
+              win.style.transform = 'rotate(-5deg)';
+              setTimeout(function() {
+                win.style.transform = 'rotate(0deg)';
+                setTimeout(function() { win.style.transition = ''; win.style.transform = ''; win.__vicTilted = false; }, 110);
+              }, 90);
+            }
+          }
+          requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+      function schedule() {
+        var delay = 150000; // cada 2,5 min
+        setTimeout(function() {
+          var saver = document.getElementById('screensaver');
+          var saverActive = saver && !saver.hidden;
+          if (!document.hidden && !saverActive) flyby();
+          schedule();
+        }, delay);
+      }
+      schedule();
+    })();
+
     const screensaver = document.getElementById('screensaver');
     const saverToggle = document.getElementById('screensaver-toggle');
     let saverTimer;
