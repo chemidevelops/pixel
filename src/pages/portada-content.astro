@@ -49,8 +49,11 @@ const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const link = (p: typeof allPosts[number]) =>
   `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(gameName(p.data.title))}</a>`;
 
-const feat0Html = `Entrevista: ${link(allPosts[0])}`;
-const feat1Html = `Entrevista: ${link(allPosts[1])}`;
+const featBlock = (p: typeof allPosts[number]) =>
+  `<div style="line-height:1.25"><font face="arial" size="1" color="#888">ENTREVISTA</font><br>` +
+  `<b style="font-size:15px">${link(p)}</b></div>`;
+const feat0Html = featBlock(allPosts[0]);
+const feat1Html = featBlock(allPosts[1]);
 
 const catColHtml = (entries: typeof tagsLeft) => entries.map(([tag, posts]) =>
   `<font size="3" face="arial" color="#000080"><b>${esc(tagLabels[tag] ?? tag)}</b></font><br>` +
@@ -65,7 +68,28 @@ const recentHtml = recent.map(p =>
 ).join('');
 const enbitmagHtml = allPosts.slice(0, 3).map(p =>
   `<tr><td valign="top" bgcolor="#dcdcdc" width="10"><b>·</b></td>` +
-  `<td bgcolor="#dcdcdc"><small>${link(p)} — entrevista a ${esc(devName(p.data.title))}</small></td></tr>`
+  `<td bgcolor="#dcdcdc"><small>${link(p)} · entrevista a ${esc(devName(p.data.title))}</small></td></tr>`
+).join('');
+
+// Miniaturas destacadas (estilo portal 99)
+const covers: Record<string, string> = {
+  'andro-dunos-ii-entrevista': '/images/andro_dunos_1.jpg',
+  'cygni-entrevista': '/images/cygni_captura_1.png',
+  'contra-operation-galuga-entrevista': '/images/contra_galuga_captura_1.png',
+  'g-warrior-entrevista': '/images/gwarrior_captura_1.png',
+  'castle-of-shikigami-2-entrevista': '/images/castle_of_shikigami_2_captura_1.png',
+  'devil-blade-reboot-entrevista': '/images/devil_blade_captura_1.png',
+};
+const searchJson = JSON.stringify(allPosts.map(p => ({
+  id: p.id, game: gameName(p.data.title), dev: devName(p.data.title), tags: p.data.tags, title: p.data.title,
+})));
+const featured = allPosts.filter(p => covers[p.id]).slice(0, 4);
+const thumbsHtml = featured.map(p =>
+  `<td class="thumb-cell" align="center" valign="top" width="140">` +
+  `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">` +
+  `<img class="thumb-img" src="${covers[p.id]}" alt="" width="130" height="73" border="2" style="border-color:#000080" /></a><br>` +
+  `<small><a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(gameName(p.data.title))}</a></small>` +
+  `</td>`
 ).join('');
 ---
 <!DOCTYPE html>
@@ -75,34 +99,45 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>bitMAG!</title>
   <style>
+    html { overflow-x: hidden; }
     body {
       background: #fff;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Crect x='0' y='0' width='1' height='1' fill='%23d8d0c8' opacity='0.9'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23c8c0b8' opacity='0.8'/%3E%3Crect x='1' y='3' width='1' height='1' fill='%23e0d8d0' opacity='0.7'/%3E%3Crect x='3' y='1' width='1' height='1' fill='%23d0c8c0' opacity='0.9'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23b8b0a8' opacity='0.5'/%3E%3Crect x='3' y='3' width='1' height='1' fill='%23e8e0d8' opacity='0.6'/%3E%3C/svg%3E");
       color: #000;
       font-family: Times New Roman, serif;
-      font-size: 12px;
+      font-size: 15px;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
     :global(a)         { color: #0000cc; }
-    :global(a:visited) { color: #551a8b; }
+    :global(a:visited) { color: #0000cc; }
     :global(a:hover)   { text-decoration: underline; color: #ff66c4; }
-    small     { font-size: 11px; }
+    small     { font-size: 14px; }
     .wrap     { max-width: 640px; margin: 0 auto; padding: 0 8px; }
     .mq {
       overflow: hidden; white-space: nowrap;
-      font-size: 11px; font-family: Arial, sans-serif;
-      background: #ffffcc; border: 1px solid #cccc00; padding: 2px;
+      font-size: 13px; font-family: Arial, sans-serif;
+      background: #ffffcc; border: 1px solid #cccc00; padding: 3px;
     }
-    .mq span { display: inline-block; padding-left: 100%; animation: mq 14s linear infinite; }
-    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+    .mq { max-width: 100%; }
+    .mq span { display: inline-block; animation: mq 14s linear infinite; }
+    @keyframes mq { from { transform: translateX(100%); } to { transform: translateX(-110%); } }
     @media (max-width: 600px) {
-      body { font-size: 13px; }
+      body { font-size: 14px; }
       table { width: 100% !important; }
       td[width="155"], td[width="170"], td[width="200"] { display: block; width: 100% !important; }
       .wrap { padding: 0 4px; }
       marquee { width: 100% !important; }
       td[nowrap] { white-space: normal !important; }
+      /* Miniaturas destacadas en rejilla 2×2 */
+      .thumb-row { width: 100% !important; }
+      .thumb-row tr { display: flex; flex-wrap: wrap; justify-content: center; }
+      .thumb-cell { display: inline-block !important; width: 46% !important; box-sizing: border-box; vertical-align: top; padding: 6px !important; }
+      .thumb-img { width: 100% !important; height: auto !important; }
+      /* Destacado (feat + marquee) apilado */
+      .feat-row td { display: block !important; width: 100% !important; }
+      .feat-row .mq { width: 100%; margin: 6px 0; }
     }
   </style>
 </head>
@@ -114,12 +149,12 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
   <table border="0" cellspacing="0" cellpadding="0" width="600">
     <tr><td align="center">
       <a href="/" target="_top">
-        <img src="/images/bitmag_logo_pink.svg" alt="bitMAG" style="height:180px;width:auto" />
+        <img src="/images/bitmag_logo_pink.svg" alt="bitMAG" style="height:180px;width:auto;display:block;margin:0 auto -34px" />
       </a>
     </td></tr>
   </table>
 
-  <table border="0" cellspacing="0" cellpadding="4" width="600">
+  <table class="feat-row" border="0" cellspacing="0" cellpadding="4" width="600">
     <tr>
       <td align="center" width="170" set:html={feat0Html}></td>
       <td align="center">
@@ -129,18 +164,34 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
     </tr>
     <tr>
       <td colspan="3" align="center">
-        <input size="30" name="q" style="font-size:12px" />
+        <input size="30" name="q" id="q" autocomplete="off" style="font-size:12px" />
         <input type="submit" value="Buscar" style="font-size:12px" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center">
+        <div id="search-results" style="display:none"></div>
       </td>
     </tr>
   </table>
 
   <table border="0" cellspacing="0" cellpadding="4" width="600">
     <tr><td nowrap align="center">
-      <b>bitMAG</b> — videojuegos para leer despacio. <a href="/" target="_top">Inicio</a>
+      <b>bitMAG</b> · videojuegos para leer despacio. <a href="/" target="_top">Inicio</a>
     </td></tr>
   </table>
 </form>
+
+<!-- DIVIDER -->
+<table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
+
+<!-- DESTACADOS CON IMAGEN -->
+<table border="0" cellspacing="0" cellpadding="4" width="600">
+  <tr><td bgcolor="#ffffcc" align="center"><font face="arial" size="2"><b>Destacados</b></font></td></tr>
+</table>
+<table class="thumb-row" border="0" cellspacing="2" cellpadding="4" width="600">
+  <tr set:html={thumbsHtml}></tr>
+</table>
 
 <!-- DIVIDER -->
 <table border="0" cellspacing="0" width="600"><tr><td bgcolor="#6699cc" height="2"></td></tr></table>
@@ -173,7 +224,7 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
 
 <br />
 <small>
-  bitMAG — videojuegos para leer despacio · entrevistas a desarrolladores · slow gaming
+  bitMAG · videojuegos para leer despacio · entrevistas a desarrolladores · slow gaming
 </small>
 <br />
 <small>
@@ -201,6 +252,39 @@ const enbitmagHtml = allPosts.slice(0, 3).map(p =>
         e.preventDefault();
         window.parent.postMessage({ type: 'pixelos-open-page', url: page.getAttribute('href'), title: page.getAttribute('data-page-title') || 'bitMAG' }, '*');
       }
+    });
+  })();
+</script>
+
+<script type="application/json" id="search-data" set:html={searchJson}></script>
+<script is:inline>
+  (function () {
+    var data = [];
+    try { data = JSON.parse(document.getElementById('search-data').textContent); } catch (e) {}
+    var form = document.querySelector('form');
+    var input = document.getElementById('q');
+    var box = document.getElementById('search-results');
+    if (!form || !input || !box) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = (input.value || '').trim().toLowerCase();
+      if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
+      var res = data.filter(function (p) {
+        return (p.game + ' ' + p.dev + ' ' + (p.tags || []).join(' ') + ' ' + p.title).toLowerCase().indexOf(q) > -1;
+      });
+      var safe = q.replace(/[<>&]/g, '');
+      if (!res.length) {
+        box.style.display = 'block';
+        box.innerHTML = '<small>Sin resultados para «' + safe + '»</small>';
+        return;
+      }
+      var html = '<table border="0" cellspacing="0" cellpadding="3" width="320" style="background:#ffffcc;border:1px solid #cccc00;margin:6px auto 0"><tr><td><small><b>Resultados (' + res.length + '):</b></small></td></tr>';
+      res.forEach(function (p) {
+        html += '<tr><td><small>&middot; <a href="/pixelos/posts/' + p.id + '/" data-article-id="' + p.id + '">' + p.game + '</a>' + (p.dev ? ' · ' + p.dev : '') + '</small></td></tr>';
+      });
+      html += '</table>';
+      box.style.display = 'block';
+      box.innerHTML = html;
     });
   })();
 </script>

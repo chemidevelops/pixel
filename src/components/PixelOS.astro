@@ -2297,31 +2297,27 @@ const iconUrls = {
         syncTasks();
       }
 
-      // 2. Explorer (en móvil es lo único que se abre, en archivos)
-      var explorerWin = document.getElementById('window-explorer');
-      if (mobile && explorerWin) {
-        mobileInset(explorerWin, 40, 8);
-      }
-      showWindowNow('explorer');
-      openFolderNow('all');
-      if (mobile && explorerWin) { focusWindow(explorerWin); syncTasks(); }
-
-      // 3. Portada (front) — solo en escritorio
+      // 2. Explorer — solo en escritorio (en móvil arranca la portada)
       if (!mobile) {
-        var portadaWin = readerTemplate.content.firstElementChild.cloneNode(true);
-        portadaWin.dataset.readerId = 'portada';
-        portadaWin.querySelector('.title-bar-text span').textContent = 'bitMAG — Inicio';
-        portadaWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
-          if (el.tagName === 'INPUT') { el.value = 'bitmag.es'; } else { el.textContent = 'bitmag.es'; }
-        });
-        portadaWin.querySelector('iframe').src = '/portada-content/';
-        document.getElementById('reader-windows').appendChild(portadaWin);
-        bindWindow(portadaWin);
-        portadaWin.style.left = '220px'; portadaWin.style.top = '120px';
-        portadaWin.hidden = false;
-        focusWindow(portadaWin);
-        syncTasks();
+        showWindowNow('explorer');
+        openFolderNow('all');
       }
+
+      // 3. Portada de inicio (front) — en escritorio y en móvil
+      var portadaWin = readerTemplate.content.firstElementChild.cloneNode(true);
+      portadaWin.dataset.readerId = 'portada';
+      portadaWin.querySelector('.title-bar-text span').textContent = 'bitMAG — Inicio';
+      portadaWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
+        if (el.tagName === 'INPUT') { el.value = 'bitmag.es'; } else { el.textContent = 'bitmag.es'; }
+      });
+      portadaWin.querySelector('iframe').src = '/portada-content/';
+      document.getElementById('reader-windows').appendChild(portadaWin);
+      bindWindow(portadaWin);
+      if (mobile) { mobileInset(portadaWin, 44, 4); }
+      else { portadaWin.style.left = '220px'; portadaWin.style.top = '120px'; }
+      portadaWin.hidden = false;
+      focusWindow(portadaWin);
+      syncTasks();
     }, 300);
   </script>
 </body>
