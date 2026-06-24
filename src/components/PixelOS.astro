@@ -850,6 +850,7 @@ const iconUrls = {
           fileView.appendChild(tr);
         });
       } else if (folder === 'psyvariar') {
+        posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; }).forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
         psyvariarFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
       } else {
         const files = filesFor(folder);
@@ -866,6 +867,7 @@ const iconUrls = {
         } else if (folder === 'videos') {
           videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'psyvariar') {
+          posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; }).forEach(function(p) { treeItems.push({ label: p.title, icon: iconUrls.files.article, action: function(pp) { return function() { openArticle(pp); }; }(p) }); });
           psyvariarFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'musica') {
           var mTracks = [
