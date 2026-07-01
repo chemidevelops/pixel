@@ -12,7 +12,6 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       <div class="post-header-meta">
         <span class="post-date">{dateFormatted}</span>
         <div class="post-tags">
-          {issue && <a href={`/tags/nº${issue}`} class="post-tag post-tag-issue">nº{issue}</a>}
           {tags.map((tag: string) => (
             <a href={`/tags/${tag}`} class="post-tag">{tag}</a>
           ))}

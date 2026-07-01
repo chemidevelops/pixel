@@ -13,6 +13,7 @@ const devName = (t: string) => {
   const m = t.match(/Entrevista a (.+?) sobre /);
   return m ? m[1] : '';
 };
+// Tipo de pieza (Entrevista / Crítica…), para distinguir varias del mismo juego
 
 // Etiquetas legibles
 const tagLabels: Record<string, string> = {
@@ -48,16 +49,33 @@ const marqueeText = `✦ entrevistas · slow gaming · crítica honesta ✦`;
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const link = (p: typeof allPosts[number]) =>
   `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(gameName(p.data.title))}</a>`;
+// Tipo de pieza (Entrevista / Crítica…), para distinguir varias del mismo juego
+const pieceType = (p: typeof allPosts[number]) => {
+  const t = p.data.tags || [];
+  if (t.includes('crítica') || t.includes('reseña')) return 'Crítica';
+  if (/^Entrevista/i.test(p.data.title) || t.includes('entrevista')) return 'Entrevista';
+  return '';
+};
+// Enlace con el tipo delante (p.ej. "Entrevista Psyvariar 3")
+const linkTyped = (p: typeof allPosts[number]) => {
+  const ty = pieceType(p);
+  const label = (ty ? ty + ' ' : '') + gameName(p.data.title);
+  return `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(label)}</a>`;
+};
 
-const featBlock = (p: typeof allPosts[number]) =>
-  `<div style="line-height:1.25"><font face="arial" size="1" color="#888">ENTREVISTA</font><br>` +
-  `<b style="font-size:15px">${link(p)}</b></div>`;
+const featBlock = (p: typeof allPosts[number]) => {
+  const ty = pieceType(p);
+  return `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}" style="text-decoration:none"><div style="line-height:1.25">` +
+    (ty ? `<font face="arial" size="2" style="text-decoration:underline">${esc(ty)}</font><br>` : '') +
+    `<b style="font-size:15px;text-decoration:underline">${esc(gameName(p.data.title))}</b></div></a>`;
+};
 const feat0Html = featBlock(allPosts[0]);
 const feat1Html = featBlock(allPosts[1]);
 
 const catColHtml = (entries: typeof tagsLeft) => entries.map(([tag, posts]) =>
   `<font size="3" face="arial" color="#000080"><b>${esc(tagLabels[tag] ?? tag)}</b></font><br>` +
-  posts.map(link).join(', ') + '<br><br>'
+  // En la categoría "Entrevistas" se sobreentiende; en las demás, prefijo el tipo
+  posts.map(tag === 'entrevista' ? link : linkTyped).join(', ') + '<br><br>'
 ).join('');
 const leftHtml = catColHtml(tagsLeft);
 const rightHtml = catColHtml(tagsRight);
@@ -89,7 +107,9 @@ const thumbsHtml = featured.map(p =>
   `<td class="thumb-cell" align="center" valign="top" width="140">` +
   `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">` +
   `<img class="thumb-img" src="${covers[p.id]}" alt="" width="130" height="73" border="2" style="border-color:#000080" /></a><br>` +
-  `<small><a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}">${esc(gameName(p.data.title))}</a></small>` +
+  `<a href="/pixelos/posts/${p.id}/" data-article-id="${p.id}" style="text-decoration:none">` +
+  (pieceType(p) ? `<font face="arial" size="2" style="text-decoration:underline">${esc(pieceType(p))}</font><br>` : '') +
+  `<small style="text-decoration:underline">${esc(gameName(p.data.title))}</small></a>` +
   `</td>`
 ).join('');
 ---

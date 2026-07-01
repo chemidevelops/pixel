@@ -67,7 +67,7 @@ const iconUrls = {
     <main class="desktop" aria-label="Escritorio bitOS">
       <div class="desktop-selection-box" id="desktop-selection-box" hidden></div>
       <ul class="desktop-icons">
-        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="all"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Explorador</p></div></button></li>
+        <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-folder="entrevista"><img class="desktop-icon-image" src={iconUrls.desktop.folder} alt="" /><div class="border-box"><p class="desktop-icon-label">Explorador</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="about"><img class="desktop-icon-image" src={iconUrls.desktop.computer} alt="" /><div class="border-box"><p class="desktop-icon-label">Mi blog</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="settings"><img class="desktop-icon-image" src={iconUrls.desktop.settings} alt="" /><div class="border-box"><p class="desktop-icon-label">Panel de control</p></div></button></li>
         <li class="desktop-icon-item" data-mobile><button class="desktop-icon" data-desktop-window="taisei"><img class="desktop-icon-image" src={iconUrls.desktop.taisei} alt="" /><div class="border-box"><p class="desktop-icon-label">Taisei Project</p></div></button></li>
@@ -141,8 +141,9 @@ const iconUrls = {
                       <li>
                         <span class="tree-root"><span class="tree-toggle">−</span><img src={iconUrls.files.folder} alt="" />C:\BITMAG</span>
                         <ul>
-                          <li><button class="tree-button" data-folder-nav="all"><img src="/icons/react95/folder-closed-16.png" alt="" />Artículos</button><ul class="tree-files" id="tree-files-all"></ul></li>
                           <li><button class="tree-button" data-folder-nav="entrevista"><img src="/icons/react95/folder-closed-16.png" alt="" />Entrevistas</button><ul class="tree-files" id="tree-files-entrevista"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="critica"><img src="/icons/react95/folder-closed-16.png" alt="" />Críticas</button><ul class="tree-files" id="tree-files-critica"></ul></li>
+                          <li><button class="tree-button" data-folder-nav="opinion"><img src="/icons/react95/folder-closed-16.png" alt="" />Opinión</button><ul class="tree-files" id="tree-files-opinion"></ul></li>
                           <li><button class="tree-button" data-folder-nav="videos"><img src={iconUrls.files.video} alt="" />Vídeos</button><ul class="tree-files" id="tree-files-videos"></ul></li>
                           <li><button class="tree-button" data-folder-nav="musica"><img src={iconUrls.files.music} alt="" />Música</button><ul class="tree-files" id="tree-files-musica"></ul></li>
                           <li><button class="tree-button" data-folder-nav="psyvariar"><img src="/icons/react95/folder-closed-16.png" alt="" />Psyvariar 3 Especial</button><ul class="tree-files" id="tree-files-psyvariar"></ul></li>
@@ -629,6 +630,8 @@ const iconUrls = {
     const folderTitles = {
       all: ['Artículos', 'C:\\BITMAG\\ARTICULOS'],
       entrevista: ['Entrevistas', 'C:\\BITMAG\\ENTREVISTAS'],
+      critica: ['Críticas', 'C:\\BITMAG\\CRITICAS'],
+      opinion: ['Opinión', 'C:\\BITMAG\\OPINION'],
       arcade: ['Arcade', 'C:\\BITMAG\\ARCADE'],
       fanzines: ['Fanzines', 'A:\\FANZINES'],
       videos: ['Vídeos', 'C:\\BITMAG\\VIDEOS'],
@@ -649,20 +652,24 @@ const iconUrls = {
     const folderAliases = {
       'C:\\BITMAG\\ARTICULOS': 'all',
       'C:\\BITMAG\\ENTREVISTAS': 'entrevista',
+      'C:\\BITMAG\\CRITICAS': 'critica',
+      'C:\\BITMAG\\OPINION': 'opinion',
       'C:\\BITMAG\\ARCADE': 'arcade',
       'A:\\FANZINES': 'fanzines',
       'C:\\BITMAG\\VIDEOS': 'videos',
       'ARTICULOS': 'all',
       'ENTREVISTAS': 'entrevista',
+      'CRITICAS': 'critica',
+      'OPINION': 'opinion',
       'ARCADE': 'arcade',
       'FANZINES': 'fanzines',
       'VIDEOS': 'videos',
     };
     let topZ = 20;
     let readerOffset = 0;
-    let currentFolder = 'all';
+    let currentFolder = 'entrevista';
     let treeExpanded = false;
-    const folderHistory = ['all'];
+    const folderHistory = ['entrevista'];
     let historyIndex = 0;
     let openingQueue = 0;
 
@@ -765,6 +772,8 @@ const iconUrls = {
     function filesFor(folder) {
       if (folder === 'all') return posts;
       if (folder === 'entrevista') return posts.filter(function(post) { return post.tags.includes('entrevista'); });
+      if (folder === 'critica') return posts.filter(function(post) { return post.tags.some(function(tag) { return ['crítica', 'critica', 'reseña', 'resena'].includes(tag); }); });
+      if (folder === 'opinion') return posts.filter(function(post) { return post.tags.some(function(tag) { return ['opinión', 'opinion'].includes(tag); }); });
       if (folder === 'arcade') return posts.filter(function(post) { return post.tags.some(function(tag) { return ['arcade', 'acción', 'clásicos'].includes(tag); }); });
       return [];
     }
@@ -798,7 +807,7 @@ const iconUrls = {
           img.src = isActive ? '/icons/react95/folder-open-16.png' : '/icons/react95/folder-closed-16.png';
         }
       });
-      document.getElementById('explorer-up').classList.toggle('tb-disabled', folder === 'all');
+      document.getElementById('explorer-up').classList.toggle('tb-disabled', ['all', 'entrevista', 'critica', 'opinion', 'videos', 'musica', 'psyvariar'].includes(folder));
       if (folder === 'fanzines') {
         issues.forEach(function(issue) {
           if (issue.pdf) fileView.appendChild(makeDownloadFile(issue, false));
@@ -914,14 +923,15 @@ const iconUrls = {
       document.getElementById('explorer-title').textContent = 'bitmag';
       document.getElementById('explorer-address').value = 'C:\\BITMAG';
       document.getElementById('status-path').textContent = 'C:\\BITMAG';
-      document.getElementById('status-count').textContent = '4 objetos';
+      document.getElementById('status-count').textContent = '5 objetos';
       document.getElementById('explorer-back').classList.add('tb-disabled');
       document.getElementById('explorer-up').classList.add('tb-disabled');
       var folders = [
-        { label: 'Artículos', icon: iconUrls.desktop.folder,  action: function() { mobileIsAtRoot = false; openFolder('all'); } },
-        { label: 'Vídeos',    icon: iconUrls.desktop.video,   action: function() { mobileIsAtRoot = false; openFolder('videos'); } },
-        { label: 'Música',    icon: iconUrls.desktop.mplayer, action: function() { mobileIsAtRoot = false; openFolder('musica'); } },
-        { label: 'Juegos',    icon: iconUrls.desktop.taisei,  action: function() { mobileIsAtRoot = false; openFolder('juegos'); } },
+        { label: 'Entrevistas', icon: iconUrls.desktop.folder,  action: function() { mobileIsAtRoot = false; openFolder('entrevista'); } },
+        { label: 'Críticas',    icon: iconUrls.desktop.folder,  action: function() { mobileIsAtRoot = false; openFolder('critica'); } },
+        { label: 'Opinión',     icon: iconUrls.desktop.folder,  action: function() { mobileIsAtRoot = false; openFolder('opinion'); } },
+        { label: 'Vídeos',      icon: iconUrls.desktop.video,   action: function() { mobileIsAtRoot = false; openFolder('videos'); } },
+        { label: 'Música',      icon: iconUrls.desktop.mplayer, action: function() { mobileIsAtRoot = false; openFolder('musica'); } },
       ];
       folders.forEach(function(f) {
         var tr = document.createElement('tr');
@@ -1890,12 +1900,11 @@ const iconUrls = {
       var popup = null;
       function buildPool() {
         var pool = [];
-        posts.slice(0, 8).forEach(function(p) {
-          pool.push({ kicker: 'Nuevo artículo', title: p.title, action: 'Leer →', icon: iconUrls.files.article, run: function() { openArticle(p); } });
-        });
-        videoFiles.forEach(function(v) {
-          pool.push({ kicker: 'Echa un ojo al tráiler', title: v.title, action: 'Ver →', icon: iconUrls.files.videoFile, run: function() { openVideo(v); } });
-        });
+        // De momento, solo la entrevista de Psyvariar 3
+        var psy = posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; })[0];
+        if (psy) {
+          pool.push({ kicker: 'Nueva entrevista', title: psy.title, action: 'Leer →', icon: iconUrls.files.article, run: function() { openArticle(psy); } });
+        }
         return pool;
       }
       var pool = buildPool();
@@ -2239,7 +2248,7 @@ const iconUrls = {
     if (isMobile()) {
       openMobileRoot();
     } else {
-      openFolderNow('all');
+      openFolderNow('entrevista');
     }
 
     // Startup: latest article (back) → explorer (middle) → portada (front)
@@ -2302,7 +2311,7 @@ const iconUrls = {
       // 2. Explorer — solo en escritorio (en móvil arranca la portada)
       if (!mobile) {
         showWindowNow('explorer');
-        openFolderNow('all');
+        openFolderNow('entrevista');
       }
 
       // 3. Portada de inicio (front) — en escritorio y en móvil

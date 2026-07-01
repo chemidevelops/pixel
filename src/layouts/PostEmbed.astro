@@ -23,7 +23,6 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       <div class="post-header-meta">
         <span class="post-date">{dateFormatted}</span>
         <div class="post-tags">
-          {issue && <span class="post-tag post-tag-issue">nº{issue}</span>}
           {tags.map((tag: string) => (
             <span class="post-tag">{tag}</span>
           ))}
