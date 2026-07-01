@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'http://178.105.214.12',
+  site: 'https://bitmag.es',
   output: 'static',
   integrations: [mdx()],
 });
