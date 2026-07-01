@@ -116,6 +116,11 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
       font-family: var(--font-serif);
     }
 
+    /* Enlaces del cuerpo: estilo hipervínculo clásico (azul + subrayado) */
+    .embed-post .post-body a { color: #0000cc; text-decoration: underline; }
+    .embed-post .post-body a:visited { color: #551a8b; }
+    .embed-post .post-body a:hover { color: #ff66c4; }
+
     /* Remove white bg from images */
     .embed-post .post-body img,
     .embed-post .post-body .gallery-slide img {
