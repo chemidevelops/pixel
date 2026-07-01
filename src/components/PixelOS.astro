@@ -859,7 +859,7 @@ const iconUrls = {
           fileView.appendChild(tr);
         });
       } else if (folder === 'psyvariar') {
-        posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; }).forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
+        posts.filter(function(p) { return p.id.indexOf('psyvariar-3') === 0; }).forEach(function(post) { fileView.appendChild(makeArticleFile(post)); });
         psyvariarFiles.forEach(function(video) { fileView.appendChild(makeVideoFile(video)); });
       } else {
         const files = filesFor(folder);
@@ -876,7 +876,7 @@ const iconUrls = {
         } else if (folder === 'videos') {
           videoFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'psyvariar') {
-          posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; }).forEach(function(p) { treeItems.push({ label: p.title, icon: iconUrls.files.article, action: function(pp) { return function() { openArticle(pp); }; }(p) }); });
+          posts.filter(function(p) { return p.id.indexOf('psyvariar-3') === 0; }).forEach(function(p) { treeItems.push({ label: p.title, icon: iconUrls.files.article, action: function(pp) { return function() { openArticle(pp); }; }(p) }); });
           psyvariarFiles.forEach(function(v) { treeItems.push({ label: v.title, icon: iconUrls.files.videoFile, dbl: true, action: function(vv) { return function() { openVideo(vv); }; }(v) }); });
         } else if (folder === 'musica') {
           var mTracks = [
@@ -1900,11 +1900,15 @@ const iconUrls = {
       var popup = null;
       function buildPool() {
         var pool = [];
-        // De momento, solo la entrevista de Psyvariar 3
-        var psy = posts.filter(function(p) { return p.id === 'psyvariar-3-entrevista'; })[0];
-        if (psy) {
-          pool.push({ kicker: 'Nueva entrevista', title: psy.title, action: 'Leer →', icon: iconUrls.files.article, run: function() { openArticle(psy); } });
-        }
+        // Banners que van alternando (uno al azar por visita)
+        var banners = [
+          { id: 'psyvariar-3-entrevista', kicker: 'Nueva entrevista' },
+          { id: 'psyvariar-3-critica', kicker: 'Nueva crítica' },
+        ];
+        banners.forEach(function(bn) {
+          var post = posts.filter(function(p) { return p.id === bn.id; })[0];
+          if (post) pool.push({ kicker: bn.kicker, title: post.title, action: 'Leer →', icon: iconUrls.files.article, run: function() { openArticle(post); } });
+        });
         return pool;
       }
       var pool = buildPool();

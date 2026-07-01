@@ -143,5 +143,19 @@ const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' 
     }
   </style>
 
+  <script is:inline>
+    // Dentro de bitOS: los enlaces internos a otros artículos abren una ventana
+    // del escritorio en vez de navegar dentro del lector. Suelto (sin padre),
+    // el href funciona como enlace normal.
+    (function () {
+      if (window.parent === window) return;
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[data-article-id]') : null;
+        if (!a) return;
+        e.preventDefault();
+        window.parent.postMessage({ type: 'pixelos-open-article', id: a.getAttribute('data-article-id') }, '*');
+      });
+    })();
+  </script>
 </body>
 </html>
