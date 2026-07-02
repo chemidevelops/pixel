@@ -2,25 +2,41 @@
 export interface Props {
   title: string;
   description?: string;
+  image?: string;
+  type?: string;
 }
-const { title, description = "Revista de videojuegos" } = Astro.props;
+const { title, description = "Revista de videojuegos", image, type = "website" } = Astro.props;
 const currentPath = Astro.url.pathname;
+const ogImage = image ? new URL(image, Astro.site ?? "https://bitmag.es").href : undefined;
+const canonical = Astro.url.href;
 ---
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>{title} — PIXEL</title>
+  <title>{title} — bitMAG</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {/* Open Graph / Twitter Card */}
+  <meta property="og:type" content={type} />
+  <meta property="og:site_name" content="bitMAG" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  {ogImage && <meta name="twitter:image" content={ogImage} />}
   <link rel="stylesheet" href="/styles/global.css" />
 </head>
 <body>
   <div class="container">
     <header class="site-header">
       <a href="/" class="site-title">
-        <span class="site-title-main">PIXEL<span class="dot"></span></span>
-        <span class="site-title-jp">ピクセル</span>
+        <span class="site-title-main">bitMAG<span class="dot"></span></span>
+        <span class="site-title-jp">ビットマガジン</span>
       </a>
       <nav class="site-nav">
         <a href="/" class={currentPath === "/" ? "active" : ""}>Inicio</a>

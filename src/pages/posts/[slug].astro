@@ -12,7 +12,20 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+// Portada para la tarjeta social (Open Graph)
+const covers = {
+  'andro-dunos-ii-entrevista': '/images/andro_dunos_1.jpg',
+  'cygni-entrevista': '/images/cygni_captura_1.png',
+  'contra-operation-galuga-entrevista': '/images/contra_galuga_captura_1.png',
+  'g-warrior-entrevista': '/images/gwarrior_captura_1.png',
+  'castle-of-shikigami-2-entrevista': '/images/castle_of_shikigami_2_captura_1.png',
+  'devil-blade-reboot-entrevista': '/images/devil_blade_captura_1.png',
+  'psyvariar-3-entrevista': '/images/psyvariar3_entrevista_1.jpg',
+  'psyvariar-3-critica': '/images/psyvariar3_critica_1.jpg',
+};
+const cover = covers[post.id] || '/apple-touch-icon.png';
 ---
-<Post frontmatter={post.data}>
+<Post frontmatter={post.data} cover={cover}>
   <Content />
 </Post>

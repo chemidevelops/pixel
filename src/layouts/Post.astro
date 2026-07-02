@@ -1,12 +1,13 @@
 ---
 import Base from './Base.astro';
-const { frontmatter } = Astro.props;
-const { title, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
+const { frontmatter, cover } = Astro.props;
+const { title, headline, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
 const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric'
 });
+const shareTitle = headline || title;
 ---
-<Base title={title} description={excerpt}>
+<Base title={shareTitle} description={excerpt} image={cover} type="article">
   <article>
     <div class="post-header">
       <div class="post-header-meta">

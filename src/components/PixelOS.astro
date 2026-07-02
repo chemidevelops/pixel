@@ -398,6 +398,10 @@ const iconUrls = {
                   <span class="ie3-tool-icon ie3-tool-icon--font" aria-hidden="true"></span>
                   <span class="ie3-tool-label">Fuente</span>
                 </button>
+                <button class="ie3-tool" type="button" id="ie3-btn-share">
+                  <span class="ie3-tool-icon ie3-tool-icon--favorites" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Enlace</span>
+                </button>
                 <button class="ie3-tool" type="button">
                   <span class="ie3-tool-icon ie3-tool-icon--mail" aria-hidden="true"></span>
                   <span class="ie3-tool-label">Correo</span>
@@ -1001,6 +1005,20 @@ const iconUrls = {
       return row;
     }
 
+    var shareToastTimer = null;
+    function showShareToast(url) {
+      var old = document.getElementById('share-toast');
+      if (old) old.remove();
+      var t = document.createElement('div');
+      t.id = 'share-toast';
+      t.className = 'share-toast';
+      t.innerHTML = '<b>✔ ¡Enlace copiado!</b><small></small>';
+      t.querySelector('small').textContent = url;
+      document.getElementById('pixel-os').appendChild(t);
+      clearTimeout(shareToastTimer);
+      shareToastTimer = setTimeout(function() { t.remove(); }, 2200);
+    }
+
     function openArticleNow(post) {
       const url = '/pixelos/posts/' + post.id;
       const existing = document.querySelector('[data-reader-id="' + CSS.escape(post.id) + '"]');
@@ -1053,6 +1071,28 @@ const iconUrls = {
       btnStop.addEventListener('click',    function() { iframe.contentWindow.stop(); if (statusText) statusText.textContent = 'Detenido'; });
       btnRefresh.addEventListener('click', function() { iframe.contentWindow.location.reload(); });
       btnHome.addEventListener('click',    function() { iframe.src = url; });
+
+      // Copiar enlace público del artículo (para compartir)
+      var btnShare = win.querySelector('#ie3-btn-share');
+      if (btnShare) {
+        btnShare.addEventListener('click', function() {
+          var id = win.dataset.readerId;
+          var shareUrl = (id && id !== 'portada' && id.indexOf('page-') !== 0)
+            ? location.origin + '/posts/' + id + '/'
+            : location.origin + '/';
+          function copyFallback(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.focus(); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareUrl).catch(function() { copyFallback(shareUrl); });
+          } else { copyFallback(shareUrl); }
+          showShareToast(shareUrl);
+        });
+      }
 
       var btnFont = win.querySelector('#ie3-btn-font');
       if (btnFont) {
@@ -2294,23 +2334,13 @@ const iconUrls = {
         });
       }
 
-      // 1. Latest article (back) — solo en escritorio
+      // 1. Latest article (back) — solo en escritorio.
+      // Usamos openArticleNow para que la ventana tenga la barra enganchada
+      // (Inicio, Enlace/compartir, etc.), no un clon "tonto".
       if (!mobile && posts.length > 0) {
-        var latest = posts[0];
-        var articleWin = readerTemplate.content.firstElementChild.cloneNode(true);
-        articleWin.dataset.readerId = latest.id;
-        articleWin.querySelector('.title-bar-text span').textContent = latest.title;
-        articleWin.querySelectorAll('[data-reader-path]').forEach(function(el) {
-          var path = 'C:\\BITMAG\\ARTICULOS\\' + latest.id + '.HTM';
-          if (el.tagName === 'INPUT') { el.value = path; } else { el.textContent = path; }
-        });
-        articleWin.querySelector('iframe').src = '/pixelos/posts/' + latest.id + '/';
-        document.getElementById('reader-windows').appendChild(articleWin);
-        bindWindow(articleWin);
-        articleWin.style.left = '420px'; articleWin.style.top = '30px';
-        articleWin.hidden = false;
-        focusWindow(articleWin);
-        syncTasks();
+        openArticleNow(posts[0]);
+        var articleWin = document.querySelector('[data-reader-id="' + CSS.escape(posts[0].id) + '"]');
+        if (articleWin) { articleWin.style.left = '420px'; articleWin.style.top = '30px'; }
       }
 
       // 2. Explorer — solo en escritorio (en móvil arranca la portada)
