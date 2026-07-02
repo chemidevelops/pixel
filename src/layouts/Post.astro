@@ -1,6 +1,6 @@
 ---
 import Base from './Base.astro';
-const { frontmatter, cover } = Astro.props;
+const { frontmatter, cover, slug } = Astro.props;
 const { title, headline, date, tags = [], issue, excerpt, lang = 'es' } = frontmatter;
 const dateFormatted = new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric'
@@ -20,6 +20,7 @@ const shareTitle = headline || title;
       </div>
       <h1>{title}</h1>
       {excerpt && <p class="post-excerpt-header">{excerpt}</p>}
+      <a class="open-in-bitos" href="/">🖥 Ir a bitMAG (escritorio)</a>
     </div>
 
     <div class="post-layout">
@@ -39,9 +40,34 @@ const shareTitle = headline || title;
       </form>
     </div>
   </article>
+  {slug && <script is:inline define:vars={{ slug }}>
+    // Compartir siempre lleva a bitOS: los humanos van al escritorio con el
+    // artículo maximizado. Los bots de redes/buscadores (sin JS) se quedan con
+    // esta página + su tarjeta de previsualización (Open Graph).
+    location.replace('/?a=' + encodeURIComponent(slug));
+  </script>}
 </Base>
 
 <style is:global>
+/* ── Botón "Abrir en bitOS" ── */
+.open-in-bitos {
+  display: inline-block;
+  margin-top: 1.4rem;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text, #111);
+  text-decoration: none;
+  border: 2px solid var(--text, #111);
+  transition: background 0.15s, color 0.15s;
+}
+.open-in-bitos:hover {
+  background: var(--red, #cc0000);
+  color: #fff;
+}
+
 /* ── Post header ── */
 .post-header {
   margin-bottom: 3rem;

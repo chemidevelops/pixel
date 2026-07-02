@@ -26,6 +26,6 @@ const covers = {
 };
 const cover = covers[post.id] || '/apple-touch-icon.png';
 ---
-<Post frontmatter={post.data} cover={cover}>
+<Post frontmatter={post.data} cover={cover} slug={post.id}>
   <Content />
 </Post>

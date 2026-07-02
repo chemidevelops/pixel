@@ -372,6 +372,10 @@ const iconUrls = {
                   <span class="ie3-tool-icon ie3-tool-icon--stop" aria-hidden="true"></span>
                   <span class="ie3-tool-label">Detener</span>
                 </button>
+                <button class="ie3-tool" type="button" id="ie3-btn-share">
+                  <span class="ie3-tool-icon ie3-tool-icon--favorites" aria-hidden="true"></span>
+                  <span class="ie3-tool-label">Compartir</span>
+                </button>
                 <button class="ie3-tool ie-refresh" type="button">
                   <span class="ie3-tool-icon ie3-tool-icon--refresh" aria-hidden="true"></span>
                   <span class="ie3-tool-label">Actualizar</span>
@@ -397,10 +401,6 @@ const iconUrls = {
                 <button class="ie3-tool" type="button" id="ie3-btn-font">
                   <span class="ie3-tool-icon ie3-tool-icon--font" aria-hidden="true"></span>
                   <span class="ie3-tool-label">Fuente</span>
-                </button>
-                <button class="ie3-tool" type="button" id="ie3-btn-share">
-                  <span class="ie3-tool-icon ie3-tool-icon--favorites" aria-hidden="true"></span>
-                  <span class="ie3-tool-label">Enlace</span>
                 </button>
                 <button class="ie3-tool" type="button">
                   <span class="ie3-tool-icon ie3-tool-icon--mail" aria-hidden="true"></span>
@@ -1006,7 +1006,7 @@ const iconUrls = {
     }
 
     var shareToastTimer = null;
-    function showShareToast(url) {
+    function showShareToast(url, anchor) {
       var old = document.getElementById('share-toast');
       if (old) old.remove();
       var t = document.createElement('div');
@@ -1014,7 +1014,14 @@ const iconUrls = {
       t.className = 'share-toast';
       t.innerHTML = '<b>✔ ¡Enlace copiado!</b><small></small>';
       t.querySelector('small').textContent = url;
-      document.getElementById('pixel-os').appendChild(t);
+      document.body.appendChild(t);
+      if (anchor && anchor.getBoundingClientRect) {
+        var r = anchor.getBoundingClientRect();
+        var tw = t.offsetWidth;
+        var left = Math.max(8, Math.min(window.innerWidth - tw - 8, r.left - 8));
+        t.style.left = left + 'px';
+        t.style.top = (r.bottom + 8) + 'px';
+      }
       clearTimeout(shareToastTimer);
       shareToastTimer = setTimeout(function() { t.remove(); }, 2200);
     }
@@ -1090,7 +1097,7 @@ const iconUrls = {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(shareUrl).catch(function() { copyFallback(shareUrl); });
           } else { copyFallback(shareUrl); }
-          showShareToast(shareUrl);
+          showShareToast(shareUrl, btnShare);
         });
       }
 
@@ -2364,6 +2371,23 @@ const iconUrls = {
       portadaWin.hidden = false;
       focusWindow(portadaWin);
       syncTasks();
+
+      // Deep-link: /?a=<slug> abre y maximiza ese artículo (para "Abrir en bitOS")
+      try {
+        var deepId = new URLSearchParams(location.search).get('a');
+        if (deepId) {
+          var deepPost = posts.filter(function(p) { return p.id === deepId; })[0];
+          if (deepPost) {
+            openArticleNow(deepPost);
+            var deepWin = document.querySelector('[data-reader-id="' + CSS.escape(deepId) + '"]');
+            if (deepWin) {
+              if (!mobile) deepWin.classList.add('maximized');
+              focusWindow(deepWin);
+              syncTasks();
+            }
+          }
+        }
+      } catch (e) {}
     }, 300);
   </script>
 </body>

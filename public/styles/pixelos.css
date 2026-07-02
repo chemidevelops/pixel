@@ -645,15 +645,15 @@ ul.tree-view .tree-files li, ul.tree-view .tree-files { margin-top: 0 !important
 .publi-action:hover { color: var(--win-accent); }
 html.is-mobile .publi-popup { right: 8px; left: 8px; width: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); }
 
-/* Toast "enlace copiado" */
+/* Toast "enlace copiado" (se coloca junto al botón Compartir por JS) */
 .share-toast {
-  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3000;
-  background: #c0c0c0; padding: 16px 20px; max-width: 340px; text-align: center;
-  font: 12px "MSSansSerif8pt", "MS Sans Serif", sans-serif; color: #000;
-  box-shadow: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf, 4px 4px 10px rgba(0,0,0,0.4);
+  position: fixed; left: 12px; top: 90px; z-index: 3000;
+  background: #c0c0c0; padding: 9px 12px; max-width: 300px;
+  font: 11px "MSSansSerif8pt", "MS Sans Serif", sans-serif; color: #000;
+  box-shadow: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf, 3px 3px 7px rgba(0,0,0,0.35);
 }
-.share-toast b { display: block; margin-bottom: 7px; font-size: 13px; }
-.share-toast small { color: #00007f; word-break: break-all; }
+.share-toast b { display: block; margin-bottom: 4px; font-size: 12px; }
+.share-toast small { color: #00007f; word-break: break-all; font-size: 10px; }
 .screensaver { position: fixed; inset: 0; z-index: 9000; background: #000; overflow: hidden; color: #fff; }
 .screensaver canvas { width: 100%; height: 100%; display: block; }
 .screensaver small { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #777; font: 11px monospace; }
