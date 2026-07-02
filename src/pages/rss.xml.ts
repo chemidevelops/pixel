@@ -7,8 +7,8 @@ export async function GET(context: APIContext) {
     .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
   return rss({
-    title: 'PIXEL — Revista de videojuegos',
-    description: 'Crítica y cultura de videojuegos',
+    title: 'bitMAG — videojuegos para leer despacio',
+    description: 'Entrevistas a desarrolladores, críticas y opinión de videojuegos. Slow gaming.',
     site: context.site!,
     items: posts.map(post => ({
       title: post.data.title,
