@@ -12,7 +12,7 @@ body.opening-wait,
 body.opening-wait * { cursor: url('/icons/desktopnostalgia/wait.cur'), wait !important; }
 button { cursor: default; }
 [hidden] { display: none !important; }
-.pixel-os { position: fixed; inset: 0; overflow: hidden; background-color: var(--pixel-bg); }
+.pixel-os { position: fixed; inset: 0; height: var(--app-h, 100vh); height: var(--app-h, 100dvh); overflow: hidden; background-color: var(--pixel-bg); }
 #pixel-os:fullscreen, #pixel-os:-webkit-full-screen { position: fixed; inset: 0; width: 100vw; height: 100vh; }
 .wallpaper-teal     { background: #008080; }
 .wallpaper-grid     { background-color: #f4f4f0; background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px); background-size: 24px 24px; }
@@ -67,6 +67,13 @@ button { cursor: default; }
 .wallpaper-yellow .desktop-icon:focus .desktop-icon-label { color: #fff; }
 .window.os-window { position: absolute; display: flex; flex-direction: column; width: min(980px, calc(100vw - 220px)); min-width: 640px; height: min(650px, calc(100vh - 110px)); min-height: 380px; margin: 0; box-sizing: border-box; overflow: hidden; }
 .window.os-window.maximized { inset: 0 !important; width: 100% !important; height: 100% !important; }
+/* Mientras el iframe carga: el área de contenido queda en blanco (como una
+   página cargando en un navegador normal), no el marco vacío roto. */
+.window.os-window.reader-loading .ie3-main { background: #fff; }
+.window.os-window.reader-loading iframe { visibility: hidden; }
+/* Cubierta de carga a pantalla completa al entrar por enlace compartido (?a=) */
+#deeplink-cover { position: fixed; inset: 0; z-index: 99999; background: #fff; }
+#deeplink-cover.hide { opacity: 0; transition: opacity .18s ease; pointer-events: none; }
 .window.os-window.minimized { display: none; }
 .window.os-window:not(.focused) .title-bar { background: #7f7f7f !important; }
 .window.os-window .title-bar {
@@ -654,7 +661,7 @@ html.is-mobile .publi-popup { right: 8px; left: 8px; width: auto; bottom: calc(1
 }
 .share-toast b { display: block; margin-bottom: 4px; font-size: 12px; }
 .share-toast small { color: #00007f; word-break: break-all; font-size: 10px; }
-.screensaver { position: fixed; inset: 0; z-index: 9000; background: #000; overflow: hidden; color: #fff; }
+.screensaver { position: fixed; inset: 0; height: var(--app-h, 100vh); height: var(--app-h, 100dvh); z-index: 9000; background: #000; overflow: hidden; color: #fff; }
 .screensaver canvas { width: 100%; height: 100%; display: block; }
 .screensaver small { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #777; font: 11px monospace; }
 .shutdown-screen { position: fixed; inset: 0; z-index: 9001; display: grid; place-content: center; gap: 20px; background: #000; color: #f90; text-align: center; font: 22px Georgia, serif; }

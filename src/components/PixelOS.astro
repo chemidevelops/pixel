@@ -52,7 +52,7 @@ const iconUrls = {
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=1024" id="viewport-meta" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" id="viewport-meta" />
   <script>if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { document.getElementById('viewport-meta').content = 'width=device-width, initial-scale=1, maximum-scale=1'; document.documentElement.classList.add('is-mobile'); }</script>
   <meta name="description" content="bitmag — blog independiente de videojuegos" />
   <title>bitmag</title>
@@ -563,7 +563,7 @@ const iconUrls = {
         if (!el) return;
         const w = el.clientWidth || 400;
         const h = el.clientHeight || 300;
-        renderer.setSize(w, h);
+        renderer.setSize(w, h, false); // false: no fija px en el <canvas>, usa el CSS 100%/100%
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
       }
@@ -624,6 +624,26 @@ const iconUrls = {
     function isMobile() { return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 
     const os = document.getElementById('pixel-os');
+
+    // Entrada por enlace compartido (?a=<slug>): tapa toda la pantalla con una
+    // cubierta blanca desde el primer instante para que se vea "cargando la
+    // página" (como un enlace normal) y nunca el escritorio de fondo.
+    var deeplinkCover = null;
+    (function() {
+      try {
+        if (new URLSearchParams(location.search).get('a')) {
+          deeplinkCover = document.createElement('div');
+          deeplinkCover.id = 'deeplink-cover';
+          document.body.appendChild(deeplinkCover);
+        }
+      } catch (e) {}
+    })();
+    function hideDeeplinkCover() {
+      if (!deeplinkCover) return;
+      deeplinkCover.classList.add('hide');
+      setTimeout(function() { if (deeplinkCover) { deeplinkCover.remove(); deeplinkCover = null; } }, 220);
+    }
+
     const desktop = document.querySelector('.desktop');
     const desktopSelectionBox = document.getElementById('desktop-selection-box');
     const explorer = document.getElementById('window-explorer');
@@ -1067,10 +1087,17 @@ const iconUrls = {
         if (statusText) statusText.textContent = 'Abriendo página...';
         ieSetDisabled(btnStop, false);
       });
+      var firstLoadDone = false;
+      function revealOnFirstLoad() {
+        if (firstLoadDone) return;
+        firstLoadDone = true;
+        win.classList.remove('reader-loading');
+      }
       iframe.addEventListener('load', function() {
         if (statusText) statusText.textContent = 'Listo';
         ieSetDisabled(btnStop, true);
         ieUpdateNav();
+        revealOnFirstLoad();
       });
 
       btnBack.addEventListener('click',    function() { try { iframe.contentWindow.history.back(); } catch(e) {} });
@@ -1121,6 +1148,10 @@ const iconUrls = {
         addrInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') navigateAddr(); });
       }
 
+      // Oculta el contenido del iframe hasta que cargue, para no mostrar el
+      // marco de la ventana con el cuerpo en blanco (flash al abrir).
+      win.classList.add('reader-loading');
+      setTimeout(revealOnFirstLoad, 1500); // tope de seguridad
       iframe.src = url;
       if (isMobile()) {
         win.style.top = 'calc(44px + env(safe-area-inset-top, 0px))';
@@ -2384,10 +2415,32 @@ const iconUrls = {
               if (!mobile) deepWin.classList.add('maximized');
               focusWindow(deepWin);
               syncTasks();
+              // Quita la cubierta blanca cuando el artículo ha cargado.
+              var deepFrame = deepWin.querySelector('iframe');
+              if (deepFrame) deepFrame.addEventListener('load', hideDeeplinkCover, { once: true });
             }
           }
         }
-      } catch (e) {}
+        // Si no había artículo válido, quita la cubierta igualmente.
+        if (!deepId || !document.querySelector('[data-reader-id="' + CSS.escape(deepId || '') + '"]')) hideDeeplinkCover();
+      } catch (e) { hideDeeplinkCover(); }
+      // Tope de seguridad: nunca dejar la cubierta más de 3 s.
+      setTimeout(hideDeeplinkCover, 3000);
+
+      // Al entrar por enlace compartido (?a=<slug>), Chrome a veces calcula mal
+      // 100dvh en el primer render y no lo corrige hasta un resize real (abrir
+      // DevTools lo "arreglaba"). Fijamos la altura en px desde innerHeight y la
+      // mantenemos sincronizada: la franja al fondo desaparece.
+      function setAppHeight() {
+        document.documentElement.style.setProperty('--app-h', window.innerHeight + 'px');
+      }
+      setAppHeight();
+      window.addEventListener('load', setAppHeight);
+      window.addEventListener('resize', setAppHeight);
+      window.addEventListener('orientationchange', setAppHeight);
+      window.addEventListener('pageshow', setAppHeight);
+      if (window.visualViewport) window.visualViewport.addEventListener('resize', setAppHeight);
+      [80, 250, 600, 1200].forEach(function(ms) { setTimeout(setAppHeight, ms); });
     }, 300);
   </script>
 </body>
